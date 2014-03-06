@@ -11,5 +11,4 @@ trait ExpressionParser extends JavaTokenParsers {
 
   def nonRecursiveProductionsParser: Parser[Expression] = List(number) reduce (_ | _)
 
-
 }

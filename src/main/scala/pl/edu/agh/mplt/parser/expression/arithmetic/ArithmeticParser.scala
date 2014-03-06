@@ -12,7 +12,7 @@ trait ArithmeticParser extends JavaTokenParsers {
 
   private def p1 = chainl1(p2, "*" ^^^ Bin.* | "/" ^^^ Bin./ | "div" ^^^ Bin.div | "mod" ^^^ Bin.mod)
 
-  def p2 = "+" ~> p3 | rep1("-" ~ "-") ~> p3 | "-" ~> p3 ^^ Unary.- | p3
+  private def p2 = "+" ~> p3 | rep1("-" ~ "-") ~> p3 | "-" ~> p3 ^^ Unary.- | p3
 
   private def p3 = rep1sep(p4, "^" | "**") ^^ (_.reduceRight(Bin.^))
 

@@ -1,8 +1,10 @@
+package AMPL
+
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.expression.arithmetic.{Unary, Bin, ArithmeticParser, Number}
 import pl.edu.agh.mplt.parser.expression.ExpressionParser
 
-class ArithmeticExpressionsAMPL extends FlatSpec with Matchers {
+class ArithmeticExpressions extends FlatSpec with Matchers {
   implicit def intToString(i: Int): String = i.toString
 
   implicit def intToNumber(i: Int): Number = Number(i.toString)

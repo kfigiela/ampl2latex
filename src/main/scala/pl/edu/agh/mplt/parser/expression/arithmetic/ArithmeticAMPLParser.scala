@@ -1,10 +1,12 @@
 package pl.edu.agh.mplt.parser.expression.arithmetic
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.expression.Expression
+import pl.edu.agh.mplt.parser.expression.{Expression, Number}
 
 trait ArithmeticAMPLParser extends JavaTokenParsers {
   def expr: Parser[Expression]
+
+  def nonRecursiveProductionsParser: Parser[Expression]
 
   def arithmeticExpression: Parser[Expression] = binExpr
 
@@ -16,8 +18,7 @@ trait ArithmeticAMPLParser extends JavaTokenParsers {
 
   private def p3 = rep1sep(p4, "^" | "**") ^^ (_.reduceRight(Bin.^))
 
-  private def p4 = number | "(" ~> expr <~ ")" | expr
+  private def p4 = nonRecursiveProductionsParser | "(" ~> expr <~ ")" | expr
 
-  def number = floatingPointNumber ^^ Number
 
 }

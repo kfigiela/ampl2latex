@@ -3,7 +3,7 @@ package pl.edu.agh.mplt.parser.expression.arithmetic
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.expression.Expression
 
-trait ArithmeticParser extends JavaTokenParsers {
+trait ArithmeticAMPLParser extends JavaTokenParsers {
   def expr: Parser[Expression]
 
   def arithmeticExpression: Parser[Expression] = binExpr

@@ -2,7 +2,7 @@ package pl.edu.agh.mplt.parser.expression
 
 import scala.util.parsing.combinator.JavaTokenParsers
 
-trait ExpressionParser extends JavaTokenParsers {
+trait ExpressionAMPLParser extends JavaTokenParsers {
   def arithmeticExpression: Parser[Expression]
 
   def number: Parser[Expression]

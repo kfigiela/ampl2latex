@@ -1,6 +1,6 @@
 package pl.edu.agh.mplt.parser.declaration.set.attributes
 
-import pl.edu.agh.mplt.parser.set.SetExpression
+import pl.edu.agh.mplt.parser.expression.set.SetExpression
 import scala.util.parsing.combinator.JavaTokenParsers
 
 trait AttributesAMPLParser extends JavaTokenParsers {

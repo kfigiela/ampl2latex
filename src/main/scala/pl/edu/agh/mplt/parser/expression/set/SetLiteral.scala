@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.parser.set
+package pl.edu.agh.mplt.parser.expression.set
 
 import pl.edu.agh.mplt.parser.expression.{StringLiteral, Expression}
 

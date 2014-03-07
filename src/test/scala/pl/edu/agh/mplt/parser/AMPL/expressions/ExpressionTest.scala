@@ -1,18 +1,13 @@
-package AMPL.expressions
+package pl.edu.agh.mplt.parser.AMPL.expressions
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.expression.{StringLiteral, Number, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.expression.arithmetic.{ArithmeticAMPLParser, Unary}
 import pl.edu.agh.mplt.parser.expression.variable.Variable
+import pl.edu.agh.mplt.parser.IntercodeImplicits
 
 
-class ExpressionTest extends FlatSpec with Matchers {
-  implicit def intToString(i: Int): String = i.toString
-
-  implicit def intToNumber(i: Int): Number = Number(i)
-
-  implicit def doubleToNumber(i: Double): Number = Number(i.toString)
-
+class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new ExpressionAMPLParser with ArithmeticAMPLParser
 
   def expr = parser.expr

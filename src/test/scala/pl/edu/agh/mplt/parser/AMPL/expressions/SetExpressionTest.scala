@@ -1,4 +1,4 @@
-package AMPL.expressions
+package pl.edu.agh.mplt.parser.AMPL.expressions
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.expression.set.{SetExpressionAMPLParser, ExplicitSet, SetComprehension}

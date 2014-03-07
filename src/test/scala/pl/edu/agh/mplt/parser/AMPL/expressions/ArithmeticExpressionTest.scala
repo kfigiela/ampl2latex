@@ -1,14 +1,11 @@
-package AMPL.expressions
+package pl.edu.agh.mplt.parser.AMPL.expressions
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.expression.arithmetic.{Unary, Bin, ArithmeticAMPLParser}
 import pl.edu.agh.mplt.parser.expression.{ExpressionAMPLParser, Number}
+import pl.edu.agh.mplt.parser.IntercodeImplicits
 
-class ArithmeticExpressionTest extends FlatSpec with Matchers {
-  implicit def intToString(i: Int): String = i.toString
-
-  implicit def intToNumber(i: Int): Number = Number(i.toString)
-
+class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new ExpressionAMPLParser with ArithmeticAMPLParser
 
   def expr = parser.expr

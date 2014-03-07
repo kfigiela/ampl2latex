@@ -25,15 +25,15 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse set declaration with alias" in {
-    parse("set oranges apples") should be(SetDeclaration("oranges", Some("apples")))
+    parse("set oranges apples;") should be(SetDeclaration("oranges", Some("apples")))
   }
 
   it should "parse set declaration with simple indexing" in {
-    parse("set apples { 1 + 3 .. 10 by 4 }") should be(SetDeclaration("apples", indexing = Some(Indexing(SetComprehension(Bin.+(1, 3), 10, 4)))))
+    parse("set apples { 1 + 3 .. 10 by 4 };") should be(SetDeclaration("apples", indexing = Some(Indexing(SetComprehension(Bin.+(1, 3), 10, 4)))))
   }
 
   it should "parse set declaration with indexing" in {
-    parse( """set apples { 1 + 3 .. 10 by 4 , {1, 2, 3}, {"a", "b", "c"} }""") should be(
+    parse( """set apples { 1 + 3 .. 10 by 4 , {1, 2, 3}, {"a", "b", "c"} };""") should be(
       SetDeclaration("apples", indexing = Some(Indexing(List(
         SetComprehension(Bin.+(1, 3), 10, 4),
         ExplicitSet(Set[Number](1, 2, 3)),

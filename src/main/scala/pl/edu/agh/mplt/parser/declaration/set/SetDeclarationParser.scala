@@ -9,7 +9,7 @@ trait SetDeclarationParser extends JavaTokenParsers {
 
   def attribute: Parser[SetAttribute]
 
-  def declaration: Parser[SetDeclaration] = "set" ~> string ~ (string ?) ~ (indexing ?) ~ rep(attribute) ^^ {
+  def declaration: Parser[SetDeclaration] = "set" ~> string ~ (string ?) ~ (indexing ?) ~ rep(attribute) <~ ";" ^^ {
     case name ~ optAlias ~ optIndexing ~ optAttributes => SetDeclaration(name, optAlias, optIndexing, optAttributes)
   }
 

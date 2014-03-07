@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.parser.expression.set
+package pl.edu.agh.mplt.parser.set
 
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.expression.{StringLiteral, Expression}

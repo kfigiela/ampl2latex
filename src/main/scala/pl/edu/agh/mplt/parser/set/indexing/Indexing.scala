@@ -1,0 +1,7 @@
+package pl.edu.agh.mplt.parser.set.indexing
+
+import pl.edu.agh.mplt.parser.set.SetExpression
+import pl.edu.agh.mplt.parser.logical.LogicalExpression
+
+case class Indexing(sexprs: List[SetExpression],
+                    lexpr: Option[LogicalExpression] = None) extends SetExpression

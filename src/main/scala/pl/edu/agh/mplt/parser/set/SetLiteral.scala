@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.parser.expression.set
+package pl.edu.agh.mplt.parser.set
 
 import pl.edu.agh.mplt.parser.expression.{StringLiteral, Expression}
 
@@ -9,3 +9,6 @@ case class ExplicitSet[A](members: scala.collection.immutable.Set[A] = Set[A]())
 case class SetComprehension(start: Expression,
                             end: Expression,
                             step: Expression = StringLiteral("1")) extends SetLiteral
+
+case class SetExpressionWithDummyMember(id: String,
+                                        sexpr: SetExpression) extends SetExpression

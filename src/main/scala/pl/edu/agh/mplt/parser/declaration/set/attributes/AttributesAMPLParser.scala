@@ -8,7 +8,7 @@ trait AttributesAMPLParser extends JavaTokenParsers {
 
   def attributes: Parser[List[SetAttribute]] = rep(attribute)
 
-  private def attribute: Parser[SetAttribute] = dimension | within | eq | default
+  def attribute: Parser[SetAttribute] = dimension | within | eq | default
 
   private def dimension = "dimen" ~> "[+-]?\\d+".r ^^ SetAttribute.dimension
 

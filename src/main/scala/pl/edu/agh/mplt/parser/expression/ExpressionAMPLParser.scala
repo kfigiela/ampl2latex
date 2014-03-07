@@ -10,11 +10,11 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
 
   def variable: Parser[Variable] = "\\w+".r ^^ Variable
 
-  def string: Parser[StringLiteral] = stringLiteral ^^ { case a => StringLiteral(a.drop(1).dropRight(1))}
+  def stringLit: Parser[StringLiteral] = stringLiteral ^^ { case a => StringLiteral(a.drop(1).dropRight(1))}
 
   def expr: Parser[Expression] = arithmeticExpression | nonRecursiveProductionsParser
 
-  def nonRecursiveProductionsParser: Parser[Expression] = List(number, variable, string) reduce (_ | _)
+  def nonRecursiveProductionsParser: Parser[Expression] = List(number, variable, stringLit) reduce (_ | _)
 
 }
 

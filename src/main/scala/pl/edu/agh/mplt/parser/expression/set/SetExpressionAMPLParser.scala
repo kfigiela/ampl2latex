@@ -2,9 +2,12 @@ package pl.edu.agh.mplt.parser.expression.set
 
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.expression.{StringLiteral, Expression}
+import pl.edu.agh.mplt.parser.expression.variable.Variable
 
 trait SetExpressionAMPLParser extends JavaTokenParsers {
   def expr: Parser[Expression]
+
+  def variable: Parser[Variable]
 
   def sexpr: Parser[SetExpression] = explicitSet | comprehensionSet
 

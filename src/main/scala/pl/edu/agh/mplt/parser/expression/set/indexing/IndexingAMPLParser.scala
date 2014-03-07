@@ -3,6 +3,7 @@ package pl.edu.agh.mplt.parser.expression.set.indexing
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.expression.set.{SetExpressionWithDummyMember, SetExpression}
 import pl.edu.agh.mplt.parser.logical.LogicalExpression
+import pl.edu.agh.mplt.parser.expression.Expression
 
 trait IndexingAMPLParser extends JavaTokenParsers {
   def lexpr: Parser[LogicalExpression]
@@ -13,7 +14,7 @@ trait IndexingAMPLParser extends JavaTokenParsers {
 
   def logicalIndexing = "{" ~> sexprList ~ ":" ~ lexpr <~ "}" ^^ { case sexprs ~ _ ~ lexpr => Indexing(sexprs, Some(lexpr))}
 
-  def sexprList: Parser[List[SetExpression]] = sexprWithDummy ^^ { case e => List(e)} | rep1sep(sexpr, ",")
+  def sexprList: Parser[List[SetExpression]] = rep1sep(sexpr, ",") | sexprWithDummy ^^ { case e => List(e)}
 
-  def sexprWithDummy: Parser[SetExpression] = "\\w+".r ~ "in" ~ sexpr ^^ { case id ~ _ ~ sexpr => SetExpressionWithDummyMember(id, sexpr)}
+  def sexprWithDummy: Parser[SetExpression] = "[a-zA-Z]\\w*".r ~ "in" ~ sexpr ^^ { case id ~ _ ~ sexpr => SetExpressionWithDummyMember(id, sexpr)}
 }

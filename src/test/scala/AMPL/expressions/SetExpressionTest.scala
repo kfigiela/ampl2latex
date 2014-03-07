@@ -36,7 +36,7 @@ class SetExpressionTest extends FlatSpec with Matchers {
   }
 
   it should "parse number set comprehension" in {
-    parse("1 .. 17") should be(SetComprehension(1, 17))
+    parse("1 .. 10") should be(SetComprehension(1, 10))
   }
 
   it should "parse string set comprehension" in {

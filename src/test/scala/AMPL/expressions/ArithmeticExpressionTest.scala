@@ -23,10 +23,6 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers {
     parse("1 - 2") should be(Bin.-(1, 2))
   }
 
-  it should "parse subtraction" in {
-    parse("1 - 2") should be(Bin.-(1, 2))
-  }
-
   it should "parse less operator" in {
     parse("1 less 2") should be(Bin.less(1, 2))
   }

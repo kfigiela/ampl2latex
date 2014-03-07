@@ -18,7 +18,7 @@ trait ArithmeticAMPLParser extends JavaTokenParsers {
 
   private def p3 = rep1sep(p4, "^" | "**") ^^ (_.reduceRight(Bin.^))
 
-  private def p4 = nonRecursiveProductionsParser | "(" ~> expr <~ ")" | expr
+  private def p4 = nonRecursiveProductionsParser | "(" ~> expr <~ ")"
 
 
 }

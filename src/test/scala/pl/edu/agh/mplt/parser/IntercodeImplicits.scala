@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser
 
 import pl.edu.agh.mplt.parser.expression.{StringLiteral, Number}
-import pl.edu.agh.mplt.parser.expression.set.SetExpression
+import pl.edu.agh.mplt.parser.set.SetExpression
 
 trait IntercodeImplicits {
   implicit def intToString(i: Int): String = i.toString

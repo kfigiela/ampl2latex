@@ -1,5 +1,5 @@
 package pl.edu.agh.mplt.parser.logical
 
-import pl.edu.agh.mplt.parser.IntercodeExpression
+import pl.edu.agh.mplt.parser.ASTNode
 
-trait LogicalExpression extends IntercodeExpression
+trait LogicalExpression extends ASTNode

@@ -1,4 +1,4 @@
 package pl.edu.agh.mplt.parser
 
 
-trait IntercodeExpression
+trait ASTNode

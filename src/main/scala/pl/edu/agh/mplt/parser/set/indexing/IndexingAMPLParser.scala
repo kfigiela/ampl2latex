@@ -1,9 +1,8 @@
-package pl.edu.agh.mplt.parser.expression.set.indexing
+package pl.edu.agh.mplt.parser.set.indexing
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.expression.set.{SetExpressionWithDummyMember, SetExpression}
 import pl.edu.agh.mplt.parser.logical.LogicalExpression
-import pl.edu.agh.mplt.parser.expression.Expression
+import pl.edu.agh.mplt.parser.set.{SetExpressionWithDummyMember, SetExpression}
 
 trait IndexingAMPLParser extends JavaTokenParsers {
   def lexpr: Parser[LogicalExpression]

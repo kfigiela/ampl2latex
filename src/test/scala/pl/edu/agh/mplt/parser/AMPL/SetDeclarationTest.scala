@@ -3,8 +3,8 @@ package pl.edu.agh.mplt.parser.AMPL
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.declaration.set.{SetDeclaration, SetDeclarationParser}
 import pl.edu.agh.mplt.parser.declaration.set.attributes.AttributesAMPLParser
-import pl.edu.agh.mplt.parser.expression.set.indexing.{Indexing, IndexingAMPLParser}
-import pl.edu.agh.mplt.parser.expression.set.{ExplicitSet, SetComprehension, SetExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.set.indexing.{Indexing, IndexingAMPLParser}
+import pl.edu.agh.mplt.parser.set.{ExplicitSet, SetComprehension, SetExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.expression.{StringLiteral, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.expression.arithmetic.{Bin, ArithmeticAMPLParser}

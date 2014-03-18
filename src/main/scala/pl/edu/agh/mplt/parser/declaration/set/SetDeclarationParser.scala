@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.declaration.set
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.expression.set.indexing.Indexing
+import pl.edu.agh.mplt.parser.set.indexing.Indexing
 import pl.edu.agh.mplt.parser.declaration.set.attributes.SetAttribute
 
 trait SetDeclarationParser extends JavaTokenParsers {

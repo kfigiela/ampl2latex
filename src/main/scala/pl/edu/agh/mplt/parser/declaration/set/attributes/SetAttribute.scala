@@ -1,10 +1,10 @@
 package pl.edu.agh.mplt.parser.declaration.set.attributes
 
-import pl.edu.agh.mplt.parser.IntercodeExpression
-import pl.edu.agh.mplt.parser.expression.set.SetExpression
+import pl.edu.agh.mplt.parser.ASTNode
+import pl.edu.agh.mplt.parser.set.SetExpression
 
 
-trait SetAttribute extends IntercodeExpression
+trait SetAttribute extends ASTNode
 
 object SetAttribute {
 

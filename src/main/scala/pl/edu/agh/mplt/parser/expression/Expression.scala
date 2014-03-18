@@ -1,8 +1,8 @@
 package pl.edu.agh.mplt.parser.expression
 
-import pl.edu.agh.mplt.parser.IntercodeExpression
+import pl.edu.agh.mplt.parser.ASTNode
 
-trait Expression extends IntercodeExpression
+trait Expression extends ASTNode
 
 case class Parenthesized(expr: Expression) extends Expression
 

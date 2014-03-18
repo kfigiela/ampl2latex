@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.AMPL.expressions
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.expression.set.{SetExpressionAMPLParser, ExplicitSet, SetComprehension}
+import pl.edu.agh.mplt.parser.set.{SetExpressionAMPLParser, ExplicitSet, SetComprehension}
 import pl.edu.agh.mplt.parser.expression.{StringLiteral, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.expression.Number

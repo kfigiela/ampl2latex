@@ -2,33 +2,29 @@ package pl.edu.agh.mplt.parser.AMPL.expressions
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.set.{SetExpressionAMPLParser, ExplicitSet, SetComprehension}
-import pl.edu.agh.mplt.parser.expression.{StringLiteral, ExpressionAMPLParser}
-import pl.edu.agh.mplt.parser.expression.arithmetic.ArithmeticAMPLParser
-import pl.edu.agh.mplt.parser.expression.Number
+import pl.edu.agh.mplt.parser.logical.expression.ExpressionAMPLParser
+import pl.edu.agh.mplt.parser.logical.expression.arithmetic.ArithmeticAMPLParser
+import pl.edu.agh.mplt.parser.logical.expression.Number
+import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, StringMember, Member}
+import pl.edu.agh.mplt.parser.IntercodeImplicits
 
-class SetExpressionTest extends FlatSpec with Matchers {
-  implicit def intToString(n: Int): String = n.toString
-
-  implicit def intToNumber(n: Int): Number = Number(n)
-
-  implicit def stringToStringLiteral(str: String): StringLiteral = StringLiteral(str)
-
-  val parser = new SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser
+class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
+  val parser = new SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with MemberAMPLParser
 
   def expr = parser.sexpr
 
   def parse(input: String) = parser.parse(expr, input).get
 
   "Set expression parser" should "parse explicit number set definition" in {
-        parse("{1, 2, 3}") should be(ExplicitSet(Set[Number](1, 2, 3)))
+    parse("{1, 2, 3}") should be(ExplicitSet(Set[Member](Number(1), Number(2), Number(3))))
   }
 
   it should "parse one element set literal" in {
-    parse("{ \"a\" }") should be(ExplicitSet(Set[StringLiteral]("a")))
+    parse("{ \"a\" }") should be(ExplicitSet(Set[Member](StringMember("a"))))
   }
 
   it should "parse explicit string literal set definition" in {
-    parse("{\"a\", \"b\", \"c\"}") should be(ExplicitSet(Set[StringLiteral]("a", "b", "c")))
+    parse("{\"a\", \"b\", \"c\"}") should be(ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember("c"))))
   }
 
   it should "parse empty set literal" in {
@@ -40,7 +36,7 @@ class SetExpressionTest extends FlatSpec with Matchers {
   }
 
   it should "parse string set comprehension" in {
-        parse( """ "a" .. "f" """) should be(SetComprehension("a", "f"))
+    parse( """ "a" .. "f" """) should be(SetComprehension(StringMember("a"), StringMember("f")))
   }
 
   it should "parse number set comprehension with step" in {
@@ -48,7 +44,7 @@ class SetExpressionTest extends FlatSpec with Matchers {
   }
 
   it should "parse string set comprehension with step" in {
-        parse( """ "a" .. "d" by 5""") should be(SetComprehension("a", "d", 5))
+    parse( """ "a" .. "d" by 5""") should be(SetComprehension(StringMember("a"), StringMember("d"), 5))
   }
 
 }

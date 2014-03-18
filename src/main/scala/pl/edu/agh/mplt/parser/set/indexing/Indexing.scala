@@ -5,3 +5,4 @@ import pl.edu.agh.mplt.parser.set.SetExpression
 
 case class Indexing(sexprs: List[SetExpression],
                     lexpr: Option[LogicalExpression] = None) extends SetExpression
+

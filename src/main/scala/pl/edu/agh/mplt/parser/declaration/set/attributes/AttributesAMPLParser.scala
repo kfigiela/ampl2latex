@@ -8,11 +8,11 @@ trait AttributesAMPLParser extends JavaTokenParsers {
 
   def attributes: Parser[List[SetAttribute]] = rep(attribute)
 
-  def attribute: Parser[SetAttribute] = dimension | within | eq | default
+  def attribute: Parser[SetAttribute] = dimension | attrWithin | eq | default
 
   private def dimension = "dimen" ~> "[+-]?\\d+".r ^^ SetAttribute.dimension
 
-  private def within = "within" ~> sexpr ^^ SetAttribute.within
+  private def attrWithin = "within" ~> sexpr ^^ SetAttribute.within
 
   private def eq = "=" ~> sexpr ^^ SetAttribute.is
 

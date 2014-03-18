@@ -2,15 +2,16 @@ package pl.edu.agh.mplt.parser.AMPL.expressions
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.set.{SetExpression, ExplicitSet, SetComprehension, SetExpressionAMPLParser}
-import pl.edu.agh.mplt.parser.expression.{Number, ExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.logical.expression.{Number, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.set.indexing.{Indexing, IndexingAMPLParser}
 import pl.edu.agh.mplt.parser.logical.LogicalExpressionAMPLParser
-import pl.edu.agh.mplt.parser.expression.arithmetic.ArithmeticAMPLParser
-import pl.edu.agh.mplt.parser.expression.variable.Variable
+import pl.edu.agh.mplt.parser.logical.expression.arithmetic.ArithmeticAMPLParser
+import pl.edu.agh.mplt.parser.logical.expression.variable.Variable
 import pl.edu.agh.mplt.parser.IntercodeImplicits
+import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 
-class indexingExpressionTest extends FlatSpec with Matchers with IntercodeImplicits{
-  val parser = new IndexingAMPLParser with SetExpressionAMPLParser with LogicalExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser
+class indexingExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
+  val parser = new IndexingAMPLParser with SetExpressionAMPLParser with LogicalExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with MemberAMPLParser
 
   def expr = parser.indexing
 

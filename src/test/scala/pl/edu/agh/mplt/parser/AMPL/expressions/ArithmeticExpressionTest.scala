@@ -1,8 +1,8 @@
 package pl.edu.agh.mplt.parser.AMPL.expressions
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.expression.arithmetic.{Unary, Bin, ArithmeticAMPLParser}
-import pl.edu.agh.mplt.parser.expression.{ExpressionAMPLParser, Number}
+import pl.edu.agh.mplt.parser.logical.expression.arithmetic.{Unary, Bin, ArithmeticAMPLParser}
+import pl.edu.agh.mplt.parser.logical.expression.{ExpressionAMPLParser, Number}
 import pl.edu.agh.mplt.parser.IntercodeImplicits
 
 class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {

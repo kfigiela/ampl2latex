@@ -1,6 +1,7 @@
 package pl.edu.agh.mplt.parser
 
-import pl.edu.agh.mplt.parser.expression.{StringLiteral, Number}
+import pl.edu.agh.mplt.parser.member.{ExpressionMember, StringMember, Member}
+import pl.edu.agh.mplt.parser.logical.expression.{Number, Expression}
 import pl.edu.agh.mplt.parser.set.SetExpression
 
 trait IntercodeImplicits {
@@ -10,8 +11,14 @@ trait IntercodeImplicits {
 
   implicit def doubleToNumber(i: Double): Number = Number(i.toString)
 
-  implicit def stringToStringLiteral(str: String): StringLiteral = StringLiteral(str)
+  implicit def stringToStringMember(str: String): StringMember = StringMember(str)
 
   implicit def sexprToListOfSexprs(sexpr: SetExpression): List[SetExpression] = List(sexpr)
+
+  implicit def intToMember(i: Int): Member = ExpressionMember(i)
+
+  implicit def stringToMember(str: String): Member = StringMember(str)
+
+  implicit def exprToMember(expr: Expression): Member = ExpressionMember(expr)
 
 }

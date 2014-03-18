@@ -1,6 +1,6 @@
-package pl.edu.agh.mplt.parser.expression.arithmetic
+package pl.edu.agh.mplt.parser.logical.expression.arithmetic
 
-import pl.edu.agh.mplt.parser.expression.Expression
+import pl.edu.agh.mplt.parser.logical.expression.Expression
 
 sealed trait ArithmeticExpression extends Expression
 
@@ -29,4 +29,3 @@ object Unary {
   case class -(e: Expression) extends ArithmeticExpression
 
 }
-

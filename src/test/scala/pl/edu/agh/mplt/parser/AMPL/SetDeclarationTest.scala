@@ -5,16 +5,17 @@ import pl.edu.agh.mplt.parser.declaration.set.{SetDeclaration, SetDeclarationPar
 import pl.edu.agh.mplt.parser.declaration.set.attributes.AttributesAMPLParser
 import pl.edu.agh.mplt.parser.set.indexing.{Indexing, IndexingAMPLParser}
 import pl.edu.agh.mplt.parser.set.{ExplicitSet, SetComprehension, SetExpressionAMPLParser}
-import pl.edu.agh.mplt.parser.expression.{StringLiteral, ExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.logical.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.logical.LogicalExpressionAMPLParser
-import pl.edu.agh.mplt.parser.expression.arithmetic.{Bin, ArithmeticAMPLParser}
+import pl.edu.agh.mplt.parser.logical.expression.arithmetic.{Bin, ArithmeticAMPLParser}
 import pl.edu.agh.mplt.parser.IntercodeImplicits
-import pl.edu.agh.mplt.parser.expression.Number
+import pl.edu.agh.mplt.parser.logical.expression.Number
+import pl.edu.agh.mplt.parser.member.{StringMember, MemberAMPLParser, Member}
 
 
 class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
 
-  val parser = new SetDeclarationParser with IndexingAMPLParser with SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser with AttributesAMPLParser
+  val parser = new SetDeclarationParser with IndexingAMPLParser with SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser with AttributesAMPLParser with MemberAMPLParser
 
   def expr = parser.declaration
 
@@ -36,8 +37,8 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
     parse( """set apples { 1 + 3 .. 10 by 4 , {1, 2, 3}, {"a", "b", "c"} };""") should be(
       SetDeclaration("apples", indexing = Some(Indexing(List(
         SetComprehension(Bin.+(1, 3), 10, 4),
-        ExplicitSet(Set[Number](1, 2, 3)),
-        ExplicitSet(Set[StringLiteral]("a", "b", "c")))))))
+        ExplicitSet(Set[Member](Number(1), Number(2), Number(3))),
+        ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember("c"))))))))
   }
 
   it should "parse set declaration with simple attribute" in {

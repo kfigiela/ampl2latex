@@ -1,10 +1,11 @@
 package pl.edu.agh.mplt.parser.AMPL.expressions
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.expression.{StringLiteral, Number, ExpressionAMPLParser}
-import pl.edu.agh.mplt.parser.expression.arithmetic.{ArithmeticAMPLParser, Unary}
-import pl.edu.agh.mplt.parser.expression.variable.Variable
+import pl.edu.agh.mplt.parser.logical.expression.{Number, ExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.logical.expression.arithmetic.{ArithmeticAMPLParser, Unary}
+import pl.edu.agh.mplt.parser.logical.expression.variable.Variable
 import pl.edu.agh.mplt.parser.IntercodeImplicits
+import pl.edu.agh.mplt.parser.member.StringMember
 
 
 class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
@@ -26,14 +27,8 @@ class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
     parse("A") should be(Variable("A"))
     parse("AlaMaKota") should be(Variable("AlaMaKota"))
     parse("Ala Ma Kota") should not be Variable("Ala Ma Kota")
-    parse( """ "A" """) should not be Variable("A")
     parse("12") should not be Variable("12")
   }
 
-  it should "string literals" in {
-    parse( """ "A" """) should be(StringLiteral("A"))
-    parse( """ "AlaMaKota" """) should be(StringLiteral("AlaMaKota"))
-    parse( """ "AlaMaKota" """) should not be StringLiteral("Ala Ma Kota")
-    parse("A") should not be StringLiteral("A")
-  }
+
 }

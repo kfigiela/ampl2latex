@@ -15,11 +15,9 @@ trait SetExpressionAMPLParser extends JavaTokenParsers {
 
   def sexpr: Parser[SetExpression] = explicitSet | comprehensionSet
 
-  private def explicitSet: Parser[SetLiteral] = emptyExplicitSet | "{" ~> rep1sep(member, ",") <~ "}" ^^ {
+  private def explicitSet: Parser[SetLiteral] = "{" ~> repsep(member, ",") <~ "}" ^^ {
     case members => ExplicitSet(members.toSet)
   }
-
-  private def emptyExplicitSet = "{" ~ "}" ^^ { case _ => ExplicitSet()}
 
   private def comprehensionSet: Parser[SetLiteral] = member ~ ".." ~ member ~ ("by" ~> number).? ^^ {
     case start ~ _ ~ end ~ byOpt => byOpt match {

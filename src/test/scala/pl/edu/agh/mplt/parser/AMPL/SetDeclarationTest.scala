@@ -3,7 +3,7 @@ package pl.edu.agh.mplt.parser.AMPL
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.declaration.set.{SetDeclaration, SetDeclarationParser}
 import pl.edu.agh.mplt.parser.declaration.set.attributes.AttributesAMPLParser
-import pl.edu.agh.mplt.parser.formula.set.indexing.{Indexing, IndexingAMPLParser}
+import pl.edu.agh.mplt.parser.formula.set.indexing.IndexingAMPLParser
 import pl.edu.agh.mplt.parser.formula.set.{ExplicitSet, SetComprehension, SetExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
@@ -11,6 +11,7 @@ import pl.edu.agh.mplt.parser.formula.expression.arithmetic.{Bin, ArithmeticAMPL
 import pl.edu.agh.mplt.parser.IntercodeImplicits
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.member.{StringMember, MemberAMPLParser, Member}
+import pl.edu.agh.mplt.parser.formula.set.Indexing
 
 
 class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {

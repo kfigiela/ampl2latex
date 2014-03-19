@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.formula.set.indexing
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.formula.set.{SetExpressionWithDummyMember, SetExpression}
+import pl.edu.agh.mplt.parser.formula.set.{IndexedSet, SetExpressionWithDummyMember, SetExpression, Indexing}
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
 
 trait IndexingAMPLParser extends JavaTokenParsers {
@@ -11,9 +11,12 @@ trait IndexingAMPLParser extends JavaTokenParsers {
 
   def indexing: Parser[Indexing] = "{" ~> sexprList <~ "}" ^^ { case sexprs => Indexing(sexprs)} | logicalIndexing
 
-  def logicalIndexing = "{" ~> sexprList ~ ":" ~ lexpr <~ "}" ^^ { case sexprs ~ _ ~ lexpr => Indexing(sexprs, Some(lexpr))}
+  private def indexedSet: Parser[IndexedSet] =
+    "\\w+".r ~ "in" ~ sexpr ^^ { case i ~ _ ~ s => IndexedSet(List(i), s)}
 
-  def sexprList: Parser[List[SetExpression]] = rep1sep(sexpr, ",") | sexprWithDummy ^^ { case e => List(e)}
+  //      "(" ~> rep1sep(stringLiteral, ",") ~ ")" ~ "in" ~ sexpr ^^ { case is ~ _ ~ _ ~ s => IndexedSet(is, s)}
 
-  def sexprWithDummy: Parser[SetExpression] = "[a-zA-Z]\\w*".r ~ "in" ~ sexpr ^^ { case id ~ _ ~ sexpr => SetExpressionWithDummyMember(id, sexpr)}
+  private def sexprList: Parser[List[SetExpression]] = rep1sep(indexedSet | sexpr, ",")
+
+  private def logicalIndexing = "{" ~> sexprList ~ ":" ~ lexpr <~ "}" ^^ { case sexprs ~ _ ~ lexpr => Indexing(sexprs, Some(lexpr))}
 }

@@ -1,9 +1,9 @@
-package pl.edu.agh.mplt.parser.set
+package pl.edu.agh.mplt.parser.formula.set
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.logical.expression.Number
-import pl.edu.agh.mplt.parser.logical.expression.variable.Variable
+import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.member.Member
+import pl.edu.agh.mplt.parser.reference.NumberReference
 
 
 trait SetExpressionAMPLParser extends JavaTokenParsers {
@@ -11,7 +11,7 @@ trait SetExpressionAMPLParser extends JavaTokenParsers {
 
   def number: Parser[Number]
 
-  def variable: Parser[Variable]
+  def variable: Parser[NumberReference]
 
   def sexpr: Parser[SetExpression] = explicitSet | comprehensionSet
 

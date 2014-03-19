@@ -1,6 +1,6 @@
 package pl.edu.agh.mplt.parser.member
 
-import pl.edu.agh.mplt.parser.logical.expression.Expression
+import pl.edu.agh.mplt.parser.formula.expression.Expression
 
 trait Member
 

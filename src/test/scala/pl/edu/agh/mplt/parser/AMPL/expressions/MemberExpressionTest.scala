@@ -3,8 +3,8 @@ package pl.edu.agh.mplt.parser.AMPL.expressions
 import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, StringMember}
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.IntercodeImplicits
-import pl.edu.agh.mplt.parser.logical.expression.ExpressionAMPLParser
-import pl.edu.agh.mplt.parser.logical.expression.arithmetic.ArithmeticAMPLParser
+import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
+import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 
 
 class MemberExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {

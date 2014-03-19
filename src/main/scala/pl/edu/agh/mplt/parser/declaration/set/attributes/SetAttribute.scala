@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.declaration.set.attributes
 
 import pl.edu.agh.mplt.parser.ASTNode
-import pl.edu.agh.mplt.parser.set.SetExpression
+import pl.edu.agh.mplt.parser.formula.set.SetExpression
 
 
 trait SetAttribute extends ASTNode

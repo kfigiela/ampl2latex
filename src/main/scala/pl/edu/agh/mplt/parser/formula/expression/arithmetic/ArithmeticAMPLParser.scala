@@ -1,7 +1,7 @@
-package pl.edu.agh.mplt.parser.logical.expression.arithmetic
+package pl.edu.agh.mplt.parser.formula.expression.arithmetic
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.logical.expression.Expression
+import pl.edu.agh.mplt.parser.formula.expression.Expression
 
 trait ArithmeticAMPLParser extends JavaTokenParsers {
   def expr: Parser[Expression]

@@ -1,10 +1,10 @@
 package pl.edu.agh.mplt.parser.AMPL.expressions
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.set.{SetExpressionAMPLParser, ExplicitSet, SetComprehension}
-import pl.edu.agh.mplt.parser.logical.expression.ExpressionAMPLParser
-import pl.edu.agh.mplt.parser.logical.expression.arithmetic.ArithmeticAMPLParser
-import pl.edu.agh.mplt.parser.logical.expression.Number
+import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, ExplicitSet, SetComprehension}
+import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
+import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
+import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, StringMember, Member}
 import pl.edu.agh.mplt.parser.IntercodeImplicits
 

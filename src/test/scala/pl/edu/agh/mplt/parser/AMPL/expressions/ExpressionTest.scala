@@ -1,12 +1,10 @@
 package pl.edu.agh.mplt.parser.AMPL.expressions
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.logical.expression.{Number, ExpressionAMPLParser}
-import pl.edu.agh.mplt.parser.logical.expression.arithmetic.{ArithmeticAMPLParser, Unary}
-import pl.edu.agh.mplt.parser.logical.expression.variable.Variable
+import pl.edu.agh.mplt.parser.formula.expression.{Number, ExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.formula.expression.arithmetic.{ArithmeticAMPLParser, Unary}
 import pl.edu.agh.mplt.parser.IntercodeImplicits
-import pl.edu.agh.mplt.parser.member.StringMember
-
+import pl.edu.agh.mplt.parser.reference.NumberReference
 
 class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new ExpressionAMPLParser with ArithmeticAMPLParser
@@ -24,10 +22,10 @@ class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse variable" in {
-    parse("A") should be(Variable("A"))
-    parse("AlaMaKota") should be(Variable("AlaMaKota"))
-    parse("Ala Ma Kota") should not be Variable("Ala Ma Kota")
-    parse("12") should not be Variable("12")
+    parse("A") should be(NumberReference("A"))
+    parse("AlaMaKota") should be(NumberReference("AlaMaKota"))
+    parse("Ala Ma Kota") should not be NumberReference("Ala Ma Kota")
+    parse("12") should not be NumberReference("12")
   }
 
 

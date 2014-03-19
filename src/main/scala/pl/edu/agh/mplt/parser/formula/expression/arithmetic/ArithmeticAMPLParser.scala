@@ -8,9 +8,7 @@ trait ArithmeticAMPLParser extends JavaTokenParsers {
 
   def nonRecursiveExpressionProductionsParser: Parser[Expression]
 
-  def arithmeticExpression: Parser[Expression] = binExpr
-
-  private def binExpr = chainl1(p1, "+" ^^^ Bin.+ | "-" ^^^ Bin.- | "less" ^^^ Bin.less)
+  def arithmeticExpression: Parser[Expression] = chainl1(p1, "+" ^^^ Bin.+ | "-" ^^^ Bin.- | "less" ^^^ Bin.less)
 
   private def p1 = chainl1(p2, "*" ^^^ Bin.* | "/" ^^^ Bin./ | "div" ^^^ Bin.div | "mod" ^^^ Bin.mod)
 

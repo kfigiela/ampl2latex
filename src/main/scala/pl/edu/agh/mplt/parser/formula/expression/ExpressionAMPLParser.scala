@@ -6,13 +6,13 @@ import pl.edu.agh.mplt.parser.reference.NumberReference
 trait ExpressionAMPLParser extends JavaTokenParsers {
   def arithmeticExpression: Parser[Expression]
 
-  def number = floatingPointNumber ^^ Number
-
-  def variable: Parser[NumberReference] = "\\w+".r ^^ NumberReference
+  def numberReference: Parser[NumberReference]
 
   def expr: Parser[Expression] = arithmeticExpression | nonRecursiveExpressionProductionsParser
 
-  def nonRecursiveExpressionProductionsParser: Parser[Expression] = List(number, variable) reduce (_ | _)
+  def nonRecursiveExpressionProductionsParser: Parser[Expression] = List(number, numberReference) reduce (_ | _)
+
+  def number: Parser[Number] = floatingPointNumber ^^ Number
 
 }
 

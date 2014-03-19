@@ -1,10 +1,9 @@
 package pl.edu.agh.mplt.parser.formula.set
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.member.Member
-import pl.edu.agh.mplt.parser.reference.{SetReference, NumberReference}
-
+import pl.edu.agh.mplt.parser.formula.expression.Number
+import pl.edu.agh.mplt.parser.reference.SetReference
 
 trait SetExpressionAMPLParser extends JavaTokenParsers {
   def member: Parser[Member]

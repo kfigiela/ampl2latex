@@ -1,7 +1,6 @@
-package pl.edu.agh.mplt.parser.formula.set.indexing
+package pl.edu.agh.mplt.parser.formula.set
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.formula.set.{IndexedSet, SetExpressionWithDummyMember, SetExpression, Indexing}
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
 
 trait IndexingAMPLParser extends JavaTokenParsers {

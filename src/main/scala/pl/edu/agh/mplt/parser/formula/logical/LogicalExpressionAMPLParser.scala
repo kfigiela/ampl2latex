@@ -12,31 +12,31 @@ trait LogicalExpressionAMPLParser extends JavaTokenParsers {
 
   def sexpr: Parser[SetExpression]
 
-  def logicalOperation: Parser[LogicalExpression] = "log" ^^ { _ => new LogicalExpression {}}
+  def lexpr: Parser[LogicalExpression] = logicalOperation | compareExpressions | nonRecursiveLogicalProductionsParser
 
-  def compareExpressions: Parser[LogicalExpression] = "compare" ^^ { _ => new LogicalExpression {}}
+  private def logicalOperation: Parser[LogicalExpression] = "log" ^^ { _ => new LogicalExpression {}}
 
-  def lexpr: Parser[LogicalExpression] = logicalOperation | nonRecursiveLogicalProductionsParser
+  private def compareExpressions: Parser[LogicalExpression] = "compare" ^^ { _ => new LogicalExpression {}}
 
-  def not: Parser[LogicalExpression] =
+  private def not: Parser[LogicalExpression] =
     "not" ~> lexpr ^^ { case l: LogicalExpression => Logical.not(l)}
 
-  def in: Parser[LogicalExpression] =
+  private def memberInclusion: Parser[LogicalExpression] =
     member ~ "in" ~ sexpr ^^ { case m ~ _ ~ (s: SetExpression) => Inclusion.member(m, s)}
 
-  def within: Parser[LogicalExpression] =
+  private def subsetInclusion: Parser[LogicalExpression] =
     sexpr ~ "within" ~ sexpr ^^ { case (s1: SetExpression) ~ _ ~ (s2: SetExpression) => Inclusion.subset(s1, s2)}
 
-  def notIn: Parser[LogicalExpression] =
+  private def memberExclusion: Parser[LogicalExpression] =
     member ~ "not" ~ "in" ~ sexpr ^^ { case m ~ _ ~ _ ~ (s: SetExpression) => Exclusion.member(m, s)}
 
-  def notWithin: Parser[LogicalExpression] =
+  private def subsetExclusion: Parser[LogicalExpression] =
     sexpr ~ "not" ~ "within" ~ sexpr ^^ { case (s1: SetExpression) ~ _ ~ _ ~ (s2: SetExpression) => Exclusion.subset(s1, s2)}
 
-  def parenthesized: Parser[LogicalExpression] =
+  private def parenthesized: Parser[LogicalExpression] =
     "(" ~> lexpr <~ ")" ^^ { case l: LogicalExpression => ParenthesizedLogical(l)}
 
-  def nonRecursiveLogicalProductionsParser: Parser[LogicalExpression] =
-    List(expr ^^ (Comparision.!=(_, Number("0"))), not, in, notIn, within, notWithin, parenthesized) reduce (_ | _)
+  private def nonRecursiveLogicalProductionsParser: Parser[LogicalExpression] =
+    List(expr ^^ (Comparision.!=(_, Number("0"))), not, memberInclusion, memberExclusion, subsetInclusion, subsetExclusion, parenthesized) reduce (_ | _)
 
 }

@@ -5,11 +5,12 @@ import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.IntercodeImplicits
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
+import pl.edu.agh.mplt.parser.reference.ReferenceParser
 
 
 class MemberExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
 
-  val parser = new MemberAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser
+  val parser = new MemberAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with ReferenceParser
 
   def expr = parser.member
 

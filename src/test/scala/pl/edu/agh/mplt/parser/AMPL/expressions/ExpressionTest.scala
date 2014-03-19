@@ -4,10 +4,10 @@ import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.formula.expression.{Number, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.formula.expression.arithmetic.{ArithmeticAMPLParser, Unary}
 import pl.edu.agh.mplt.parser.IntercodeImplicits
-import pl.edu.agh.mplt.parser.reference.NumberReference
+import pl.edu.agh.mplt.parser.reference.{ReferenceParser, NumberReference}
 
 class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new ExpressionAMPLParser with ArithmeticAMPLParser
+  val parser = new ExpressionAMPLParser with ArithmeticAMPLParser with ReferenceParser
 
   def expr = parser.expr
 

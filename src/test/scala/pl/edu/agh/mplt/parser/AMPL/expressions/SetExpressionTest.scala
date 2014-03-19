@@ -7,10 +7,10 @@ import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, StringMember, Member}
 import pl.edu.agh.mplt.parser.IntercodeImplicits
-import pl.edu.agh.mplt.parser.reference.{ReferenceAMPLParser, SetReference}
+import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SetReference}
 
 class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with MemberAMPLParser with ReferenceAMPLParser
+  val parser = new SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with MemberAMPLParser with ReferenceParser
 
   def expr = parser.sexpr
 

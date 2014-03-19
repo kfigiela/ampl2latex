@@ -10,7 +10,7 @@ trait LogicalExpression extends Formula
 
 case class ParenthesizedLogical(expr: LogicalExpression) extends LogicalExpression
 
-trait Bool extends Formula
+trait Bool extends LogicalExpression
 
 object Inclusion {
 

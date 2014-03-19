@@ -1,23 +1,27 @@
 package pl.edu.agh.mplt.parser.AMPL
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.declaration.set.{SetDeclaration, SetDeclarationParser}
+import pl.edu.agh.mplt.parser.declaration.set.SetDeclarationParser
 import pl.edu.agh.mplt.parser.declaration.set.attributes.AttributesAMPLParser
-import pl.edu.agh.mplt.parser.formula.set.indexing.IndexingAMPLParser
-import pl.edu.agh.mplt.parser.formula.set.{ExplicitSet, SetComprehension, SetExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.arithmetic.{Bin, ArithmeticAMPLParser}
 import pl.edu.agh.mplt.parser.IntercodeImplicits
+import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, Member}
+import pl.edu.agh.mplt.parser.reference.ReferenceParser
+import pl.edu.agh.mplt.parser.declaration.set.SetDeclaration
+import pl.edu.agh.mplt.parser.formula.set.SetComprehension
 import pl.edu.agh.mplt.parser.formula.expression.Number
-import pl.edu.agh.mplt.parser.member.{StringMember, MemberAMPLParser, Member}
 import pl.edu.agh.mplt.parser.formula.set.Indexing
-import pl.edu.agh.mplt.parser.reference.ReferenceAMPLParser
+import scala.Some
+import pl.edu.agh.mplt.parser.member.StringMember
+import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
 
 
 class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
 
-  val parser = new SetDeclarationParser with IndexingAMPLParser with SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser with AttributesAMPLParser with MemberAMPLParser with ReferenceAMPLParser
+  val parser = new SetDeclarationParser with IndexingAMPLParser with SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser with AttributesAMPLParser with MemberAMPLParser with ReferenceParser
 
   def expr = parser.declaration
 

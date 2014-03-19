@@ -7,9 +7,10 @@ import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, StringMember, Member}
 import pl.edu.agh.mplt.parser.IntercodeImplicits
+import pl.edu.agh.mplt.parser.reference.{ReferenceAMPLParser, SetReference}
 
 class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with MemberAMPLParser
+  val parser = new SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with MemberAMPLParser with ReferenceAMPLParser
 
   def expr = parser.sexpr
 
@@ -17,6 +18,10 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
 
   "Set expression parser" should "parse explicit number set definition" in {
     parse("{1, 2, 3}") should be(ExplicitSet(Set[Member](Number(1), Number(2), Number(3))))
+  }
+
+  it should "parse reference to set" in {
+    parse("a") should be(SetReference("a"))
   }
 
   it should "parse one element set literal" in {

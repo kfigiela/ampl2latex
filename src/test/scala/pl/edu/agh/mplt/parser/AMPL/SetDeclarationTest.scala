@@ -12,11 +12,12 @@ import pl.edu.agh.mplt.parser.IntercodeImplicits
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.member.{StringMember, MemberAMPLParser, Member}
 import pl.edu.agh.mplt.parser.formula.set.Indexing
+import pl.edu.agh.mplt.parser.reference.ReferenceAMPLParser
 
 
 class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
 
-  val parser = new SetDeclarationParser with IndexingAMPLParser with SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser with AttributesAMPLParser with MemberAMPLParser
+  val parser = new SetDeclarationParser with IndexingAMPLParser with SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser with AttributesAMPLParser with MemberAMPLParser with ReferenceAMPLParser
 
   def expr = parser.declaration
 

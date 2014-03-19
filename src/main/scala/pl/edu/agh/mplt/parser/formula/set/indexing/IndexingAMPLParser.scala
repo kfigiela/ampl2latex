@@ -12,9 +12,8 @@ trait IndexingAMPLParser extends JavaTokenParsers {
   def indexing: Parser[Indexing] = "{" ~> sexprList <~ "}" ^^ { case sexprs => Indexing(sexprs)} | logicalIndexing
 
   private def indexedSet: Parser[IndexedSet] =
-    "\\w+".r ~ "in" ~ sexpr ^^ { case i ~ _ ~ s => IndexedSet(List(i), s)}
-
-  //      "(" ~> rep1sep(stringLiteral, ",") ~ ")" ~ "in" ~ sexpr ^^ { case is ~ _ ~ _ ~ s => IndexedSet(is, s)}
+    "[a-zA-Z]\\w*".r ~ "in" ~ sexpr ^^ { case i ~ _ ~ s => IndexedSet(List(i), s)} |
+      "(" ~> rep1sep("[a-zA-Z]\\w*".r, ",") ~ ")" ~ "in" ~ sexpr ^^ { case is ~ _ ~ _ ~ s => IndexedSet(is, s)}
 
   private def sexprList: Parser[List[SetExpression]] = rep1sep(indexedSet | sexpr, ",")
 

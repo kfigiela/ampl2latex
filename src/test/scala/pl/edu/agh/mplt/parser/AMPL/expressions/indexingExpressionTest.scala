@@ -11,10 +11,10 @@ import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 import pl.edu.agh.mplt.parser.formula.set.SetComprehension
 import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
-import pl.edu.agh.mplt.parser.reference.SetReference
+import pl.edu.agh.mplt.parser.reference.{ReferenceAMPLParser, SetReference}
 
 class indexingExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new IndexingAMPLParser with SetExpressionAMPLParser with LogicalExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with MemberAMPLParser
+  val parser = new IndexingAMPLParser with SetExpressionAMPLParser with LogicalExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with MemberAMPLParser with ReferenceAMPLParser
 
   def expr = parser.indexing
 

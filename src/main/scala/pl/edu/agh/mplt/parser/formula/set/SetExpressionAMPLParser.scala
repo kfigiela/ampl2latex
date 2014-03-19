@@ -3,7 +3,7 @@ package pl.edu.agh.mplt.parser.formula.set
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.member.Member
-import pl.edu.agh.mplt.parser.reference.NumberReference
+import pl.edu.agh.mplt.parser.reference.{SetReference, NumberReference}
 
 
 trait SetExpressionAMPLParser extends JavaTokenParsers {
@@ -11,9 +11,9 @@ trait SetExpressionAMPLParser extends JavaTokenParsers {
 
   def number: Parser[Number]
 
-  def variable: Parser[NumberReference]
+  def setReference: Parser[SetReference]
 
-  def sexpr: Parser[SetExpression] = explicitSet | comprehensionSet
+  def sexpr: Parser[SetExpression] = setReference | explicitSet | comprehensionSet
 
   private def explicitSet: Parser[SetLiteral] = "{" ~> repsep(member, ",") <~ "}" ^^ {
     case members => ExplicitSet(members.toSet)

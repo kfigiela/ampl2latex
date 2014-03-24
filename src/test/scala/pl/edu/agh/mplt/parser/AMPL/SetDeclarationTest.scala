@@ -2,7 +2,7 @@ package pl.edu.agh.mplt.parser.AMPL
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.declaration.set.SetDeclarationParser
-import pl.edu.agh.mplt.parser.declaration.set.attributes.AttributesAMPLParser
+import pl.edu.agh.mplt.parser.declaration.set.attributes.{SetAttribute, AttributesAMPLParser}
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
@@ -48,8 +48,8 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse set declaration with simple attribute" in {
-    //    parse("set arcs within nodes cross nodes;") should be
-    //    (SetDeclarationTest.super("arcs", attributes = List(SetAttribute.is(SetExpression.cross(Variable("nodes"), Variable("nodes"))))))
+//        parse("set arcs within nodes cross nodes;") should be
+//        (SetDeclarationTest.super("arcs", attributes = List(SetAttribute.is(SetExpression.cross(Variable("nodes"), Variable("nodes"))))))
   }
 
 }

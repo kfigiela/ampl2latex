@@ -35,8 +35,20 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
     parse("set oranges apples;") should be(SetDeclaration("oranges", Some("apples")))
   }
 
+  ////////////////////////////////
+  //////////  indexing  //////////
+  ////////////////////////////////
+
+
+
   it should "parse set declaration with simple indexing" in {
-    parse("set apples { 1 + 3 .. 10 by 4 };") should be(SetDeclaration("apples", indexing = Some(Indexing(SetComprehension(Bin.+(1, 3), 10, 4)))))
+    parse("set apples { 1 + 3 .. 10 by 4 };") should be(
+      SetDeclaration("apples", indexing = Some(Indexing(SetComprehension(Bin.+(1, 3), 10, 4)))))
+  }
+
+  it should "parse set declaration with alias and indexing" in {
+    parse("set oranges apples { 1 + 3 .. 10 by 4 };") should be(
+      SetDeclaration("oranges", Some("apples"), indexing = Some(Indexing(SetComprehension(Bin.+(1, 3), 10, 4)))))
   }
 
   it should "parse set declaration with indexing" in {
@@ -46,6 +58,10 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
         ExplicitSet(Set[Member](Number(1), Number(2), Number(3))),
         ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember("c"))))))))
   }
+
+  ///////////////////////////////
+  /////////  atributes  /////////
+  ///////////////////////////////
 
   it should "parse set declaration with dimension attribute" in {
     parse("set apples dimen 1;")
@@ -64,7 +80,18 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse set declaration with many attributes" in {
-//        parse("set arcs dimen 3, within nodes cross nodes, default = {1, 2};") should be
+    parse("set arcs dimen 3, within nodes cross nodes, default = {1, 2};") should be
   }
 
+  it should "parse set declaration with alias and attribute" in {
+    parse("set apples oranges dimen 1")
+  }
+
+  it should "parse set declaration with indexing and attribute" in {
+    parse("set apples {i in 1 .. 10} dimen 1")
+  }
+
+  it should "parse set declaration with alias and indexing and  attribute" in {
+    parse("set apples oranbges {i in 1 .. 10} dimen 1")
+  }
 }

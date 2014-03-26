@@ -183,5 +183,5 @@ class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplici
     parse("x and not y") should be(Logical.and("x", Logical.not("y")))
   }
 
-  
+
 }

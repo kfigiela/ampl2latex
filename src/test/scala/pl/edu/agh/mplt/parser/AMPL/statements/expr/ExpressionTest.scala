@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.parser.AMPL.expressions
+package pl.edu.agh.mplt.parser.AMPL.statements.expr
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.formula.expression.{Number, ExpressionAMPLParser}

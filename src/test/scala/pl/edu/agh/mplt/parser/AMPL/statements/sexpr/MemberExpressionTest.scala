@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.parser.AMPL.expressions
+package pl.edu.agh.mplt.parser.AMPL.statements.sexpr
 
 import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, StringMember}
 import org.scalatest.{Matchers, FlatSpec}

@@ -4,6 +4,7 @@ import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.formula.expression.{Expression, Number}
 import pl.edu.agh.mplt.parser.member.Member
 import pl.edu.agh.mplt.parser.formula.set.SetExpression
+import pl.edu.agh.mplt.parser.reference.BoolReference
 
 trait LogicalExpressionAMPLParser extends JavaTokenParsers {
   def expr: Parser[Expression]
@@ -12,14 +13,26 @@ trait LogicalExpressionAMPLParser extends JavaTokenParsers {
 
   def sexpr: Parser[SetExpression]
 
-  def lexpr: Parser[LogicalExpression] = logicalOperation | compareExpressions | nonRecursiveLogicalProductionsParser
+  def boolReference: Parser[BoolReference]
 
-  private def logicalOperation: Parser[LogicalExpression] = "log" ^^ { _ => new LogicalExpression {}}
+  def lexpr: Parser[LogicalExpression] = or | nonRecursiveLogicalProductionsParser
 
-  private def compareExpressions: Parser[LogicalExpression] = "compare" ^^ { _ => new LogicalExpression {}}
+  private def or = chainl1(and, ("or" | "||") ^^^ Logical.or)
+
+  private def and = chainl1(nonRecursiveLogicalProductionsParser, ("and" | "&&") ^^^ Logical.and)
+
+  private def compareExpressions: Parser[LogicalExpression] =
+    expr ~ "<" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.<(e1, e2)} |
+      expr ~ "<=" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.<=(e1, e2)} |
+      expr ~ ">" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.>(e1, e2)} |
+      expr ~ ">=" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.>=(e1, e2)} |
+      expr ~ "==" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.==(e1, e2)} |
+      expr ~ "=" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.==(e1, e2)} |
+      expr ~ "!=" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.!=(e1, e2)} |
+      expr ~ "<>" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.!=(e1, e2)}
 
   private def not: Parser[LogicalExpression] =
-    "not" ~> lexpr ^^ { case l: LogicalExpression => Logical.not(l)}
+    ("!" | "not") ~> nonRecursiveLogicalProductionsParser ^^ { case l: LogicalExpression => Logical.not(l)}
 
   private def memberInclusion: Parser[LogicalExpression] =
     member ~ "in" ~ sexpr ^^ { case m ~ _ ~ (s: SetExpression) => Inclusion.member(m, s)}
@@ -37,6 +50,7 @@ trait LogicalExpressionAMPLParser extends JavaTokenParsers {
     "(" ~> lexpr <~ ")" ^^ { case l: LogicalExpression => ParenthesizedLogical(l)}
 
   private def nonRecursiveLogicalProductionsParser: Parser[LogicalExpression] =
-    List(expr ^^ (Comparision.!=(_, Number("0"))), not, memberInclusion, memberExclusion, subsetInclusion, subsetExclusion, parenthesized) reduce (_ | _)
+    List(compareExpressions, memberInclusion, memberExclusion, subsetInclusion, subsetExclusion, not,
+      boolReference, expr ^^ (Comparision.!=(_, Number("0"))), parenthesized) reduce (_ | _)
 
 }

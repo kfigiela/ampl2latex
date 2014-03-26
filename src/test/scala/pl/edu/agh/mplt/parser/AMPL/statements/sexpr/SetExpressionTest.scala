@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.parser.AMPL.expressions
+package pl.edu.agh.mplt.parser.AMPL.statements.sexpr
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, ExplicitSet, SetComprehension}
@@ -16,7 +16,7 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
 
   def parse(input: String) = parser.parse(expr, input).get
 
-  "Set expression parser" should "parse explicit number set definition" in {
+  "Set expr parser" should "parse explicit number set definition" in {
     parse("{1, 2, 3}") should be(ExplicitSet(Set[Member](Number(1), Number(2), Number(3))))
   }
 
@@ -50,6 +50,34 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
 
   it should "parse string set comprehension with step" in {
     parse( """ "a" .. "d" by 5""") should be(SetComprehension(StringMember("a"), StringMember("d"), 5))
+  }
+
+  it should "parse binary union" in {
+    parse(" {1, 2, 3} union 1 ..7 by 2") should be
+  }
+
+  it should "parse binary inter" in {
+    parse(" {1, 2, 3} inter 1 ..7 by 2") should be
+  }
+
+  it should "parse diff" in {
+    parse(" {1, 2, 3} diff 1 ..7 by 2") should be
+  }
+
+  it should "parse symdiff" in {
+    parse(" {1, 2, 3} symdiff 1 ..7 by 2") should be
+  }
+
+  it should "parse cross" in {
+    parse(" {1, 2, 3} union 1 ..7 by 2") should be
+  }
+
+  it should "parse indexing union" in {
+    parse(" union {i in A}  1 ..7 by 2") should be
+  }
+
+  it should "parse indexing  inter" in {
+    parse(" inter {i in A}  1 ..7 by 2") should be
   }
 
 }

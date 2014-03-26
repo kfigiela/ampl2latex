@@ -1,8 +1,8 @@
-package pl.edu.agh.mplt.parser.AMPL
+package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.declaration.set.SetDeclarationParser
-import pl.edu.agh.mplt.parser.declaration.set.attributes.{SetAttribute, AttributesAMPLParser}
+import pl.edu.agh.mplt.parser.declaration.set.attributes.AttributesAMPLParser
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
@@ -47,9 +47,24 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
         ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember("c"))))))))
   }
 
-  it should "parse set declaration with simple attribute" in {
-//        parse("set arcs within nodes cross nodes;") should be
-//        (SetDeclarationTest.super("arcs", attributes = List(SetAttribute.is(SetExpression.cross(Variable("nodes"), Variable("nodes"))))))
+  it should "parse set declaration with dimension attribute" in {
+    parse("set apples dimen 1;")
+  }
+
+  it should "parse set declaration with within attribute" in {
+    parse("set apples within {'a', 'b', 'c'}")
+  }
+
+  it should "parse set declaration with = attribute" in {
+    parse("set numbers = {1, 2, 3}")
+  }
+
+  it should "parse set declaration with default attribute" in {
+    parse("set numbers default {1, 2, 3}")
+  }
+
+  it should "parse set declaration with many attributes" in {
+//        parse("set arcs dimen 3, within nodes cross nodes, default = {1, 2};") should be
   }
 
 }

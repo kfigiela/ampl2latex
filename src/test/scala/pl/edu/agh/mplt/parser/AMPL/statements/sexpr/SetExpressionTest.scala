@@ -29,7 +29,7 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse explicit string literal set definition" in {
-    parse("{\"a\", \"b\", \"c\"}") should be(ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember("c"))))
+    parse( """{"a", "b", "c"}""") should be(ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember("c"))))
   }
 
   it should "parse empty set literal" in {

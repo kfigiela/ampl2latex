@@ -4,11 +4,13 @@ import scala.util.parsing.combinator.JavaTokenParsers
 
 trait ReferenceParser extends JavaTokenParsers {
 
-  def setReference: Parser[SetReference] = reference ^^ SetReference
+  def nonKeyword: Parser[String]
 
-  def numberReference: Parser[NumberReference] = reference ^^ NumberReference
+  def setReference: Parser[SetReference] = nonKeyword ^^ SetReference
 
-  def boolReference: Parser[BoolReference] = reference ^^ BoolReference
+  def numberReference: Parser[NumberReference] = nonKeyword ^^ NumberReference
 
-  private def reference: Parser[String] = "[a-zA-Z]\\w*".r
+  def boolReference: Parser[BoolReference] = nonKeyword ^^ BoolReference
+
+
 }

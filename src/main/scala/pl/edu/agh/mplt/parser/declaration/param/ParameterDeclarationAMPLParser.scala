@@ -9,9 +9,11 @@ trait ParameterDeclarationAMPLParser extends JavaTokenParsers {
 
   def parameterAttribute: Parser[ParameterAttribute]
 
-  def parameterDeclaration: Parser[ParameterDeclaration] = "set" ~> string ~ (string ?) ~ (indexing ?) ~ rep(parameterAttribute) <~ ";" ^^ {
-    case name ~ optAlias ~ optIndexing ~ optAttributes => ParameterDeclaration(name, optAlias, optIndexing, optAttributes)
-  }
+  def nonKeyword: Parser[String]
 
-  def string = "[a-zA-Z]\\w+".r
+  def parameterDeclaration: Parser[ParameterDeclaration] =
+    "param" ~> nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ rep(parameterAttribute) <~ ";" ^^ {
+      case name ~ optAlias ~ optIndexing ~ optAttributes => ParameterDeclaration(name, optAlias, optIndexing, optAttributes)
+    }
+
 }

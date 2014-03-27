@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.IntercodeImplicits
+import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.declaration.set.{SetAttributesAMPLParser, SetDeclarationAMPLParser}
 import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, IndexingAMPLParser}
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
@@ -11,7 +11,9 @@ import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
 
 class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new SetDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser with SetAttributesAMPLParser with MemberAMPLParser with ReferenceParser
+  val parser = new SetDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser
+    with ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser
+    with SetAttributesAMPLParser with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
 
   def expr = parser.setDeclaration
 
@@ -61,7 +63,7 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
     parse("var x := 3;")
   }
 
-  it should "parse var declaration with  attribute" in {
+  it should "parse var declaration with default attribute" in {
     parse("var x default 3;")
   }
 
@@ -69,7 +71,7 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
     parse("var x = 3;")
   }
 
-  it should "parse var declaration with  attribute" in {
+  it should "parse var declaration with inclusion attribute" in {
     parse("var x in {1, 2, 3};")
   }
 

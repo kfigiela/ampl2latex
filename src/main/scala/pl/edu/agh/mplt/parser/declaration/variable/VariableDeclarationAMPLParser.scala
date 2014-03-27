@@ -10,9 +10,9 @@ trait VariableDeclarationAMPLParser extends JavaTokenParsers {
 
   def variableAttribute: Parser[VariableAttribute]
 
-  def variableDeclaration: Parser[VariableDeclaration] = "set" ~> string ~ (string ?) ~ (indexing ?) ~ rep(variableAttribute) <~ ";" ^^ {
+  def nonKeyword: Parser[String]
+
+  def variableDeclaration: Parser[VariableDeclaration] = "var" ~> nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ rep(variableAttribute) <~ ";" ^^ {
     case name ~ optAlias ~ optIndexing ~ optAttributes => VariableDeclaration(name, optAlias, optIndexing, optAttributes)
   }
-
-  def string = "[a-zA-Z]\\w+".r
 }

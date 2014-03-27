@@ -7,9 +7,7 @@ import pl.edu.agh.mplt.parser.declaration.{Attribute, SetAttribute}
 trait SetAttributesAMPLParser extends JavaTokenParsers {
   def sexpr: Parser[SetExpression]
 
-  def setAttributes: Parser[List[SetAttribute]] = rep(attribute)
-
-  def attribute: Parser[SetAttribute] = dimension | attrWithin | eq | default
+  def setAttribute: Parser[SetAttribute] = dimension | attrWithin | eq | default
 
   private def dimension = "dimen" ~> "[+-]?\\d+".r ^^ Attribute.Dimension
 

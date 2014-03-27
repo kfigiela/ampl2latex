@@ -10,9 +10,7 @@ trait VariableAttributesAMPLParser extends JavaTokenParsers {
 
   def expr: Parser[Expression]
 
-  def variableAttributes: Parser[List[VariableAttribute]] = rep(attribute)
-
-  def attribute: Parser[VariableAttribute] =
+  def variableAttribute: Parser[VariableAttribute] =
     "binary" ^^ { case _ => Attribute.Binary} |
       "integer" ^^ { case _ => Attribute.Integer} |
       "symbolic" ^^ { case _ => Attribute.Symbolic} |

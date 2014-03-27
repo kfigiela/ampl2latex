@@ -8,9 +8,9 @@ import pl.edu.agh.mplt.parser.declaration.VariableAttribute
 trait VariableDeclarationAMPLParser extends JavaTokenParsers {
   def indexing: Parser[Indexing]
 
-  def variableAttributes: Parser[VariableAttribute]
+  def variableAttribute: Parser[VariableAttribute]
 
-  def declaration: Parser[VariableDeclaration] = "set" ~> string ~ (string ?) ~ (indexing ?) ~ rep(variableAttributes) <~ ";" ^^ {
+  def variableDeclaration: Parser[VariableDeclaration] = "set" ~> string ~ (string ?) ~ (indexing ?) ~ rep(variableAttribute) <~ ";" ^^ {
     case name ~ optAlias ~ optIndexing ~ optAttributes => VariableDeclaration(name, optAlias, optIndexing, optAttributes)
   }
 

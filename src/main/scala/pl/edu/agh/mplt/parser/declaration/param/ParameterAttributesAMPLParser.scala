@@ -10,15 +10,15 @@ trait ParameterAttributesAMPLParser extends JavaTokenParsers {
 
   def expr: Parser[Expression]
 
-  def parameterAttributes: Parser[List[ParameterAttribute]] = rep(attribute)
-
-  def attribute: Parser[ParameterAttribute] =
+  def parameterAttribute: Parser[ParameterAttribute] =
     "binary" ^^ { case _ => Attribute.Binary} |
       "integer" ^^ { case _ => Attribute.Integer} |
       "symbolic" ^^ { case _ => Attribute.Symbolic} |
-      List("<", "<=", "==", "!=", ">", ">=").reduce(_ | _) ~ expr ^^ { case op ~ expr => Attribute.Relation(op, expr)} |
+      relationOperators ~ expr ^^ { case op ~ expr => Attribute.Relation(op, expr)} |
       "=" ~> expr ^^ { case expr => Attribute.Relation("==", expr)} |
       "<>" ~> expr ^^ { case expr => Attribute.Relation("!=", expr)} |
       "default" ~> expr ^^ Attribute.Default |
       "in" ~> sexpr ^^ Attribute.Inclusion
+
+  private def relationOperators = List[Parser[String]]("<", "<=", "==", "!=", ">", ">=").reduce(_ | _)
 }

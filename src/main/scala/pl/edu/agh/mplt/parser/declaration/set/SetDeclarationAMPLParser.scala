@@ -7,9 +7,9 @@ import pl.edu.agh.mplt.parser.declaration.SetAttribute
 trait SetDeclarationAMPLParser extends JavaTokenParsers {
   def indexing: Parser[Indexing]
 
-  def setAttributes: Parser[SetAttribute]
+  def setAttribute: Parser[SetAttribute]
 
-  def declaration: Parser[SetDeclaration] = "set" ~> string ~ (string ?) ~ (indexing ?) ~ rep(setAttributes) <~ ";" ^^ {
+  def setDeclaration: Parser[SetDeclaration] = "set" ~> string ~ (string ?) ~ (indexing ?) ~ rep(setAttribute) <~ ";" ^^ {
     case name ~ optAlias ~ optIndexing ~ optAttributes => SetDeclaration(name, optAlias, optIndexing, optAttributes)
   }
 

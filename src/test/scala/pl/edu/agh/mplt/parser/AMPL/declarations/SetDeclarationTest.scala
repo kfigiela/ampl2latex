@@ -21,7 +21,7 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
 
   val parser = new SetDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser with SetAttributesAMPLParser with MemberAMPLParser with ReferenceParser
 
-  def expr = parser.declaration
+  def expr = parser.setDeclaration
 
   def parse(input: String) = parser.parse(expr, input).get
 

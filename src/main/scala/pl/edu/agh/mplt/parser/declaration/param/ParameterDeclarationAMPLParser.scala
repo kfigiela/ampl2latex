@@ -7,9 +7,9 @@ import pl.edu.agh.mplt.parser.declaration.ParameterAttribute
 trait ParameterDeclarationAMPLParser extends JavaTokenParsers {
   def indexing: Parser[Indexing]
 
-  def attribute: Parser[ParameterAttribute]
+  def parameterAttribute: Parser[ParameterAttribute]
 
-  def declaration: Parser[ParameterDeclaration] = "set" ~> string ~ (string ?) ~ (indexing ?) ~ rep(attribute) <~ ";" ^^ {
+  def parameterDeclaration: Parser[ParameterDeclaration] = "set" ~> string ~ (string ?) ~ (indexing ?) ~ rep(parameterAttribute) <~ ";" ^^ {
     case name ~ optAlias ~ optIndexing ~ optAttributes => ParameterDeclaration(name, optAlias, optIndexing, optAttributes)
   }
 

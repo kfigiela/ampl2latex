@@ -5,7 +5,7 @@ import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.{Logical, Comparision, LogicalExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.formula.expression.arithmetic.{Bin, ArithmeticAMPLParser}
-import pl.edu.agh.mplt.parser.IntercodeImplicits
+import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 import pl.edu.agh.mplt.parser.formula.set.SetComprehension
@@ -13,7 +13,10 @@ import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
 import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SetReference}
 
 class indexingExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new IndexingAMPLParser with SetExpressionAMPLParser with LogicalExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with MemberAMPLParser with ReferenceParser
+  val parser = new IndexingAMPLParser with SetExpressionAMPLParser with LogicalExpressionAMPLParser
+    with ExpressionAMPLParser with ArithmeticAMPLParser with MemberAMPLParser with ReferenceParser
+    with KeywordAMPLParser
+
 
   def expr = parser.indexing
 

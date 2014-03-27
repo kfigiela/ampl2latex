@@ -3,28 +3,35 @@ package pl.edu.agh.mplt.parser.AMPL.declarations
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.declaration.set.{SetAttributesAMPLParser, SetDeclarationAMPLParser}
-import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, IndexingAMPLParser}
+import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
-import pl.edu.agh.mplt.parser.member.MemberAMPLParser
-import pl.edu.agh.mplt.parser.reference.ReferenceParser
+import pl.edu.agh.mplt.parser.member.{Member, MemberAMPLParser}
+import pl.edu.agh.mplt.parser.reference.{SetReference, ReferenceParser}
+import pl.edu.agh.mplt.parser.declaration.variable.{VariableDeclaration, VariableDeclarationAMPLParser, VariableAttributesAMPLParser}
+import pl.edu.agh.mplt.parser.declaration.{Attribute, variable}
+import pl.edu.agh.mplt.parser.reference.SetReference
+import pl.edu.agh.mplt.parser.declaration.variable.VariableDeclaration
+import pl.edu.agh.mplt.parser.formula.set.Indexing
+import scala.Some
+import pl.edu.agh.mplt.parser.formula.set.IndexedSet
 
 class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new SetDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser
+  val parser = new VariableDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser
     with ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser
-    with SetAttributesAMPLParser with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
+    with VariableAttributesAMPLParser with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
 
-  def expr = parser.setDeclaration
+  def expr = parser.variableDeclaration
 
   def parse(input: String) = parser.parse(expr, input).get
 
   "Variable declaration parser" should "parse simple var declaration" in {
-    parse("var x;")
+    parse("var x;") should be(VariableDeclaration("x"))
   }
 
   it should "parse var declaration with an alias" in {
-    parse("var x y;")
+    parse("var x y;") should be(VariableDeclaration("x", Some("y")))
   }
 
   ////////////////////////////////
@@ -32,7 +39,8 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   ////////////////////////////////
 
   it should "parse var declaration with indexing" in {
-    parse("var x {i in A};")
+    parse("var x {i in A};") should be(
+      VariableDeclaration("x", indexing = Some(Indexing(List(IndexedSet(List("i"), SetReference("A")))))))
   }
 
   ///////////////////////////////
@@ -40,43 +48,45 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   ///////////////////////////////
 
   it should "parse var declaration with binary attribute" in {
-    parse("var x binary;")
+    parse("var x binary;") should be(VariableDeclaration("x", attributes = List(Attribute.Binary)))
   }
 
   it should "parse var declaration with integer attribute" in {
-    parse("var x integer;")
+    parse("var x integer;") should be(VariableDeclaration("x", attributes = List(Attribute.Integer)))
   }
 
   it should "parse var declaration with symbolic attribute" in {
-    parse("var x symbolic;")
+    parse("var x symbolic;") should be(VariableDeclaration("x", attributes = List(Attribute.Symbolic)))
   }
 
   it should "parse var declaration with '>=' attribute" in {
-    parse("var x >= 3;")
+    parse("var x >= 3;") should be(VariableDeclaration("x", attributes = List(Attribute.Relation(">=", 3))))
   }
 
   it should "parse var declaration with '<=' attribute" in {
-    parse("var x <= 3;")
+    parse("var x <= 3;") should be(VariableDeclaration("x", attributes = List(Attribute.Relation("<=", 3))))
   }
 
   it should "parse var declaration with ':=' attribute" in {
-    parse("var x := 3;")
+    parse("var x := 3;") should be(VariableDeclaration("x", attributes = List(Attribute.Initial(3))))
   }
 
   it should "parse var declaration with default attribute" in {
-    parse("var x default 3;")
+    parse("var x default 3;") should be(VariableDeclaration("x", attributes = List(Attribute.Default(3))))
   }
 
   it should "parse var declaration with '=' attribute" in {
-    parse("var x = 3;")
+    parse("var x = 3;") should be(VariableDeclaration("x", attributes = List(Attribute.Relation("==", 3))))
   }
 
   it should "parse var declaration with inclusion attribute" in {
-    parse("var x in {1, 2, 3};")
+    parse("var x in {1, 2, 3};") should be(
+      VariableDeclaration("x", attributes = List(Attribute.Inclusion(ExplicitSet(Set[Member](1, 2, 3))))))
   }
 
   it should "parse multiple attributes" in {
-    parse("var x integer, in {1, 2, 3};")
+    parse("var x integer, in {1, 2, 3};") should be(
+      VariableDeclaration("x", attributes = List(Attribute.Integer, Attribute.Inclusion(ExplicitSet(Set[Member](1, 2, 3))))))
   }
 
 }

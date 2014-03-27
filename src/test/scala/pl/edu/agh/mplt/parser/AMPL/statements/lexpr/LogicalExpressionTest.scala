@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.AMPL.statements.lexpr
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.IntercodeImplicits
+import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.formula.logical._
 import pl.edu.agh.mplt.parser.member.{Member, MemberAMPLParser}
 import pl.edu.agh.mplt.parser.formula.set.SetExpressionAMPLParser
@@ -12,7 +12,8 @@ import pl.edu.agh.mplt.parser.formula.set.SetComprehension
 import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
 
 class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new LogicalExpressionAMPLParser with SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser with MemberAMPLParser with ReferenceParser
+  val parser = new LogicalExpressionAMPLParser with SetExpressionAMPLParser with ExpressionAMPLParser
+    with ArithmeticAMPLParser with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
 
   def expr = parser.lexpr
 

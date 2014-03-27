@@ -7,3 +7,5 @@ trait Member
 case class ExpressionMember(expr: Expression) extends Member
 
 case class StringMember(str: String) extends Member
+
+case class MultiMember(members: Seq[Member]) extends Member

@@ -11,9 +11,10 @@ trait SetDeclarationAMPLParser extends JavaTokenParsers {
 
   def nonKeyword: Parser[String]
 
-  def setDeclaration: Parser[SetDeclaration] = "set" ~> nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ repsep(setAttribute, ",") <~ ";" ^^ {
-    case name ~ optAlias ~ optIndexing ~ optAttributes => SetDeclaration(name, optAlias, optIndexing, optAttributes)
-  }
+  def setDeclaration: Parser[SetDeclaration] =
+    "set" ~> nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ repsep(setAttribute, ",") <~ ";" ^^ {
+      case name ~ optAlias ~ optIndexing ~ optAttributes => SetDeclaration(name, optAlias, optIndexing, optAttributes)
+    }
 
 
 }

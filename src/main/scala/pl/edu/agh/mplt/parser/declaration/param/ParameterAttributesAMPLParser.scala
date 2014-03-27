@@ -20,5 +20,5 @@ trait ParameterAttributesAMPLParser extends JavaTokenParsers {
       "default" ~> expr ^^ Attribute.Default |
       "in" ~> sexpr ^^ Attribute.Inclusion
 
-  private def relationOperators = List[Parser[String]]("<", "<=", "==", "!=", ">", ">=").reduce(_ | _)
+  private def relationOperators = List[Parser[String]]("<=", "<", "==", "!=", ">=", ">").reduce(_ | _)
 }

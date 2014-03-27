@@ -12,7 +12,8 @@ trait VariableDeclarationAMPLParser extends JavaTokenParsers {
 
   def nonKeyword: Parser[String]
 
-  def variableDeclaration: Parser[VariableDeclaration] = "var" ~> nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ rep(variableAttribute) <~ ";" ^^ {
-    case name ~ optAlias ~ optIndexing ~ optAttributes => VariableDeclaration(name, optAlias, optIndexing, optAttributes)
-  }
+  def variableDeclaration: Parser[VariableDeclaration] =
+    "var" ~> nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ repsep(variableAttribute, ",") <~ ";" ^^ {
+      case name ~ optAlias ~ optIndexing ~ optAttributes => VariableDeclaration(name, optAlias, optIndexing, optAttributes)
+    }
 }

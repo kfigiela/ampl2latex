@@ -10,7 +10,7 @@ trait MemberAMPLParser extends JavaTokenParsers {
 
   def member: Parser[Member] = singleMember | "(" ~> rep1sep(singleMember, ",") ^^ MultiMember
 
-  private def stringLit: Parser[StringMember] = stringLiteral ^^ { case a => StringMember(a.drop(1).dropRight(1))}
-
   private def singleMember: Parser[Member] = stringLit | expr ^^ ExpressionMember
+
+  private def stringLit: Parser[StringMember] = stringLiteral ^^ { case a => StringMember(a.drop(1).dropRight(1))}
 }

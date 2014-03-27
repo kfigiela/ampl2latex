@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.AMPL.statements.sexpr
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, ExplicitSet, SetComprehension}
+import pl.edu.agh.mplt.parser.formula.set.{Sets, SetExpressionAMPLParser, ExplicitSet, SetComprehension}
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.Number
@@ -54,23 +54,33 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse binary union" in {
-    parse(" {1, 2, 3} union 1 ..7 by 2") should be
+    parse(" {1, 2, 3} union 1 ..7 by 2") should be(
+      Sets.Union(ExplicitSet(Set[Member](1, 2, 3)), SetComprehension(1, 7, 2))
+    )
   }
 
   it should "parse binary inter" in {
-    parse(" {1, 2, 3} inter 1 ..7 by 2") should be
+    parse(" {1, 2, 3} inter 1 ..7 by 2") should be(
+      Sets.Intersection(ExplicitSet(Set[Member](1, 2, 3)), SetComprehension(1, 7, 2))
+    )
   }
 
   it should "parse diff" in {
-    parse(" {1, 2, 3} diff 1 ..7 by 2") should be
+    parse(" {1, 2, 3} diff 1 ..7 by 2") should be(
+      Sets.Difference(ExplicitSet(Set[Member](1, 2, 3)), SetComprehension(1, 7, 2))
+    )
   }
 
   it should "parse symdiff" in {
-    parse(" {1, 2, 3} symdiff 1 ..7 by 2") should be
+    parse(" {1, 2, 3} symdiff 1 ..7 by 2") should be(
+      Sets.SymetricDifference(ExplicitSet(Set[Member](1, 2, 3)), SetComprehension(1, 7, 2))
+    )
   }
 
   it should "parse cross" in {
-    parse(" {1, 2, 3} union 1 ..7 by 2") should be
+    parse(" {1, 2, 3} cross 1 ..7 by 2") should be(
+      Sets.Cartesian(ExplicitSet(Set[Member](1, 2, 3)), SetComprehension(1, 7, 2))
+    )
   }
 
   it should "parse indexing union" in {
@@ -80,5 +90,74 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   it should "parse indexing  inter" in {
     parse(" inter {i in A}  1 ..7 by 2") should be
   }
+  ///////////////////////////
+  ////// associativity //////
+  ///////////////////////////
+
+  it should "maintain left associativity of union" in {
+    parse(" {1, 2} union  {1, 2} union {1, 2}") should be(
+      Sets.Union(Sets.Union(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))), ExplicitSet(Set[Member](1, 2)))
+    )
+  }
+
+  it should "maintain left associativity of diff" in {
+    parse(" {1, 2} diff  {1, 2} diff {1, 2}") should be(
+      Sets.Difference(Sets.Difference(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))), ExplicitSet(Set[Member](1, 2)))
+    )
+  }
+
+  it should "maintain left associativity of symdiff" in {
+    parse(" {1, 2}  symdiff {1, 2} symdiff {1, 2}") should be(
+      Sets.SymetricDifference(
+        Sets.SymetricDifference(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))),
+        ExplicitSet(Set[Member](1, 2)))
+    )
+  }
+
+  it should "maintain left associativity of intersection" in {
+    parse(" {1, 2} inter  {1, 2} inter {1, 2}") should be(
+      Sets.Intersection(
+        Sets.Intersection(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))),
+        ExplicitSet(Set[Member](1, 2)))
+    )
+  }
+
+  it should "maintain left associativity of cross" in {
+    parse(" {1, 2} cross  {1, 2} cross {1, 2}") should be(
+      Sets.Cartesian(
+        Sets.Cartesian(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))),
+        ExplicitSet(Set[Member](1, 2)))
+    )
+  }
+
+
+  ////////////////////////////
+  //////// precedence ////////
+  ////////////////////////////
+
+  "intersection" should "precede union" in {
+    parse(" {1, 2} union  {1, 2} inter {1, 2}") should be(
+      Sets.Union(ExplicitSet(Set[Member](1, 2)), Sets.Intersection(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))))
+    )
+  }
+
+  it should "precede difference" in {
+    parse(" {1, 2} diff  {1, 2} inter {1, 2}") should be(
+      Sets.Difference(ExplicitSet(Set[Member](1, 2)), Sets.Intersection(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))))
+    )
+  }
+
+  it should "precede symetric difference" in {
+    parse(" {1, 2} symdiff  {1, 2} inter {1, 2}") should be(
+      Sets.SymetricDifference(ExplicitSet(Set[Member](1, 2)), Sets.Intersection(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))))
+    )
+  }
+
+  "Cartesian product" should "precede intersection" in {
+    parse(" {1, 2} inter  {1, 2} cross {1, 2}") should be(
+      Sets.Intersection(ExplicitSet(Set[Member](1, 2)), Sets.Cartesian(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))))
+    )
+  }
+
 
 }

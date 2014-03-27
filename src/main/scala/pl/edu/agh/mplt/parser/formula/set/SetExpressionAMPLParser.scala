@@ -12,7 +12,13 @@ trait SetExpressionAMPLParser extends JavaTokenParsers {
 
   def setReference: Parser[SetReference]
 
-  def sexpr: Parser[SetExpression] = setReference | explicitSet | comprehensionSet
+  def sexpr: Parser[SetExpression] = setOperation | freeTokens
+
+  private def setOperation = chainl1(intersection, "union" ^^^ Sets.Union | "diff" ^^^ Sets.Difference | "symdiff" ^^^ Sets.SymetricDifference)
+
+  private def intersection = chainl1(cross, "inter" ^^^ Sets.Intersection)
+
+  private def cross = chainl1(freeTokens, "cross" ^^^ Sets.Cartesian)
 
   private def explicitSet: Parser[SetLiteral] = "{" ~> repsep(member, ",") <~ "}" ^^ {
     case members => ExplicitSet(members.toSet)
@@ -24,5 +30,7 @@ trait SetExpressionAMPLParser extends JavaTokenParsers {
       case _ => SetComprehension(start, end)
     }
   }
+
+  private[this] def freeTokens: Parser[SetExpression] = Seq(setReference, explicitSet, comprehensionSet).reduce(_ | _)
 
 }

@@ -12,5 +12,4 @@ trait ReferenceParser extends JavaTokenParsers {
 
   def boolReference: Parser[BoolReference] = nonKeyword ^^ BoolReference
 
-
 }

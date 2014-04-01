@@ -7,7 +7,7 @@ import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, StringMember, Member}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SetReference}
+import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SimpleReference}
 
 class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser
@@ -22,7 +22,7 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse reference to set" in {
-    parse("a") should be(SetReference("a"))
+    parse("a") should be(SimpleReference("a"))
   }
 
   it should "parse one element set literal" in {

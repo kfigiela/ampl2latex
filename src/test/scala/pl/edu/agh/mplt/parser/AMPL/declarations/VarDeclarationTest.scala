@@ -8,10 +8,10 @@ import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.member.{Member, MemberAMPLParser}
-import pl.edu.agh.mplt.parser.reference.{SetReference, ReferenceParser}
+import pl.edu.agh.mplt.parser.reference.{SimpleReference, ReferenceParser}
 import pl.edu.agh.mplt.parser.declaration.variable.{VariableDeclaration, VariableDeclarationAMPLParser, VariableAttributesAMPLParser}
 import pl.edu.agh.mplt.parser.declaration.{Attribute, variable}
-import pl.edu.agh.mplt.parser.reference.SetReference
+import pl.edu.agh.mplt.parser.reference.SimpleReference
 import pl.edu.agh.mplt.parser.declaration.variable.VariableDeclaration
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 import scala.Some
@@ -40,7 +40,7 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
 
   it should "parse var declaration with indexing" in {
     parse("var x {i in A};") should be(
-      VariableDeclaration("x", indexing = Some(Indexing(List(IndexedSet(List("i"), SetReference("A")))))))
+      VariableDeclaration("x", indexing = Some(Indexing(List(IndexedSet(List("i"), SimpleReference("A")))))))
   }
 
   ///////////////////////////////

@@ -8,7 +8,7 @@ import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
-import pl.edu.agh.mplt.parser.reference.{SetReference, ReferenceParser}
+import pl.edu.agh.mplt.parser.reference.{SimpleReference, ReferenceParser}
 import pl.edu.agh.mplt.parser.declaration.objective.{Maximize, Minimize, ObjectiveDeclarationAMPLParser, ObjectiveDeclaration}
 import pl.edu.agh.mplt.parser.declaration.objective
 
@@ -38,7 +38,7 @@ class ObjectiveDeclarationTest extends FlatSpec with Matchers with IntercodeImpl
   it should "parser maximize objective with indexing" in {
     parse("maximize x {i in A} : i ;") should be(
       Maximize("x",
-        indexing = Some(Indexing(List(IndexedSet(List("i"), SetReference("A"))))),
+        indexing = Some(Indexing(List(IndexedSet(List("i"), SimpleReference("A"))))),
         expression = "i"))
   }
 }

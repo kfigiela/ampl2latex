@@ -3,14 +3,14 @@ package pl.edu.agh.mplt.parser.formula.set
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.member.Member
 import pl.edu.agh.mplt.parser.formula.expression.Number
-import pl.edu.agh.mplt.parser.reference.SetReference
+import pl.edu.agh.mplt.parser.reference.Reference
 
 trait SetExpressionAMPLParser extends JavaTokenParsers {
   def member: Parser[Member]
 
   def number: Parser[Number]
 
-  def setReference: Parser[SetReference]
+  def reference: Parser[Reference]
 
   def sexpr: Parser[SetExpression] = setOperation | freeTokens
 
@@ -31,6 +31,6 @@ trait SetExpressionAMPLParser extends JavaTokenParsers {
     }
   }
 
-  private[this] def freeTokens: Parser[SetExpression] = Seq(setReference, explicitSet, comprehensionSet).reduce(_ | _)
+  private[this] def freeTokens: Parser[SetExpression] = Seq(reference, explicitSet, comprehensionSet).reduce(_ | _)
 
 }

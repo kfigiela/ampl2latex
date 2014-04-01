@@ -8,8 +8,8 @@ import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.arithmetic.{Bin, ArithmeticAMPLParser}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, Member}
-import pl.edu.agh.mplt.parser.reference.ReferenceParser
-import pl.edu.agh.mplt.parser.formula.set.SetComprehension
+import pl.edu.agh.mplt.parser.reference.{SimpleReference, ReferenceParser}
+import pl.edu.agh.mplt.parser.formula.set.{SetComprehension, ExplicitSet}
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 import scala.Some
@@ -69,30 +69,44 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse set declaration with within attribute" in {
-    parse( """set apples within {"a", "b", "c"} ;""")
+    parse( """set apples within {"a", "b", "c"} ;""") should be(SetDeclaration("apples",
+      attributes = List(Attribute.Within(
+        ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember("c")))))))
   }
 
   it should "parse set declaration with = attribute" in {
-    parse("set numbers = {1, 2, 3};")
+    parse("set numbers = {1, 2, 3};") should be(SetDeclaration("numbers",
+      attributes = List(Attribute.InitialSet(
+        ExplicitSet(Set[Member](1, 2, 3))))))
   }
 
   it should "parse set declaration with default attribute" in {
-    parse("set numbers default {1, 2, 3};")
+    parse("set numbers default {1, 2, 3};") should be(SetDeclaration("numbers",
+      attributes = List(Attribute.DefaultSet(ExplicitSet(Set[Member](1, 2, 3))))))
   }
 
   it should "parse set declaration with many attributes" in {
-    parse("set arcs dimen 3, within nodes cross nodes, default {1, 2};") should be
+    parse("set arcs dimen 3, within nodes cross nodes, default {1, 2};") should be(SetDeclaration("arcs",
+      attributes = List(
+        Attribute.Dimension(3),
+        Attribute.Within(Sets.Cartesian(SimpleReference("nodes"), SimpleReference("nodes"))),
+        Attribute.DefaultSet(ExplicitSet(Set[Member](1, 2))))))
   }
 
   it should "parse set declaration with alias and attribute" in {
-    parse("set apples oranges dimen 1;")
+    parse("set apples oranges dimen 1;") should be(SetDeclaration("apples", Some("oranges"),
+      attributes = List(Attribute.Dimension(1))))
   }
 
   it should "parse set declaration with indexing and attribute" in {
-    parse("set apples {i in 1 .. 10} dimen 1;")
+    parse("set apples {i in 1 .. 10} dimen 1;") should be(SetDeclaration("apples",
+      indexing = Some(Indexing(IndexedSet(List("i"), SetComprehension(1, 10)))),
+      attributes = List(Attribute.Dimension(1))))
   }
 
   it should "parse set declaration with alias and indexing and  attribute" in {
-    parse("set apples oranges {i in 1 .. 10} dimen 1;")
+    parse("set apples oranges {i in 1 .. 10} dimen 1;") should be(SetDeclaration("apples", Some("oranges"),
+      indexing = Some(Indexing(IndexedSet(List("i"), SetComprehension(1, 10)))),
+      attributes = List(Attribute.Dimension(1))))
   }
 }

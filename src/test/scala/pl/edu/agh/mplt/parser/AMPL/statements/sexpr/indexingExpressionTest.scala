@@ -10,7 +10,7 @@ import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 import pl.edu.agh.mplt.parser.formula.set.SetComprehension
 import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
-import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SetReference}
+import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SimpleReference}
 
 class indexingExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new IndexingAMPLParser with SetExpressionAMPLParser with LogicalExpressionAMPLParser
@@ -32,27 +32,27 @@ class indexingExpressionTest extends FlatSpec with Matchers with IntercodeImplic
   }
 
   it should "parse indexed sets with setReferences" in {
-    parse(" { i in A }") should be(Indexing(List(IndexedSet(List("i"), SetReference("A")))))
+    parse(" { i in A }") should be(Indexing(List(IndexedSet(List("i"), SimpleReference("A")))))
 
     parse(" { i in A, j in B }") should be(Indexing(List(
-      IndexedSet(List("i"), SetReference("A")),
-      IndexedSet(List("j"), SetReference("B")))))
+      IndexedSet(List("i"), SimpleReference("A")),
+      IndexedSet(List("j"), SimpleReference("B")))))
 
-    parse(" { (i, j) in A }") should be(Indexing(List(IndexedSet(List("i", "j"), SetReference("A")))))
+    parse(" { (i, j) in A }") should be(Indexing(List(IndexedSet(List("i", "j"), SimpleReference("A")))))
   }
 
   it should "parse indexed sets" in {
     parse("{i in A, (j, k) in B}") should be(
       Indexing(List(
-        IndexedSet(List("i"), SetReference("A")),
-        IndexedSet(List("j", "k"), SetReference("B"))
+        IndexedSet(List("i"), SimpleReference("A")),
+        IndexedSet(List("j", "k"), SimpleReference("B"))
       )))
   }
 
   it should "parse simple indexing expression with logical condition" in {
     parse("{i in A: i > 5}") should be(
       Indexing(
-        List(IndexedSet(List("i"), SetReference("A"))),
+        List(IndexedSet(List("i"), SimpleReference("A"))),
         Some(Comparision.>("i", 5))))
   }
 
@@ -60,8 +60,8 @@ class indexingExpressionTest extends FlatSpec with Matchers with IntercodeImplic
     parse("{i in A, (j, k) in B : i == j and i + j > k}") should be(
       Indexing(
         List(
-          IndexedSet(List("i"), SetReference("A")),
-          IndexedSet(List("j", "k"), SetReference("B"))),
+          IndexedSet(List("i"), SimpleReference("A")),
+          IndexedSet(List("j", "k"), SimpleReference("B"))),
         Some(Logical.and(
           Comparision.==("i", "j"),
           Comparision.>(Bin.+("i", "j"), "k")))))

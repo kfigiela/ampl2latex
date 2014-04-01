@@ -4,7 +4,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.formula.expression.{Number, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.formula.expression.arithmetic.{ArithmeticAMPLParser, Unary}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.reference.{ReferenceParser, NumberReference}
+import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SimpleReference}
 
 class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new ExpressionAMPLParser with ArithmeticAMPLParser with ReferenceParser with KeywordAMPLParser
@@ -22,10 +22,10 @@ class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse variable" in {
-    parse("A") should be(NumberReference("A"))
-    parse("AlaMaKota") should be(NumberReference("AlaMaKota"))
-    parse("Ala Ma Kota") should not be NumberReference("Ala Ma Kota")
-    parse("12") should not be NumberReference("12")
+    parse("A") should be(SimpleReference("A"))
+    parse("AlaMaKota") should be(SimpleReference("AlaMaKota"))
+    parse("Ala Ma Kota") should not be SimpleReference("Ala Ma Kota")
+    parse("12") should not be SimpleReference("12")
   }
 
 

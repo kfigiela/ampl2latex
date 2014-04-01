@@ -12,7 +12,7 @@ import pl.edu.agh.mplt.parser.reference.ReferenceParser
 import pl.edu.agh.mplt.parser.declaration.param.{ParameterAttributesAMPLParser, ParameterDeclarationAMPLParser}
 import pl.edu.agh.mplt.parser.declaration.Attribute
 import pl.edu.agh.mplt.parser.declaration.param.ParameterDeclaration
-import pl.edu.agh.mplt.parser.reference.SetReference
+import pl.edu.agh.mplt.parser.reference.SimpleReference
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 import scala.Some
 import pl.edu.agh.mplt.parser.formula.set.IndexedSet
@@ -41,7 +41,7 @@ class ParamDeclarationTest extends FlatSpec with Matchers with IntercodeImplicit
 
   it should "parse parameter declaration with indexing" in {
     parse("param x {i in A};") should be(
-      ParameterDeclaration("x", indexing = Some(Indexing(IndexedSet(List("i"), SetReference("A"))))))
+      ParameterDeclaration("x", indexing = Some(Indexing(IndexedSet(List("i"), SimpleReference("A"))))))
   }
 
   ///////////////////////////////

@@ -1,15 +1,20 @@
 package pl.edu.agh.mplt.parser.reference
 
 import scala.util.parsing.combinator.JavaTokenParsers
+import pl.edu.agh.mplt.parser.formula.expression.Expression
 
 trait ReferenceParser extends JavaTokenParsers {
 
   def nonKeyword: Parser[String]
 
-  def setReference: Parser[SetReference] = nonKeyword ^^ SetReference
+  def expr: Parser[Expression]
 
-  def numberReference: Parser[NumberReference] = nonKeyword ^^ NumberReference
+  def reference: Parser[Reference] = indexedReference | simpleReference
 
-  def boolReference: Parser[BoolReference] = nonKeyword ^^ BoolReference
+  private def simpleReference = nonKeyword ^^ SimpleReference
+
+  private def indexedReference = simpleReference ~ "[" ~ expr <~ "]" ^^ {
+    case ref ~ _ ~ expr => IndexedReference(ref, expr)
+  }
 
 }

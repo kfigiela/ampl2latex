@@ -2,15 +2,13 @@ package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.declaration.set.{SetAttributesAMPLParser, SetDeclarationAMPLParser}
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.member.{Member, MemberAMPLParser}
-import pl.edu.agh.mplt.parser.reference.{SimpleReference, ReferenceParser}
-import pl.edu.agh.mplt.parser.declaration.variable.{VariableDeclaration, VariableDeclarationAMPLParser, VariableAttributesAMPLParser}
-import pl.edu.agh.mplt.parser.declaration.{Attribute, variable}
+import pl.edu.agh.mplt.parser.reference.ReferenceParser
+import pl.edu.agh.mplt.parser.declaration.variable.{VariableDeclarationAMPLParser, VariableAttributesAMPLParser}
+import pl.edu.agh.mplt.parser.declaration.Attribute
 import pl.edu.agh.mplt.parser.reference.SimpleReference
 import pl.edu.agh.mplt.parser.declaration.variable.VariableDeclaration
 import pl.edu.agh.mplt.parser.formula.set.Indexing
@@ -19,7 +17,7 @@ import pl.edu.agh.mplt.parser.formula.set.IndexedSet
 
 class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new VariableDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser
-    with ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser
+    with ExpressionAMPLParser with LogicalExpressionAMPLParser
     with VariableAttributesAMPLParser with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
 
   def expr = parser.variableDeclaration

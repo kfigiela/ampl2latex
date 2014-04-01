@@ -5,15 +5,14 @@ import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.formula.logical._
 import pl.edu.agh.mplt.parser.member.{Member, MemberAMPLParser}
 import pl.edu.agh.mplt.parser.formula.set.SetExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.expression.arithmetic.{Bin, ArithmeticAMPLParser}
+import pl.edu.agh.mplt.parser.formula.expression.{Bin, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
 import pl.edu.agh.mplt.parser.formula.set.SetComprehension
 import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
 
 class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new LogicalExpressionAMPLParser with SetExpressionAMPLParser with ExpressionAMPLParser
-    with ArithmeticAMPLParser with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
+    with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
 
   def expr = parser.lexpr
 

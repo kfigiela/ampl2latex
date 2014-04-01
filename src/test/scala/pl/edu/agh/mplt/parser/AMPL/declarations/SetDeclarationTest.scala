@@ -3,14 +3,12 @@ package pl.edu.agh.mplt.parser.AMPL.declarations
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.declaration.set.{SetAttributesAMPLParser, SetDeclarationAMPLParser, SetDeclaration}
 import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
+import pl.edu.agh.mplt.parser.formula.expression.{Bin, ExpressionAMPLParser, Number}
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.expression.arithmetic.{Bin, ArithmeticAMPLParser}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, Member}
 import pl.edu.agh.mplt.parser.reference.{SimpleReference, ReferenceParser}
-import pl.edu.agh.mplt.parser.formula.set.{SetComprehension, ExplicitSet}
-import pl.edu.agh.mplt.parser.formula.expression.Number
+import pl.edu.agh.mplt.parser.formula.set.SetComprehension
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 import scala.Some
 import pl.edu.agh.mplt.parser.member.StringMember
@@ -21,7 +19,7 @@ import pl.edu.agh.mplt.parser.declaration.Attribute
 class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
 
   val parser = new SetDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser
-    with ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser
+    with ExpressionAMPLParser with LogicalExpressionAMPLParser
     with SetAttributesAMPLParser with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
 
   def expr = parser.setDeclaration

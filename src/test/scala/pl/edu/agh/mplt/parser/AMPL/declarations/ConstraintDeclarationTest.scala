@@ -4,7 +4,6 @@ import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.formula.set.{IndexedSet, Indexing, SetExpressionAMPLParser, IndexingAMPLParser}
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.reference.{SimpleReference, ReferenceParser}
@@ -14,7 +13,7 @@ import pl.edu.agh.mplt.parser.declaration.constraint.ConstraintDeclaration
 
 class ConstraintDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new ConstraintDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser with
-    ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser with ConstraintExpressionAMPLParser
+    ExpressionAMPLParser with LogicalExpressionAMPLParser with ConstraintExpressionAMPLParser
     with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
 
   def expr = parser.constraintDeclaration

@@ -4,13 +4,12 @@ import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.reference.{IndexedReference, SimpleReference, ReferenceParser}
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 
 
 class ReferenceTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new ReferenceParser with KeywordAMPLParser with ExpressionAMPLParser
-    with ArithmeticAMPLParser with MemberAMPLParser
+    with MemberAMPLParser
 
   def expr = parser.reference
 

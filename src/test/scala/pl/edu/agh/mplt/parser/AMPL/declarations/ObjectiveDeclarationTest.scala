@@ -2,20 +2,17 @@ package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.declaration.constraint.{ConstraintExpressionAMPLParser, ConstraintDeclarationAMPLParser}
 import pl.edu.agh.mplt.parser.formula.set.{IndexedSet, Indexing, SetExpressionAMPLParser, IndexingAMPLParser}
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.reference.{SimpleReference, ReferenceParser}
-import pl.edu.agh.mplt.parser.declaration.objective.{Maximize, Minimize, ObjectiveDeclarationAMPLParser, ObjectiveDeclaration}
-import pl.edu.agh.mplt.parser.declaration.objective
+import pl.edu.agh.mplt.parser.declaration.objective.{Maximize, Minimize, ObjectiveDeclarationAMPLParser}
 
 
 class ObjectiveDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new ObjectiveDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser with
-    ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser
+    ExpressionAMPLParser with LogicalExpressionAMPLParser
     with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
 
   def expr = parser.objectiveDeclaration

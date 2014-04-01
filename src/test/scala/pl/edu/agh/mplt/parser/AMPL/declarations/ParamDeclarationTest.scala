@@ -2,10 +2,8 @@ package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.declaration.set.SetDeclarationAMPLParser
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.member.{Member, MemberAMPLParser}
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
@@ -20,7 +18,7 @@ import pl.edu.agh.mplt.parser.formula.set.IndexedSet
 
 class ParamDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new ParameterDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser with
-    ExpressionAMPLParser with ArithmeticAMPLParser with LogicalExpressionAMPLParser with ParameterAttributesAMPLParser
+    ExpressionAMPLParser with LogicalExpressionAMPLParser with ParameterAttributesAMPLParser
     with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
 
   def expr = parser.parameterDeclaration

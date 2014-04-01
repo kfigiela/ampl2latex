@@ -2,7 +2,6 @@ package pl.edu.agh.mplt.parser.member
 
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.formula.expression.Expression
-import pl.edu.agh.mplt.parser.member.Member
 
 
 trait MemberAMPLParser extends JavaTokenParsers {

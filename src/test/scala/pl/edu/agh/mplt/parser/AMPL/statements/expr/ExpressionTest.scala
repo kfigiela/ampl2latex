@@ -1,13 +1,12 @@
 package pl.edu.agh.mplt.parser.AMPL.statements.expr
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.formula.expression.{Number, ExpressionAMPLParser}
-import pl.edu.agh.mplt.parser.formula.expression.arithmetic.{ArithmeticAMPLParser, Unary}
+import pl.edu.agh.mplt.parser.formula.expression.{Unary, Number, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SimpleReference}
 
 class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new ExpressionAMPLParser with ArithmeticAMPLParser with ReferenceParser with KeywordAMPLParser
+  val parser = new ExpressionAMPLParser with ReferenceParser with KeywordAMPLParser
 
   def expr = parser.expr
 

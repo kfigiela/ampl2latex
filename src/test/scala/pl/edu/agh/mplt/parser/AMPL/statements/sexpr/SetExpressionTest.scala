@@ -3,14 +3,13 @@ package pl.edu.agh.mplt.parser.AMPL.statements.sexpr
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.formula.set.{Sets, SetExpressionAMPLParser, ExplicitSet, SetComprehension}
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.expression.arithmetic.ArithmeticAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, StringMember, Member}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SimpleReference}
 
 class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new SetExpressionAMPLParser with ExpressionAMPLParser with ArithmeticAMPLParser
+  val parser = new SetExpressionAMPLParser with ExpressionAMPLParser
     with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
 
   def expr = parser.sexpr
@@ -84,11 +83,11 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse indexing union" in {
-//    parse(" union {i in A}  1 ..7 by 2")
+    //    parse(" union {i in A}  1 ..7 by 2")
   }
 
   it should "parse indexing  inter" in {
-//    parse(" inter {i in A}  1 ..7 by 2")
+    //    parse(" inter {i in A}  1 ..7 by 2")
   }
   ///////////////////////////
   ////// associativity //////

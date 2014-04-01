@@ -2,9 +2,8 @@ package pl.edu.agh.mplt.parser.AMPL.statements.sexpr
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
+import pl.edu.agh.mplt.parser.formula.expression.{Bin, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.formula.logical.{Logical, Comparision, LogicalExpressionAMPLParser}
-import pl.edu.agh.mplt.parser.formula.expression.arithmetic.{Bin, ArithmeticAMPLParser}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.formula.set.Indexing
@@ -14,7 +13,7 @@ import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SimpleReference}
 
 class indexingExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new IndexingAMPLParser with SetExpressionAMPLParser with LogicalExpressionAMPLParser
-    with ExpressionAMPLParser with ArithmeticAMPLParser with MemberAMPLParser with ReferenceParser
+    with ExpressionAMPLParser with MemberAMPLParser with ReferenceParser
     with KeywordAMPLParser
 
 

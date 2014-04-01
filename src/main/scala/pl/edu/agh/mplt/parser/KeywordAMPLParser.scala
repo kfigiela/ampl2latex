@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser
 
 import scala.util.parsing.combinator.JavaTokenParsers
-
+;
 
 trait KeywordAMPLParser extends JavaTokenParsers {
   def nonKeyword: Parser[String] = not(keywords) ~> string

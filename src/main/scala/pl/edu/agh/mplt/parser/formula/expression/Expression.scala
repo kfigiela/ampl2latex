@@ -1,6 +1,7 @@
 package pl.edu.agh.mplt.parser.formula.expression
 
 import pl.edu.agh.mplt.parser.formula.Formula
+import pl.edu.agh.mplt.parser.formula.set.Indexing
 
 trait Expression extends Formula
 
@@ -33,5 +34,17 @@ object Bin {
 object Unary {
 
   case class -(e: Expression) extends ArithmeticOperation
+
+}
+
+object Reduction {
+
+  case class Sum(indexing: Indexing, expr: Expression) extends ArithmeticOperation
+
+  case class Prod(indexing: Indexing, expr: Expression) extends ArithmeticOperation
+
+  case class Max(indexing: Indexing, expr: Expression) extends ArithmeticOperation
+
+  case class Min(indexing: Indexing, expr: Expression) extends ArithmeticOperation
 
 }

@@ -1,12 +1,17 @@
 package pl.edu.agh.mplt.parser.AMPL.statements.expr
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.formula.expression.{Unary, Bin, ExpressionAMPLParser, Number}
+import pl.edu.agh.mplt.parser.formula.expression._
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.reference.ReferenceParser
+import pl.edu.agh.mplt.parser.reference.{IndexedReference, SimpleReference, ReferenceParser}
+import pl.edu.agh.mplt.parser.formula.expression.Number
+import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, IndexingAMPLParser, IndexedSet, Indexing}
+import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
+import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 
 class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new ExpressionAMPLParser with ReferenceParser with KeywordAMPLParser
+  val parser = new ReferenceParser with KeywordAMPLParser with ExpressionAMPLParser with IndexingAMPLParser
+    with LogicalExpressionAMPLParser with SetExpressionAMPLParser with MemberAMPLParser
 
   def expr = parser.expr
 
@@ -22,6 +27,13 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
 
   it should "parse less operator" in {
     parse("1 less 2") should be(Bin.less(1, 2))
+  }
+
+  it should "parser reduction" in {
+    parse("sum {i in A} i*i") should be(Reduction.Sum(
+      Indexing(List(IndexedSet(List("i"), SimpleReference("A")))),
+      Bin.*(SimpleReference("i"), SimpleReference("i"))
+    ))
   }
 
   it should "parse multiplication" in {
@@ -189,6 +201,18 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
 
   it should "precede unary minus" in {
     parse("-1 ^ 3") should be(Unary.-(Bin.^(1, 3)))
+  }
+
+  ////////////////////////////////////////////
+  ////////////////////////////////////////////
+
+  it should "parse complex reduction" in {
+    parse("sum {i in A} cost[i]*make[i]") should be(
+      Reduction.Sum(
+        Indexing(List(IndexedSet(List("i"), SimpleReference("A")))),
+        Bin.*(
+          IndexedReference(SimpleReference("cost"), SimpleReference("i")),
+          IndexedReference(SimpleReference("make"), SimpleReference("i")))))
   }
 
 }

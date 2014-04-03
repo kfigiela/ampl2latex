@@ -6,6 +6,8 @@ import scala.util.parsing.combinator.JavaTokenParsers
 trait KeywordAMPLParser extends JavaTokenParsers {
   def nonKeyword: Parser[String] = not(keywords) ~> string
 
+  def keyword: Parser[String] = keywords
+
   private def string = "[a-zA-Z]\\w*".r
 
   private[this] val keywords =

@@ -8,12 +8,14 @@ import pl.edu.agh.mplt.parser.reference.ReferenceParser
 import pl.edu.agh.mplt.parser.member.StringMember
 import pl.edu.agh.mplt.parser.member.ExpressionMember
 import pl.edu.agh.mplt.parser.member.MultiMember
+import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, IndexingAMPLParser}
+import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 
 
 class MemberExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
 
-  val parser = new MemberAMPLParser with ExpressionAMPLParser
-    with ReferenceParser with KeywordAMPLParser
+  val parser = new ReferenceParser with KeywordAMPLParser with ExpressionAMPLParser with IndexingAMPLParser
+    with LogicalExpressionAMPLParser with SetExpressionAMPLParser with MemberAMPLParser
 
   def expr = parser.member
 

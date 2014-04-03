@@ -2,28 +2,40 @@ package pl.edu.agh.mplt.parser.formula.expression
 
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.reference.Reference
+import pl.edu.agh.mplt.parser.formula.set.Indexing
 
 trait ExpressionAMPLParser extends JavaTokenParsers {
 
   def reference: Parser[Reference]
 
+  def indexing: Parser[Indexing]
+
   def expr: Parser[Expression] = arithmeticExpression | freeTokens
 
   def number: Parser[Number] = floatingPointNumber ^^ Number
 
+  def keyword: Parser[String]
+
   private def arithmeticExpression: Parser[Expression] =
-    chainl1(p1, "+" ^^^ Bin.+ | "-" ^^^ Bin.- | "less" ^^^ Bin.less)
+    chainl1(production1, "+" ^^^ Bin.+ | "-" ^^^ Bin.- | "less" ^^^ Bin.less)
 
-  private def p1 = chainl1(p2, "*" ^^^ Bin.* | "/" ^^^ Bin./ | "div" ^^^ Bin.div | "mod" ^^^ Bin.mod)
+  private def production1 = chainl1(production2, "*" ^^^ Bin.* | "/" ^^^ Bin./ | "div" ^^^ Bin.div | "mod" ^^^ Bin.mod)
 
-  private def p2 = "+" ~> p3 | rep1("-" ~ "-") ~> p3 | "-" ~> p3 ^^ Unary.- | p3
+  private def production2 = "+" ~> production3 | rep1("-" ~ "-") ~> production3 | "-" ~> production3 ^^ Unary.- | production3
 
-  private def p3 = rep1sep(p4, "^" | "**") ^^ (_.reduceRight(Bin.^))
+  private def production3 = rep1sep(production4, "^" | "**") ^^ (_.reduceRight(Bin.^))
 
-  private def p4 = freeTokens | "(" ~> expr <~ ")"
+  private def production4 = freeTokens | "(" ~> expr <~ ")"
+
+  private def reduction: Parser[Expression] = keyword ~ indexing ~ production1 ^^ {
+    case "sum" ~ indexing ~ expr => Reduction.Sum(indexing, expr)
+    case "prod" ~ indexing ~ expr => Reduction.Prod(indexing, expr)
+    case "max" ~ indexing ~ expr => Reduction.Max(indexing, expr)
+    case "min" ~ indexing ~ expr => Reduction.Min(indexing, expr)
+  };
 
   private def freeTokens: Parser[Expression] =
-    List(number, reference) reduce (_ | _)
+    List(reduction, number, reference) reduce (_ | _)
 
 
 }

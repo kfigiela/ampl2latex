@@ -5,11 +5,13 @@ import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.reference.{IndexedReference, SimpleReference, ReferenceParser}
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
+import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, IndexingAMPLParser}
+import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 
 
 class ReferenceTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new ReferenceParser with KeywordAMPLParser with ExpressionAMPLParser
-    with MemberAMPLParser
+  val parser = new ReferenceParser with KeywordAMPLParser with ExpressionAMPLParser with IndexingAMPLParser
+    with LogicalExpressionAMPLParser with SetExpressionAMPLParser with MemberAMPLParser
 
   def expr = parser.reference
 

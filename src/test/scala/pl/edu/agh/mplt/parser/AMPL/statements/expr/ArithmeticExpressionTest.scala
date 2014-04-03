@@ -211,8 +211,8 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
       Reduction.Sum(
         Indexing(List(IndexedSet(List("i"), SimpleReference("A")))),
         Bin.*(
-          IndexedReference(SimpleReference("cost"), SimpleReference("i")),
-          IndexedReference(SimpleReference("make"), SimpleReference("i")))))
+          IndexedReference(SimpleReference("cost"), List(SimpleReference("i"))),
+          IndexedReference(SimpleReference("make"), List(SimpleReference("i"))))))
   }
 
 }

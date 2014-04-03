@@ -3,7 +3,7 @@ package pl.edu.agh.mplt.parser.AMPL
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.reference.{IndexedReference, SimpleReference, ReferenceParser}
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
+import pl.edu.agh.mplt.parser.formula.expression.{Expression, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, IndexingAMPLParser}
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
@@ -23,7 +23,12 @@ class ReferenceTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse indexed reference" in {
-    parse("a[3]") should be(IndexedReference("a", 3))
-    parse("costam[a]") should be(IndexedReference("costam", "a"))
+    parse("a[3]") should be(IndexedReference("a", List[Expression](3)))
+    parse("costam[a]") should be(IndexedReference("costam", List[Expression]("a")))
+  }
+
+  it should "parse indexed reference with multiple indexes" in {
+    parse("a[3,4]") should be(IndexedReference("a", List[Expression](3, 4)))
+    parse("costam[a, b]") should be(IndexedReference("costam", List[Expression]("a", "b")))
   }
 }

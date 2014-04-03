@@ -41,4 +41,8 @@ class MemberExpressionTest extends FlatSpec with Matchers with IntercodeImplicit
     parse( """( 1, "a" )""") should be(MultiMember(Seq[Member](1, StringMember("a"))))
   }
 
+  it should "parse set reference" in {
+    parse("a") should be(ExpressionMember("a"))
+  }
+
 }

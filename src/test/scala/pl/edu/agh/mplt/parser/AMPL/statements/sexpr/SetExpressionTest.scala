@@ -4,15 +4,20 @@ import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.expression.Number
-import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, StringMember, Member}
+import pl.edu.agh.mplt.parser.member._
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SimpleReference}
 import pl.edu.agh.mplt.parser.formula.set.SetComprehension
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.reference.SimpleReference
-import pl.edu.agh.mplt.parser.member.StringMember
 import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
+import pl.edu.agh.mplt.parser.formula.set
+import pl.edu.agh.mplt.parser.formula.set.SetComprehension
+import pl.edu.agh.mplt.parser.formula.expression.Number
+import pl.edu.agh.mplt.parser.reference.SimpleReference
+import pl.edu.agh.mplt.parser.member.StringMember
+import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
 
 class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new ReferenceParser with KeywordAMPLParser with ExpressionAMPLParser with IndexingAMPLParser
@@ -43,8 +48,8 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse number set comprehension" in {
-    parse("1 .. 10") should be(SetComprehension(1, 10))
-  }
+  parse("1 .. 10") should be(SetComprehension(1, 10))
+}
 
   it should "parse string set comprehension" in {
     parse( """ "a" .. "f" """) should be(SetComprehension(StringMember("a"), StringMember("f")))
@@ -88,12 +93,16 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
     )
   }
 
+  it should "parse comprehension with references" in {
+    parse("1 .. a") should be (SetComprehension(1, ExpressionMember("a")))
+  }
+
   it should "parse indexing union" in {
-    //    parse(" union {i in A}  1 ..7 by 2")
+//        parse(" union {i in A}  1 ..7 by 2")
   }
 
   it should "parse indexing  inter" in {
-    //    parse(" inter {i in A}  1 ..7 by 2")
+//        parse(" inter {i in A}  1 ..7 by 2")
   }
   ///////////////////////////
   ////// associativity //////

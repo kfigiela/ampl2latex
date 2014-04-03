@@ -13,7 +13,7 @@ trait ReferenceParser extends JavaTokenParsers {
 
   private def simpleReference = nonKeyword ^^ SimpleReference
 
-  private def indexedReference = simpleReference ~ "[" ~ expr <~ "]" ^^ {
+  private def indexedReference = simpleReference ~ "[" ~ rep1sep(expr, ",") <~ "]" ^^ {
     case ref ~ _ ~ expr => IndexedReference(ref, expr)
   }
 

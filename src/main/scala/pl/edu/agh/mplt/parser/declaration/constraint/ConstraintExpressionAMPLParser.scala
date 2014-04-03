@@ -13,25 +13,25 @@ trait ConstraintExpressionAMPLParser extends JavaTokenParsers {
     <=<= | >=>= | <= | == | >=
 
   private def <= = expr ~ "<=" ~ expr ^^ {
-    case vexpr ~ _ ~ cexpr => ConstraintExpression(vexpr, rightExpression = Some(Constraint.<=(cexpr)))
+    case vexpr ~ _ ~ cexpr => ConstraintExpression(expr = vexpr, rightExpression = Some(Constraint.<=(cexpr)))
   }
 
   private def == = expr ~ "=" ~ expr ^^ {
-    case vexpr ~ _ ~ cexpr => ConstraintExpression(vexpr, rightExpression = Some(Constraint.===(cexpr)))
+    case vexpr ~ _ ~ cexpr => ConstraintExpression(expr = vexpr, rightExpression = Some(Constraint.===(cexpr)))
   }
 
   private def >= = expr ~ ">=" ~ expr ^^ {
-    case vexpr ~ _ ~ cexpr => ConstraintExpression(vexpr, rightExpression = Some(Constraint.>=(cexpr)))
+    case vexpr ~ _ ~ cexpr => ConstraintExpression(expr = vexpr, rightExpression = Some(Constraint.>=(cexpr)))
   }
 
   private def <=<= = expr ~ "<=" ~ expr ~ "<=" ~ expr ^^ {
     case cexpr1 ~ _ ~ vexpr ~ _ ~ cexpr2 =>
-      ConstraintExpression(vexpr, Some(Constraint.<=(cexpr1)), Some(Constraint.<=(cexpr2)))
+      ConstraintExpression(Some(Constraint.<=(cexpr1)), vexpr, Some(Constraint.<=(cexpr2)))
   }
 
   private def >=>= = expr ~ ">=" ~ expr ~ ">=" ~ expr ^^ {
     case cexpr1 ~ _ ~ vexpr ~ _ ~ cexpr2 =>
-      ConstraintExpression(vexpr, Some(Constraint.>=(cexpr1)), Some(Constraint.>=(cexpr2)))
+      ConstraintExpression(Some(Constraint.>=(cexpr1)), vexpr, Some(Constraint.>=(cexpr2)))
   }
 
 }

@@ -12,7 +12,7 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
 
   def expr: Parser[Expression] = arithmeticExpression | freeTokens
 
-  def number: Parser[Number] = floatingPointNumber ^^ Number
+  def number: Parser[Number] = """-?(\d+(\.\d+)?|\d*\.\d+)([eE][+-]?\d+)?[fFdD]?""".r ^^ Number
 
   def keyword: Parser[String]
 

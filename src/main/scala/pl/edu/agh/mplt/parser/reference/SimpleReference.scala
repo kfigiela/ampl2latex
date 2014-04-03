@@ -9,4 +9,4 @@ trait Reference extends ASTNode with Bool with Expression with SetLiteral
 
 case class SimpleReference(id: String) extends Reference
 
-case class IndexedReference(ref: Reference, index: Expression) extends Reference
+case class IndexedReference(ref: Reference, index: List[Expression]) extends Reference

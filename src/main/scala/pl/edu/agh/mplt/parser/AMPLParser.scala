@@ -1,6 +1,6 @@
 package pl.edu.agh.mplt.parser
 
-import scala.util.parsing.combinator.JavaTokenParsers
+import scala.util.parsing.combinator.token.Tokens
 import pl.edu.agh.mplt.parser.declaration.Declaration
 import pl.edu.agh.mplt.parser.declaration.set.{SetAttributesAMPLParser, SetDeclarationAMPLParser, SetDeclaration}
 import pl.edu.agh.mplt.parser.declaration.param.{ParameterAttributesAMPLParser, ParameterDeclarationAMPLParser, ParameterDeclaration}
@@ -12,6 +12,7 @@ import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.set.{IndexingAMPLParser, SetExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
+import scala.util.parsing.combinator.JavaTokenParsers
 
 trait AMPLParser extends JavaTokenParsers {
   def setDeclaration: Parser[SetDeclaration]
@@ -24,10 +25,12 @@ trait AMPLParser extends JavaTokenParsers {
 
   def objectiveDeclaration: Parser[ObjectiveDeclaration]
 
-  def file = rep1(declaration)
+  def declarations = rep1(declaration)
 
   private def declaration: Parser[Declaration] =
     setDeclaration | parameterDeclaration | variableDeclaration | constraintDeclaration | objectiveDeclaration
+
+  private def declarationWithComments = declaration
 }
 
 object AMPLParser {

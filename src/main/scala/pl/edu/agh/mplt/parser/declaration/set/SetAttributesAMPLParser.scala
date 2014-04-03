@@ -9,8 +9,8 @@ trait SetAttributesAMPLParser extends JavaTokenParsers {
 
   def setAttribute: Parser[SetAttribute] =
     "dimen" ~> wholeNumber ^^ Attribute.Dimension |
-      "within" ~> sexpr ^^ Attribute.Within |
-      "=" ~> sexpr ^^ Attribute.InitialSet |
-      "default" ~> sexpr ^^ Attribute.DefaultSet
+    "within" ~> sexpr ^^ Attribute.Within |
+    "=" ~> sexpr ^^ Attribute.InitialSet |
+    "default" ~> sexpr ^^ Attribute.DefaultSet
 
 }

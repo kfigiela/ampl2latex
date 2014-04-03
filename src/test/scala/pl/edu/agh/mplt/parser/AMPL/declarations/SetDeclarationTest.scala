@@ -1,13 +1,12 @@
 package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.declaration.set.{SetAttributesAMPLParser, SetDeclarationAMPLParser, SetDeclaration}
+import pl.edu.agh.mplt.parser.declaration.set.SetDeclaration
 import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.formula.expression.{Bin, ExpressionAMPLParser, Number}
-import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
-import pl.edu.agh.mplt.parser.{AMPLParser, KeywordAMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, Member}
-import pl.edu.agh.mplt.parser.reference.{SimpleReference, ReferenceParser}
+import pl.edu.agh.mplt.parser.formula.expression.{Bin, Number}
+import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
+import pl.edu.agh.mplt.parser.member.Member
+import pl.edu.agh.mplt.parser.reference.SimpleReference
 import pl.edu.agh.mplt.parser.formula.set.SetComprehension
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 import scala.Some
@@ -49,7 +48,7 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse set declaration with indexing" in {
-    parse( """set apples { 1 + 3 .. 10 by 4 , {1, 2, 3}, {"a", "b", "c"} };""") should be(
+    parse("""set apples { 1 + 3 .. 10 by 4 , {1, 2, 3}, {"a", "b", "c"} };""") should be(
       SetDeclaration("apples", indexing = Some(Indexing(List(
         SetComprehension(Bin.+(1, 3), 10, 4),
         ExplicitSet(Set[Member](Number(1), Number(2), Number(3))),
@@ -65,7 +64,7 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse set declaration with within attribute" in {
-    parse( """set apples within {"a", "b", "c"} ;""") should be(SetDeclaration("apples",
+    parse("""set apples within {"a", "b", "c"} ;""") should be(SetDeclaration("apples",
       attributes = List(Attribute.Within(
         ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember("c")))))))
   }

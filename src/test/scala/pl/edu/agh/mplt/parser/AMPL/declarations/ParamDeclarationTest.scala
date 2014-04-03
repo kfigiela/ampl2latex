@@ -5,9 +5,8 @@ import pl.edu.agh.mplt.parser.{AMPLParser, KeywordAMPLParser, IntercodeImplicits
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
-import pl.edu.agh.mplt.parser.member.{Member, MemberAMPLParser}
-import pl.edu.agh.mplt.parser.reference.ReferenceParser
-import pl.edu.agh.mplt.parser.declaration.param.{ParameterAttributesAMPLParser, ParameterDeclarationAMPLParser}
+import pl.edu.agh.mplt.parser.member.Member
+import pl.edu.agh.mplt.parser.declaration.param.ParameterAttributesAMPLParser
 import pl.edu.agh.mplt.parser.declaration.Attribute
 import pl.edu.agh.mplt.parser.declaration.param.ParameterDeclaration
 import pl.edu.agh.mplt.parser.reference.SimpleReference
@@ -67,7 +66,8 @@ class ParamDeclarationTest extends FlatSpec with Matchers with IntercodeImplicit
 
   it should "parse multiple attributes" in {
     parse("param x integer, in {1, 2, 3};") should be(
-      ParameterDeclaration("x", attributes = List(Attribute.Integer, Attribute.Inclusion(ExplicitSet(Set[Member](1, 2, 3))))))
+      ParameterDeclaration("x", attributes = List(Attribute.Integer, Attribute.Inclusion(ExplicitSet(Set[Member](1, 2,
+        3))))))
   }
 
   it should "parse parameter declaration with '<' attribute" in {

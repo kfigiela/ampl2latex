@@ -21,18 +21,19 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
 
   private def production1 = chainl1(production2, "*" ^^^ Bin.* | "/" ^^^ Bin./ | "div" ^^^ Bin.div | "mod" ^^^ Bin.mod)
 
-  private def production2 = "+" ~> production3 | rep1("-" ~ "-") ~> production3 | "-" ~> production3 ^^ Unary.- | production3
+  private def production2 = "+" ~> production3 | rep1("-" ~ "-") ~> production3 | "-" ~> production3 ^^ Unary.- |
+                            production3
 
   private def production3 = rep1sep(production4, "^" | "**") ^^ (_.reduceRight(Bin.^))
 
   private def production4 = freeTokens | "(" ~> expr <~ ")"
 
   private def reduction: Parser[Expression] = keyword ~ indexing ~ production1 ^^ {
-    case "sum" ~ indexing ~ expr => Reduction.Sum(indexing, expr)
+    case "max" ~ indexing ~ expr  => Reduction.Max(indexing, expr)
+    case "min" ~ indexing ~ expr  => Reduction.Min(indexing, expr)
+    case "sum" ~ indexing ~ expr  => Reduction.Sum(indexing, expr)
     case "prod" ~ indexing ~ expr => Reduction.Prod(indexing, expr)
-    case "max" ~ indexing ~ expr => Reduction.Max(indexing, expr)
-    case "min" ~ indexing ~ expr => Reduction.Min(indexing, expr)
-  };
+  }
 
   private def freeTokens: Parser[Expression] =
     List(reduction, number, reference) reduce (_ | _)

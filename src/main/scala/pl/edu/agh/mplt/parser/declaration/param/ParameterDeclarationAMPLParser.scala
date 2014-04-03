@@ -13,7 +13,8 @@ trait ParameterDeclarationAMPLParser extends JavaTokenParsers {
 
   def parameterDeclaration: Parser[ParameterDeclaration] =
     "param" ~> nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ repsep(parameterAttribute, "," ?) <~ ";" ^^ {
-      case name ~ optAlias ~ optIndexing ~ optAttributes => ParameterDeclaration(name, optAlias, optIndexing, optAttributes)
+      case name ~ optAlias ~ optIndexing ~ optAttributes => ParameterDeclaration(name, optAlias, optIndexing,
+        optAttributes)
     }
 
 }

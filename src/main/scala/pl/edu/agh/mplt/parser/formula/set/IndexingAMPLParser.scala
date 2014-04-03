@@ -10,13 +10,15 @@ trait IndexingAMPLParser extends JavaTokenParsers {
 
   def nonKeyword: Parser[String]
 
-  def indexing: Parser[Indexing] = "{" ~> sexprList <~ "}" ^^ { case sexprs => Indexing(sexprs)} | logicalIndexing
+  def indexing: Parser[Indexing] = "{" ~> sexprList <~ "}" ^^ { case sexprs => Indexing(sexprs) } | logicalIndexing
 
-  private def logicalIndexing = "{" ~> sexprList ~ ":" ~ lexpr <~ "}" ^^ { case sexprs ~ _ ~ lexpr => Indexing(sexprs, Some(lexpr))}
+  private def logicalIndexing = "{" ~> sexprList ~ ":" ~ lexpr <~ "}" ^^ { case sexprs ~ _ ~ lexpr =>
+    Indexing(sexprs, Some(lexpr))
+  }
 
   private def sexprList: Parser[List[SetExpression]] = rep1sep(indexedSet | sexpr, ",")
 
   private def indexedSet: Parser[IndexedSet] =
-    nonKeyword ~ "in" ~ sexpr ^^ { case i ~ _ ~ s => IndexedSet(List(i), s)} |
-      "(" ~> rep1sep(nonKeyword, ",") ~ ")" ~ "in" ~ sexpr ^^ { case is ~ _ ~ _ ~ s => IndexedSet(is, s)}
+    nonKeyword ~ "in" ~ sexpr ^^ { case i ~ _ ~ s => IndexedSet(List(i), s) } |
+    "(" ~> rep1sep(nonKeyword, ",") ~ ")" ~ "in" ~ sexpr ^^ { case is ~ _ ~ _ ~ s => IndexedSet(is, s) }
 }

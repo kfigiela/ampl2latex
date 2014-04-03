@@ -9,7 +9,7 @@ import pl.edu.agh.mplt.parser.formula.expression.{Bin, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
 
 class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser =new ReferenceParser with KeywordAMPLParser with ExpressionAMPLParser with IndexingAMPLParser
+  val parser = new ReferenceParser with KeywordAMPLParser with ExpressionAMPLParser with IndexingAMPLParser
     with LogicalExpressionAMPLParser with SetExpressionAMPLParser with MemberAMPLParser
 
   def expr = parser.lexpr

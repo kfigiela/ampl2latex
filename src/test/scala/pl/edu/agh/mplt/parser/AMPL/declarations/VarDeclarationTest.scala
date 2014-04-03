@@ -5,9 +5,9 @@ import pl.edu.agh.mplt.parser.{AMPLParser, KeywordAMPLParser, IntercodeImplicits
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
-import pl.edu.agh.mplt.parser.member.{Member, MemberAMPLParser}
+import pl.edu.agh.mplt.parser.member.Member
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
-import pl.edu.agh.mplt.parser.declaration.variable.{VariableDeclarationAMPLParser, VariableAttributesAMPLParser}
+import pl.edu.agh.mplt.parser.declaration.variable.VariableDeclarationAMPLParser
 import pl.edu.agh.mplt.parser.declaration.Attribute
 import pl.edu.agh.mplt.parser.reference.SimpleReference
 import pl.edu.agh.mplt.parser.declaration.variable.VariableDeclaration
@@ -82,7 +82,8 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
 
   it should "parse multiple attributes" in {
     parse("var x integer, in {1, 2, 3};") should be(
-      VariableDeclaration("x", attributes = List(Attribute.Integer, Attribute.Inclusion(ExplicitSet(Set[Member](1, 2, 3))))))
+      VariableDeclaration("x", attributes = List(Attribute.Integer, Attribute.Inclusion(ExplicitSet(Set[Member](1, 2,
+        3))))))
   }
 
 }

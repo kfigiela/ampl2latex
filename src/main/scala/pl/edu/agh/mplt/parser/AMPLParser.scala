@@ -1,11 +1,13 @@
 package pl.edu.agh.mplt.parser
 
-import scala.util.parsing.combinator.token.Tokens
 import pl.edu.agh.mplt.parser.declaration.Declaration
 import pl.edu.agh.mplt.parser.declaration.set.{SetAttributesAMPLParser, SetDeclarationAMPLParser, SetDeclaration}
-import pl.edu.agh.mplt.parser.declaration.param.{ParameterAttributesAMPLParser, ParameterDeclarationAMPLParser, ParameterDeclaration}
-import pl.edu.agh.mplt.parser.declaration.variable.{VariableAttributesAMPLParser, VariableDeclarationAMPLParser, VariableDeclaration}
-import pl.edu.agh.mplt.parser.declaration.constraint.{ConstraintExpressionAMPLParser, ConstraintDeclarationAMPLParser, ConstraintDeclaration}
+import pl.edu.agh.mplt.parser.declaration.param.{ParameterAttributesAMPLParser, ParameterDeclarationAMPLParser,
+ParameterDeclaration}
+import pl.edu.agh.mplt.parser.declaration.variable.{VariableAttributesAMPLParser, VariableDeclarationAMPLParser,
+VariableDeclaration}
+import pl.edu.agh.mplt.parser.declaration.constraint.{ConstraintExpressionAMPLParser,
+ConstraintDeclarationAMPLParser, ConstraintDeclaration}
 import pl.edu.agh.mplt.parser.declaration.objective.{ObjectiveDeclarationAMPLParser, ObjectiveDeclaration}
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser

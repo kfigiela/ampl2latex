@@ -3,16 +3,10 @@ package pl.edu.agh.mplt.parser.AMPL.statements.sexpr
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.member._
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SimpleReference}
-import pl.edu.agh.mplt.parser.formula.set.SetComprehension
-import pl.edu.agh.mplt.parser.formula.expression.Number
-import pl.edu.agh.mplt.parser.reference.SimpleReference
-import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
+import pl.edu.agh.mplt.parser.reference.ReferenceParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.set
 import pl.edu.agh.mplt.parser.formula.set.SetComprehension
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.reference.SimpleReference
@@ -40,7 +34,8 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse explicit string literal set definition" in {
-    parse( """{"a", "b", "c"}""") should be(ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember("c"))))
+    parse("""{"a", "b", "c"}""") should be(ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember(
+      "c"))))
   }
 
   it should "parse empty set literal" in {
@@ -48,11 +43,11 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse number set comprehension" in {
-  parse("1 .. 10") should be(SetComprehension(1, 10))
-}
+    parse("1 .. 10") should be(SetComprehension(1, 10))
+  }
 
   it should "parse string set comprehension" in {
-    parse( """ "a" .. "f" """) should be(SetComprehension(StringMember("a"), StringMember("f")))
+    parse(""" "a" .. "f" """) should be(SetComprehension(StringMember("a"), StringMember("f")))
   }
 
   it should "parse number set comprehension with step" in {
@@ -60,7 +55,7 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse string set comprehension with step" in {
-    parse( """ "a" .. "d" by 5""") should be(SetComprehension(StringMember("a"), StringMember("d"), 5))
+    parse(""" "a" .. "d" by 5""") should be(SetComprehension(StringMember("a"), StringMember("d"), 5))
   }
 
   it should "parse binary union" in {
@@ -94,15 +89,15 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse comprehension with references" in {
-    parse("1 .. a") should be (SetComprehension(1, ExpressionMember("a")))
+    parse("1 .. a") should be(SetComprehension(1, ExpressionMember("a")))
   }
 
   it should "parse indexing union" in {
-//        parse(" union {i in A}  1 ..7 by 2")
+    //        parse(" union {i in A}  1 ..7 by 2")
   }
 
   it should "parse indexing  inter" in {
-//        parse(" inter {i in A}  1 ..7 by 2")
+    //        parse(" inter {i in A}  1 ..7 by 2")
   }
   ///////////////////////////
   ////// associativity //////
@@ -110,13 +105,15 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
 
   it should "maintain left associativity of union" in {
     parse(" {1, 2} union  {1, 2} union {1, 2}") should be(
-      Sets.Union(Sets.Union(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))), ExplicitSet(Set[Member](1, 2)))
+      Sets.Union(Sets.Union(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))), ExplicitSet(Set[Member](1,
+        2)))
     )
   }
 
   it should "maintain left associativity of diff" in {
     parse(" {1, 2} diff  {1, 2} diff {1, 2}") should be(
-      Sets.Difference(Sets.Difference(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))), ExplicitSet(Set[Member](1, 2)))
+      Sets.Difference(Sets.Difference(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))), ExplicitSet(
+        Set[Member](1, 2)))
     )
   }
 
@@ -151,25 +148,29 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
 
   "intersection" should "precede union" in {
     parse(" {1, 2} union  {1, 2} inter {1, 2}") should be(
-      Sets.Union(ExplicitSet(Set[Member](1, 2)), Sets.Intersection(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))))
+      Sets.Union(ExplicitSet(Set[Member](1, 2)), Sets.Intersection(ExplicitSet(Set[Member](1, 2)), ExplicitSet(
+        Set[Member](1, 2))))
     )
   }
 
   it should "precede difference" in {
     parse(" {1, 2} diff  {1, 2} inter {1, 2}") should be(
-      Sets.Difference(ExplicitSet(Set[Member](1, 2)), Sets.Intersection(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))))
+      Sets.Difference(ExplicitSet(Set[Member](1, 2)), Sets.Intersection(ExplicitSet(Set[Member](1, 2)), ExplicitSet(
+        Set[Member](1, 2))))
     )
   }
 
   it should "precede symetric difference" in {
     parse(" {1, 2} symdiff  {1, 2} inter {1, 2}") should be(
-      Sets.SymetricDifference(ExplicitSet(Set[Member](1, 2)), Sets.Intersection(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))))
+      Sets.SymetricDifference(ExplicitSet(Set[Member](1, 2)), Sets.Intersection(ExplicitSet(Set[Member](1, 2)),
+        ExplicitSet(Set[Member](1, 2))))
     )
   }
 
   "Cartesian product" should "precede intersection" in {
     parse(" {1, 2} inter  {1, 2} cross {1, 2}") should be(
-      Sets.Intersection(ExplicitSet(Set[Member](1, 2)), Sets.Cartesian(ExplicitSet(Set[Member](1, 2)), ExplicitSet(Set[Member](1, 2))))
+      Sets.Intersection(ExplicitSet(Set[Member](1, 2)), Sets.Cartesian(ExplicitSet(Set[Member](1, 2)), ExplicitSet(
+        Set[Member](1, 2))))
     )
   }
 

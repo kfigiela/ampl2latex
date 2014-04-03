@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
+import pl.edu.agh.mplt.parser.{AMPLParser, KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
@@ -16,9 +16,7 @@ import scala.Some
 import pl.edu.agh.mplt.parser.formula.set.IndexedSet
 
 class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new VariableDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser
-    with ExpressionAMPLParser with LogicalExpressionAMPLParser
-    with VariableAttributesAMPLParser with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
+  val parser = AMPLParser()
 
   def expr = parser.variableDeclaration
 

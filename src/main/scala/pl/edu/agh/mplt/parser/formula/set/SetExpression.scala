@@ -4,6 +4,8 @@ import pl.edu.agh.mplt.parser.formula.Formula
 
 trait SetExpression extends Formula
 
+case class ParenthesizedSetExpression(expr: SetExpression) extends SetExpression
+
 object Sets {
 
   case class Union(s1: SetExpression, s2: SetExpression) extends SetExpression

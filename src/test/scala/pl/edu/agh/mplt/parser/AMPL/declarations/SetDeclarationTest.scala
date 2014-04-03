@@ -5,7 +5,7 @@ import pl.edu.agh.mplt.parser.declaration.set.{SetAttributesAMPLParser, SetDecla
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.{Bin, ExpressionAMPLParser, Number}
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
-import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
+import pl.edu.agh.mplt.parser.{AMPLParser, KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.member.{MemberAMPLParser, Member}
 import pl.edu.agh.mplt.parser.reference.{SimpleReference, ReferenceParser}
 import pl.edu.agh.mplt.parser.formula.set.SetComprehension
@@ -18,9 +18,7 @@ import pl.edu.agh.mplt.parser.declaration.Attribute
 
 class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
 
-  val parser = new SetDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser
-    with ExpressionAMPLParser with LogicalExpressionAMPLParser
-    with SetAttributesAMPLParser with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
+  val parser = AMPLParser()
 
   def expr = parser.setDeclaration
 

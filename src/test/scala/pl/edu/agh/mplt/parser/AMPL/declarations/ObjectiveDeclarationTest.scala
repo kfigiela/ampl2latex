@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
+import pl.edu.agh.mplt.parser.{AMPLParser, KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.formula.set.{IndexedSet, Indexing, SetExpressionAMPLParser, IndexingAMPLParser}
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
@@ -11,9 +11,7 @@ import pl.edu.agh.mplt.parser.declaration.objective.{Maximize, Minimize, Objecti
 
 
 class ObjectiveDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
-  val parser = new ObjectiveDeclarationAMPLParser with IndexingAMPLParser with SetExpressionAMPLParser with
-    ExpressionAMPLParser with LogicalExpressionAMPLParser
-    with MemberAMPLParser with ReferenceParser with KeywordAMPLParser
+  val parser =AMPLParser()
 
   def expr = parser.objectiveDeclaration
 

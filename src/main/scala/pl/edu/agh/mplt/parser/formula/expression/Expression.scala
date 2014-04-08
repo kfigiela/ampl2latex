@@ -10,7 +10,7 @@ case class ParenthesizedExpression(expr: Expression) extends Expression
 
 case class Number(v: String) extends Expression
 
-case class If(lexpr: LogicalExpression, trueBranch: Expression,
+case class ExpressionIf(lexpr: LogicalExpression, trueBranch: Expression,
               falseBranch: Option[Expression] = None) extends Expression
 
 sealed trait ArithmeticOperation extends Expression

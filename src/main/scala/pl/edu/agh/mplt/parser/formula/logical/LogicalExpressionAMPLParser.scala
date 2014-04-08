@@ -3,7 +3,7 @@ package pl.edu.agh.mplt.parser.formula.logical
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.formula.expression.{Expression, Number}
 import pl.edu.agh.mplt.parser.member.Member
-import pl.edu.agh.mplt.parser.formula.set.SetExpression
+import pl.edu.agh.mplt.parser.formula.set.{Indexing, SetExpression}
 import pl.edu.agh.mplt.parser.reference.Reference
 
 trait LogicalExpressionAMPLParser extends JavaTokenParsers {
@@ -17,35 +17,23 @@ trait LogicalExpressionAMPLParser extends JavaTokenParsers {
 
   def lexpr: Parser[LogicalExpression] = or | nonRecursiveLogicalProductionsParser
 
+  def keyword: Parser[String]
+
+  def indexing: Parser[Indexing]
+
   private def or = chainl1(and, ("or" | "||") ^^^ Logical.or)
 
   private def and = chainl1(nonRecursiveLogicalProductionsParser, ("and" | "&&") ^^^ Logical.and)
 
   private def compareExpressions: Parser[LogicalExpression] =
-    expr ~ "<" ~ expr ^^ {
-      case e1 ~ _ ~ e2 => Comparision.<(e1, e2)
-    } |
-    expr ~ "<=" ~ expr ^^ {
-      case e1 ~ _ ~ e2 => Comparision.<=(e1, e2)
-    } |
-    expr ~ ">" ~ expr ^^ {
-      case e1 ~ _ ~ e2 => Comparision.>(e1, e2)
-    } |
-    expr ~ ">=" ~ expr ^^ {
-      case e1 ~ _ ~ e2 => Comparision.>=(e1, e2)
-    } |
-    expr ~ "==" ~ expr ^^ {
-      case e1 ~ _ ~ e2 => Comparision.==(e1, e2)
-    } |
-    expr ~ "=" ~ expr ^^ {
-      case e1 ~ _ ~ e2 => Comparision.==(e1, e2)
-    } |
-    expr ~ "!=" ~ expr ^^ {
-      case e1 ~ _ ~ e2 => Comparision.!=(e1, e2)
-    } |
-    expr ~ "<>" ~ expr ^^ {
-      case e1 ~ _ ~ e2 => Comparision.!=(e1, e2)
-    }
+    expr ~ "<" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.<(e1, e2) } |
+    expr ~ "<=" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.<=(e1, e2) } |
+    expr ~ ">" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.>(e1, e2) } |
+    expr ~ ">=" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.>=(e1, e2) } |
+    expr ~ "==" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.==(e1, e2) } |
+    expr ~ "=" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.==(e1, e2) } |
+    expr ~ "!=" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.!=(e1, e2) } |
+    expr ~ "<>" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.!=(e1, e2) }
 
   private def not: Parser[LogicalExpression] =
     ("!" | "not") ~> nonRecursiveLogicalProductionsParser ^^ { case l: LogicalExpression => Logical.not(l) }
@@ -64,11 +52,16 @@ trait LogicalExpressionAMPLParser extends JavaTokenParsers {
       Exclusion.subset(s1, s2)
     }
 
+  private def reduction = keyword ~ indexing ~ lexpr ^^ {
+    case "forall" ~ ind ~ lexpr => LogicalReduction.Forall(ind, lexpr)
+    case "exists" ~ ind ~ lexpr => LogicalReduction.Exists(ind, lexpr)
+  }
+
   private def parenthesized: Parser[LogicalExpression] =
     "(" ~> lexpr <~ ")" ^^ { case l: LogicalExpression => ParenthesizedLogical(l) }
 
   private def nonRecursiveLogicalProductionsParser: Parser[LogicalExpression] =
-    List(compareExpressions, memberInclusion, memberExclusion, subsetInclusion, subsetExclusion, not,
+    List(reduction, compareExpressions, memberInclusion, memberExclusion, subsetInclusion, subsetExclusion, not,
       reference, expr ^^ (Comparision.!=(_, Number("0"))), parenthesized) reduce (_ | _)
 
 }

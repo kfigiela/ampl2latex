@@ -30,7 +30,7 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
   }
 
   it should "parser reduction" in {
-    parse("sum {i in A} i*i") should be(Reduction.Sum(
+    parse("sum {i in A} i*i") should be(ExpressionReduction.Sum(
       Indexing(List(IndexedSet(List("i"), SimpleReference("A")))),
       Bin.*(SimpleReference("i"), SimpleReference("i"))
     ))
@@ -208,7 +208,7 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
 
   it should "parse complex reduction" in {
     parse("sum {i in A} cost[i]*make[i]") should be(
-      Reduction.Sum(
+      ExpressionReduction.Sum(
         Indexing(List(IndexedSet(List("i"), SimpleReference("A")))),
         Bin.*(
           IndexedReference(SimpleReference("cost"), List(SimpleReference("i"))),

@@ -1,6 +1,6 @@
 package pl.edu.agh.mplt.parser.formula.logical
 
-import pl.edu.agh.mplt.parser.formula.set.SetExpression
+import pl.edu.agh.mplt.parser.formula.set.{Indexing, SetExpression}
 import pl.edu.agh.mplt.parser.member.Member
 import pl.edu.agh.mplt.parser.formula.expression.Expression
 import pl.edu.agh.mplt.parser.formula.Formula
@@ -52,5 +52,10 @@ object Comparision {
 
   case class >=(l: Expression, r: Expression) extends LogicalExpression
 
+}
+
+object LogicalReduction {
+  case class Forall(indexing: Indexing, lexpr: LogicalExpression) extends LogicalExpression
+  case class Exists(indexing: Indexing, lexpr: LogicalExpression) extends LogicalExpression
 }
 

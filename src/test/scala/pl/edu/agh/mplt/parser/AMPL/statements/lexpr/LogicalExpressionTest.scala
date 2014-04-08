@@ -4,9 +4,11 @@ import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.formula.logical._
 import pl.edu.agh.mplt.parser.member.{Member, MemberAMPLParser}
-import pl.edu.agh.mplt.parser.formula.set.{IndexingAMPLParser, SetExpressionAMPLParser, SetComprehension, ExplicitSet}
+import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.{Bin, ExpressionAMPLParser}
-import pl.edu.agh.mplt.parser.reference.ReferenceParser
+import pl.edu.agh.mplt.parser.reference.{SimpleReference, ReferenceParser}
+import pl.edu.agh.mplt.parser.formula.set.SetComprehension
+import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
 
 class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new ReferenceParser with KeywordAMPLParser with ExpressionAMPLParser with IndexingAMPLParser
@@ -171,7 +173,23 @@ class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplici
       ))
   }
 
+  it should "parse forall reduction" in {
+    parse("forall {A} 1 == 1") should be(
+      LogicalReduction.Forall(
+        Indexing(List(SimpleReference("A"))),
+        Comparision.==(1, 1)))
+  }
+
+  it should "parse exists reduction" in {
+    parse("exists {A} 1 == 1") should be(
+      LogicalReduction.Exists(
+        Indexing(List(SimpleReference("A"))),
+        Comparision.==(1, 1)))
+  }
+
   ///////////////////
+
+
 
   "conjunction" should "precede alternative" in {
     parse("x and y or z") should be(Logical.or(Logical.and("x", "y"), "z"))

@@ -36,10 +36,10 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
   private def production4 = freeTokens | "(" ~> expr <~ ")"
 
   private def reduction: Parser[Expression] = keyword ~ indexing ~ production1 ^^ {
-    case "max" ~ indexing ~ expr  => Reduction.Max(indexing, expr)
-    case "min" ~ indexing ~ expr  => Reduction.Min(indexing, expr)
-    case "sum" ~ indexing ~ expr  => Reduction.Sum(indexing, expr)
-    case "prod" ~ indexing ~ expr => Reduction.Prod(indexing, expr)
+    case "max" ~ indexing ~ expr  => ExpressionReduction.Max(indexing, expr)
+    case "min" ~ indexing ~ expr  => ExpressionReduction.Min(indexing, expr)
+    case "sum" ~ indexing ~ expr  => ExpressionReduction.Sum(indexing, expr)
+    case "prod" ~ indexing ~ expr => ExpressionReduction.Prod(indexing, expr)
   }
 
   private def freeTokens: Parser[Expression] =

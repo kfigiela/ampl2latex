@@ -41,7 +41,7 @@ object Unary {
 
 }
 
-object Reduction {
+object ExpressionReduction {
 
   case class Sum(indexing: Indexing, expr: Expression) extends ArithmeticOperation
 

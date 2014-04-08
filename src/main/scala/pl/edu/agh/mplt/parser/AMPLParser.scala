@@ -15,6 +15,7 @@ import pl.edu.agh.mplt.parser.formula.set.{IndexingAMPLParser, SetExpressionAMPL
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
 import scala.util.parsing.combinator.JavaTokenParsers
+import pl.edu.agh.mplt.parser.declaration.assertion.{Assertion, CheckAMPLParser}
 
 trait AMPLParser extends JavaTokenParsers {
   def setDeclaration: Parser[SetDeclaration]
@@ -27,10 +28,12 @@ trait AMPLParser extends JavaTokenParsers {
 
   def objectiveDeclaration: Parser[ObjectiveDeclaration]
 
+  def check: Parser[Assertion]
+
   def declarations = rep1(declaration)
 
   private def declaration: Parser[Declaration] =
-    setDeclaration | parameterDeclaration | variableDeclaration | constraintDeclaration | objectiveDeclaration
+    setDeclaration | parameterDeclaration | variableDeclaration | constraintDeclaration | objectiveDeclaration | check
 
   private def declarationWithComments = declaration
 }
@@ -48,4 +51,5 @@ object AMPLParser {
     with MemberAMPLParser
     with ReferenceParser
     with KeywordAMPLParser
+    with CheckAMPLParser
 }

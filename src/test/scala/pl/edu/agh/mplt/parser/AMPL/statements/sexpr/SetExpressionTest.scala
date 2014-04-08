@@ -6,7 +6,7 @@ import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
 import pl.edu.agh.mplt.parser.member._
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
-import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
+import pl.edu.agh.mplt.parser.formula.logical.{Comparision, LogicalExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.formula.set.SetComprehension
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.reference.SimpleReference
@@ -172,6 +172,21 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
       Sets.Intersection(ExplicitSet(Set[Member](1, 2)), Sets.Cartesian(ExplicitSet(Set[Member](1, 2)), ExplicitSet(
         Set[Member](1, 2))))
     )
+  }
+
+  it should "parse conditional expression with else" in {
+    parse("if 1 == 1 then {1} else {2}") should be(SetExpressionIf(Comparision.==(1, 1),
+      ExplicitSet(Set[Member](1)),
+      ExplicitSet(Set[Member](2))))
+  }
+
+  it should "parse chained conditional expressions" in {
+    parse("if 1 == 1 then if 1 == 1 then {1} else {2} else {3}") should be(
+      SetExpressionIf(Comparision.==(Number(1), Number(1)),
+        SetExpressionIf(Comparision.==(Number(1), Number(1)),
+          ExplicitSet(Set[Member](1)),
+          ExplicitSet(Set[Member](2))),
+        ExplicitSet(Set[Member](3))))
   }
 
 

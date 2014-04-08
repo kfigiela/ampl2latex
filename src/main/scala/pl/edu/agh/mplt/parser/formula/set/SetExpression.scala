@@ -1,10 +1,14 @@
 package pl.edu.agh.mplt.parser.formula.set
 
 import pl.edu.agh.mplt.parser.formula.Formula
+import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
 
 trait SetExpression extends Formula
 
 case class ParenthesizedSetExpression(expr: SetExpression) extends SetExpression
+
+case class SetExpressionIf(lexpr: LogicalExpression, trueBranch: SetExpression,
+                           falseBranch: SetExpression) extends SetExpression
 
 object Sets {
 

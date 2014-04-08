@@ -4,6 +4,7 @@ import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.member.Member
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.reference.Reference
+import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
 
 trait SetExpressionAMPLParser extends JavaTokenParsers {
   def member: Parser[Member]
@@ -13,6 +14,12 @@ trait SetExpressionAMPLParser extends JavaTokenParsers {
   def reference: Parser[Reference]
 
   def sexpr: Parser[SetExpression] = setOperation | freeTokens
+
+  def lexpr: Parser[LogicalExpression]
+
+  private def ifSetExpr: Parser[SetExpression] = "if" ~> lexpr ~ "then" ~ sexpr ~ ("else" ~> sexpr) ^^ {
+    case lexpr ~ _ ~ t ~ f => SetExpressionIf(lexpr, t, f)
+  }
 
   private def setOperation = chainl1(intersection, "union" ^^^ Sets.Union | "diff" ^^^ Sets.Difference |
                                                    "symdiff" ^^^ Sets.SymetricDifference)
@@ -34,7 +41,7 @@ trait SetExpressionAMPLParser extends JavaTokenParsers {
 
   private def parenthesized = "(" ~> sexpr <~ ")" ^^ ParenthesizedSetExpression
 
-  private[this] def freeTokens: Parser[SetExpression] = Seq(reference, explicitSet, comprehensionSet, parenthesized)
+  private[this] def freeTokens: Parser[SetExpression] = Seq(ifSetExpr, reference, explicitSet, comprehensionSet, parenthesized)
                                                         .reduce(_ | _)
 
 }

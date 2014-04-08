@@ -2,12 +2,16 @@ package pl.edu.agh.mplt.parser.formula.expression
 
 import pl.edu.agh.mplt.parser.formula.Formula
 import pl.edu.agh.mplt.parser.formula.set.Indexing
+import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
 
 trait Expression extends Formula
 
 case class ParenthesizedExpression(expr: Expression) extends Expression
 
 case class Number(v: String) extends Expression
+
+case class If(lexpr: LogicalExpression, trueBranch: Expression,
+              falseBranch: Option[Expression] = None) extends Expression
 
 sealed trait ArithmeticOperation extends Expression
 

@@ -3,6 +3,7 @@ package pl.edu.agh.mplt.parser.formula.expression
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.reference.Reference
 import pl.edu.agh.mplt.parser.formula.set.Indexing
+import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
 
 trait ExpressionAMPLParser extends JavaTokenParsers {
 
@@ -10,11 +11,17 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
 
   def indexing: Parser[Indexing]
 
-  def expr: Parser[Expression] = arithmeticExpression | freeTokens
+  def expr: Parser[Expression] = arithmeticExpression |  freeTokens
 
   def number: Parser[Number] = """-?(\d+(\.\d+)?|\d*\.\d+)([eE][+-]?\d+)?[fFdD]?""".r ^^ Number
 
   def keyword: Parser[String]
+
+  def lexpr: Parser[LogicalExpression]
+
+  private def ifExpr: Parser[Expression] = "if" ~> lexpr ~ "then" ~ expr ~ (("else" ~> expr) ?) ^^ {
+    case lexpr ~ _ ~ t ~ f => If(lexpr, t, f)
+  }
 
   private def arithmeticExpression: Parser[Expression] =
     chainl1(production1, "+" ^^^ Bin.+ | "-" ^^^ Bin.- | "less" ^^^ Bin.less)
@@ -36,7 +43,7 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
   }
 
   private def freeTokens: Parser[Expression] =
-    List(reduction, number, reference) reduce (_ | _)
+    List(ifExpr, reduction, number, reference) reduce (_ | _)
 
 
 }

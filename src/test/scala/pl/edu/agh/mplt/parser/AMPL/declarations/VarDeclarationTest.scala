@@ -1,13 +1,9 @@
 package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.{AMPLParser, KeywordAMPLParser, IntercodeImplicits}
+import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.member.Member
-import pl.edu.agh.mplt.parser.reference.ReferenceParser
-import pl.edu.agh.mplt.parser.declaration.variable.VariableDeclarationAMPLParser
 import pl.edu.agh.mplt.parser.declaration.Attribute
 import pl.edu.agh.mplt.parser.reference.SimpleReference
 import pl.edu.agh.mplt.parser.declaration.variable.VariableDeclaration
@@ -20,7 +16,7 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
 
   def expr = parser.variableDeclaration
 
-  def parse(input: String) = parser.parse(expr, input).get
+  def parse(input: String) = parser.parseAll(expr, input).get
 
   "Variable declaration parser" should "parse simple var declaration" in {
     parse("var x;") should be(VariableDeclaration("x"))
@@ -82,8 +78,34 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
 
   it should "parse multiple attributes" in {
     parse("var x integer, in {1, 2, 3};") should be(
-      VariableDeclaration("x", attributes = List(Attribute.Integer, Attribute.Inclusion(ExplicitSet(Set[Member](1, 2,
-        3))))))
+      VariableDeclaration("x",
+        attributes = List(Attribute.Integer, Attribute.Inclusion(ExplicitSet(Set[Member](1, 2, 3))))))
+  }
+
+  it should "parse coeff attribute" in {
+    parse("var x coeff y 1;") should be(VariableDeclaration("x", attributes = List(Attribute.Coefficient(None, "y", 1))))
+  }
+
+  it should "parse coeff attribute with indexing" in {
+    parse("var x coeff {A} y 1;") should be(VariableDeclaration(
+      "x",
+      indexing = Some(Indexing(List(SimpleReference("A")))),
+      attributes = List(Attribute.Coefficient(None, "y", 1))))
+  }
+
+  it should "parse cover attribute" in {
+    parse("var x cover y;") should be(VariableDeclaration("x", attributes = List(Attribute.Cover(None, "y"))))
+  }
+
+  it should "parse objective attribute" in {
+    parse("var x obj y 1;") should be(VariableDeclaration("x", attributes = List(Attribute.Objective(None, "y", 1))))
+  }
+
+  it should "parse objective attribute with indexing" in {
+    parse("var x obj {A} y 1;") should be(VariableDeclaration(
+      "x",
+      indexing = Some(Indexing(List(SimpleReference("A")))),
+      attributes = List(Attribute.Objective(None, "y", 1))))
   }
 
 }

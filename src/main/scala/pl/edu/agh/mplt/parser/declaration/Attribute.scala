@@ -2,7 +2,8 @@ package pl.edu.agh.mplt.parser.declaration
 
 import pl.edu.agh.mplt.parser.ASTNode
 import pl.edu.agh.mplt.parser.formula.expression.Expression
-import pl.edu.agh.mplt.parser.formula.set.SetExpression
+import pl.edu.agh.mplt.parser.formula.set.{Indexing, SetExpression}
+import pl.edu.agh.mplt.parser.reference.Reference
 
 
 trait ParameterAttribute extends ASTNode
@@ -25,6 +26,12 @@ object Attribute {
 
   case class Default(expr: Expression) extends ParameterAttribute with VariableAttribute
 
+  case class Coefficient(indexing: Option[Indexing], constraint: Reference, expr: Expression) extends VariableAttribute
+
+  case class Cover(indexing: Option[Indexing], constraint: Reference) extends VariableAttribute
+
+  case class Objective(indexing: Option[Indexing], objective: Reference, expr: Expression) extends VariableAttribute
+
   case class Initial(expr: Expression) extends VariableAttribute
 
   case class Dimension(n: String) extends SetAttribute
@@ -34,5 +41,6 @@ object Attribute {
   case class InitialSet(set: SetExpression) extends SetAttribute
 
   case class DefaultSet(set: SetExpression) extends SetAttribute
+
 
 }

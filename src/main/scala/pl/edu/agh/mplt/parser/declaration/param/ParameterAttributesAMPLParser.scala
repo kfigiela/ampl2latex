@@ -1,9 +1,10 @@
 package pl.edu.agh.mplt.parser.declaration.param
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.formula.set.SetExpression
+import pl.edu.agh.mplt.parser.formula.set.{Indexing, SetExpression}
 import pl.edu.agh.mplt.parser.formula.expression.Expression
 import pl.edu.agh.mplt.parser.declaration.{ParameterAttribute, Attribute}
+import pl.edu.agh.mplt.parser.reference.Reference
 
 trait ParameterAttributesAMPLParser extends JavaTokenParsers {
   def sexpr: Parser[SetExpression]

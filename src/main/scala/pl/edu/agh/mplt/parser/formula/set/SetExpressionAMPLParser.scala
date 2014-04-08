@@ -5,6 +5,7 @@ import pl.edu.agh.mplt.parser.member.Member
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.reference.Reference
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
+import pl.edu.agh.mplt.parser.formula.set.Sets.SetOf
 
 trait SetExpressionAMPLParser extends JavaTokenParsers {
   def member: Parser[Member]
@@ -16,6 +17,8 @@ trait SetExpressionAMPLParser extends JavaTokenParsers {
   def sexpr: Parser[SetExpression] = setOperation | freeTokens
 
   def lexpr: Parser[LogicalExpression]
+
+  def indexing: Parser[Indexing]
 
   private def ifSetExpr: Parser[SetExpression] = "if" ~> lexpr ~ "then" ~ sexpr ~ ("else" ~> sexpr) ^^ {
     case lexpr ~ _ ~ t ~ f => SetExpressionIf(lexpr, t, f)
@@ -39,9 +42,13 @@ trait SetExpressionAMPLParser extends JavaTokenParsers {
     }
   }
 
+  private def setof: Parser[SetOf] = "setof" ~ indexing ~ member ^^ { case _ ~ indexing ~ member => Sets.SetOf(indexing,
+    member)
+  }
+
   private def parenthesized = "(" ~> sexpr <~ ")" ^^ ParenthesizedSetExpression
 
-  private[this] def freeTokens: Parser[SetExpression] = Seq(ifSetExpr, reference, explicitSet, comprehensionSet, parenthesized)
-                                                        .reduce(_ | _)
+  private[this] def freeTokens: Parser[SetExpression] = Seq(setof, ifSetExpr, reference, explicitSet, comprehensionSet,
+    indexing, parenthesized).reduce(_ | _)
 
 }

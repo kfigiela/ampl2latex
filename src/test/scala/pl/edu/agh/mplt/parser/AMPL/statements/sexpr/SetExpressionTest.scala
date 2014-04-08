@@ -19,7 +19,7 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
 
   def expr = parser.sexpr
 
-  def parse(input: String) = parser.parse(expr, input).get
+  def parse(input: String) = parser.parseAll(expr, input).get
 
   "Set expr parser" should "parse explicit number set definition" in {
     parse("{1, 2, 3}") should be(ExplicitSet(Set[Member](Number(1), Number(2), Number(3))))
@@ -187,6 +187,14 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
           ExplicitSet(Set[Member](1)),
           ExplicitSet(Set[Member](2))),
         ExplicitSet(Set[Member](3))))
+  }
+
+  it should "parse setof expression" in {
+    parse("setof {A} 1") should be(Sets.SetOf(Indexing(List(SimpleReference("A"))), 1))
+  }
+
+  it should "parse indexing" in {
+    parse("{i in A}") should be(Indexing(List(IndexedSet(List("i"), SimpleReference("A")))))
   }
 
 

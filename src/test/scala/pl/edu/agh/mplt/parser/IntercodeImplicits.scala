@@ -10,9 +10,11 @@ trait IntercodeImplicits {
 
   implicit def intToNumber(i: Int): Number = Number(i.toString)
 
+  implicit def doubleToNumber(i: Double): Number = Number(i.toString)
+
   implicit def intToMember(i: Int): Member = ExpressionMember(i)
 
-  implicit def doubleToNumber(i: Double): Number = Number(i.toString)
+  implicit def doubleToMember(i: Double): Member = ExpressionMember(i)
 
   implicit def stringToStringMember(str: String): StringMember = StringMember(str)
 

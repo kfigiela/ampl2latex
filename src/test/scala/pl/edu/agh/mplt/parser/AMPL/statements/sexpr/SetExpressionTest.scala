@@ -58,6 +58,29 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
     parse(""" "a" .. "d" by 5""") should be(SetComprehension(StringMember("a"), StringMember("d"), 5))
   }
 
+
+  it should "parse set comprehension with glued dots" in {
+    parse("1..100") should be(SetComprehension(1, 100))
+  }
+
+  it should "parse  set of doubles comprehension with glued dots" in {
+    parse("1.3..100.3") should be(SetComprehension(1.3, 100.3))
+  }
+
+  it should "parse pars set of doubles comprehension with glued dots with first member in form '.x'" in {
+    parser.parseAll(expr, ".3..100.3") match {
+      case parser.Failure(_, _) => throw new Exception()
+      case _                    =>
+    }
+  }
+
+  it should "not parse set comprehension with first member in form 'x.'" in {
+    parser.parseAll(expr, "1...100.3") match {
+      case parser.Failure(_, _) =>
+      case _                    => throw new Exception()
+    }
+  }
+
   it should "parse binary union" in {
     parse(" {1, 2, 3} union 1 ..7 by 2") should be(
       Sets.Union(ExplicitSet(Set[Member](1, 2, 3)), SetComprehension(1, 7, 2))

@@ -52,7 +52,7 @@ trait LogicalExpressionAMPLParser extends JavaTokenParsers {
       Exclusion.subset(s1, s2)
     }
 
-  private def reduction = keyword ~ indexing ~ lexpr ^^ {
+  private def reduction: Parser[LogicalExpression] = keyword ~ indexing ~ lexpr ^? {
     case "forall" ~ ind ~ lexpr => LogicalReduction.Forall(ind, lexpr)
     case "exists" ~ ind ~ lexpr => LogicalReduction.Exists(ind, lexpr)
   }

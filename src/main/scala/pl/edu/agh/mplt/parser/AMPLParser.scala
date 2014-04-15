@@ -18,6 +18,10 @@ import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.declaration.assertion.{Assertion, CheckAMPLParser}
 
 trait AMPLParser extends JavaTokenParsers {
+  def fileOpening: Parser[String] = "problem" ~> nonKeyword <~ ";"
+
+  def nonKeyword: Parser[String]
+
   def setDeclaration: Parser[SetDeclaration]
 
   def parameterDeclaration: Parser[ParameterDeclaration]
@@ -30,9 +34,9 @@ trait AMPLParser extends JavaTokenParsers {
 
   def check: Parser[Assertion]
 
-  def declarations = rep1(declaration)
+  def declarations = (fileOpening ?) ~> rep1(declaration)
 
-  def piecewiseLinearTerm :Parser[PiecewiseLinearTerm]
+  def piecewiseLinearTerm: Parser[PiecewiseLinearTerm]
 
   def pointsAndSlopes: Parser[(List[(Option[Indexing], Expression)], List[(Option[Indexing], Expression)])]
 
@@ -41,11 +45,10 @@ trait AMPLParser extends JavaTokenParsers {
   private def declaration: Parser[Declaration] =
     setDeclaration | parameterDeclaration | variableDeclaration | constraintDeclaration | objectiveDeclaration | check
 
-  private def declarationWithComments = declaration
 }
 
 object AMPLParser {
-  def apply(): AMPLParser = new AMPLParser
+  def apply(): AMPLParser = new AMPLParser with KeywordAMPLParser with CommentAMPLParser
     with SetDeclarationAMPLParser with SetAttributesAMPLParser
     with ParameterDeclarationAMPLParser with ParameterAttributesAMPLParser
     with VariableDeclarationAMPLParser with VariableAttributesAMPLParser
@@ -57,6 +60,6 @@ object AMPLParser {
     with SetExpressionAMPLParser with IndexingAMPLParser
     with MemberAMPLParser
     with ReferenceParser
-    with KeywordAMPLParser
     with CheckAMPLParser
+
 }

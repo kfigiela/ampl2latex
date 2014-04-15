@@ -17,11 +17,11 @@ trait ObjectiveDeclarationAMPLParser extends JavaTokenParsers {
   def piecewiseLinearTerm: Parser[PiecewiseLinearTerm]
 
   def objectiveDeclaration: Parser[ObjectiveDeclaration] =
-    keyword ~ nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ ":" ~ expr ~ (piecewiseLinearTerm ?) <~ ";" ^^ {
-      case "maximize" ~ name ~ optAlias ~ optIndexing ~ _ ~ expr ~ piecewiseOpt => Maximize(name, optAlias, optIndexing,
-        expr, piecewiseOpt)
-      case "minimize" ~ name ~ optAlias ~ optIndexing ~ _ ~ expr ~ piecewiseOpt => Minimize(name, optAlias, optIndexing,
-        expr, piecewiseOpt)
+    keyword ~ nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ ((":" ~> expr ?) ~ (piecewiseLinearTerm ?)) <~ ";" ^^ {
+      case "maximize" ~ name ~ optAlias ~ optIndexing ~ (exprOpt ~ piecewiseOpt) => Maximize(name, optAlias, optIndexing,
+        exprOpt, piecewiseOpt)
+      case "minimize" ~ name ~ optAlias ~ optIndexing ~ (exprOpt ~ piecewiseOpt) => Minimize(name, optAlias, optIndexing,
+        exprOpt, piecewiseOpt)
     }
 
 

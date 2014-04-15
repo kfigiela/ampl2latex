@@ -9,12 +9,12 @@ trait ObjectiveDeclaration extends Declaration
 case class Minimize(name: String,
                     alias: Option[String] = None,
                     indexing: Option[Indexing] = None,
-                    expression: Expression,
+                    expression: Option[Expression],
                     piecewiseLinearTerms: Option[PiecewiseLinearTerm] = None) extends ObjectiveDeclaration
 
 case class Maximize(name: String,
                     alias: Option[String] = None,
                     indexing: Option[Indexing] = None,
-                    expression: Expression,
+                    expression: Option[Expression] = None,
                     piecewiseLinearTerms: Option[PiecewiseLinearTerm] = None) extends ObjectiveDeclaration
 

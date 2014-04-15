@@ -8,11 +8,12 @@ trait KeywordAMPLParser extends JavaTokenParsers {
     case msg if !keywords.contains(msg) => msg
   }
 
-  def keyword: Parser[String] = keywordParser
-
   private def string = "[a-zA-Z][a-zA-Z_0-9]*".r
 
-  private[this] val keywords: List[String] = List(
+  private[this] val ops = List[String]("<", "<=", "=", "==", "!=", "<>", ">", ">=", "+", "-", "*", "/", "^", "**", "and", "&&",
+    "or", "||", "not", "!", "product", "prod")
+
+  private[this] val keywords: List[String] = ops ++ List("#",
     "all", "binary", "by", "check", "coeff", "complements", "contains", "cover", "Current", "default",
     "dimen", "div", "else", "environ", "exists", "forall", "if", "IN", "in", "Infinity",
     "Initial", "INOUT", "integer", "less", "LOCAL", "logical", "minimize", "maximize", "max",
@@ -20,6 +21,8 @@ trait KeywordAMPLParser extends JavaTokenParsers {
     "solve_result_num", "suffix", "sum", "symbolic", "table", "then", "union", "until",
     "while", "within")
 
-  private[this] val keywordParser: Parser[String] = keywords.map(Parser(_)).reduce(_ | _)
+  def keyword: Parser[String] = keywords.map(Parser(_)).reduce(_ | _)
+
+  def op: Parser[String] = ops.map(Parser(_)).reduce(_ | _)
 
 }

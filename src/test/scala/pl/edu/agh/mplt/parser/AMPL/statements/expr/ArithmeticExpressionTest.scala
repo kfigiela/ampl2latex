@@ -215,4 +215,15 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
           IndexedReference(SimpleReference("make"), List(SimpleReference("i"))))))
   }
 
+  it should "parse more complex sum" in {
+    parser.parse(expr, """
+                         |   sum {p in PROD, t in 1..T} (revenue[p,t]*Sell[p,t] -
+                         |      prodcost[p]*Make[p,t] - invcost[p]*Inv[p,t])
+                         | - sum {t in 1..T}
+                       """.stripMargin) match {
+      case parser.Success(_, _) =>
+      case _ => throw new Exception
+    }
+  }
+
 }

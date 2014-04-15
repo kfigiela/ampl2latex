@@ -11,12 +11,14 @@ class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
 
   val parser = AMPLParser()
 
-  val resources = new File("src" + File.separator + "test" + File.separator + "resources" + File.separator + "AMPL")
+  val resources = new File("src" + / + "test" + / + "resources" + / + "AMPL")
 
   files.map {
     file =>
       it should ("parse file " + file.getName) in {
         val content = getContent(file)
+//        parse(content) should  be (1)
+
         parse(content) match {
           case parser.Success(_, _) =>
           case _                    => throw new Exception("File " + file.getName + " was not parsed")
@@ -38,11 +40,13 @@ class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
 
   private def files: List[File] = resources.listFiles.filter(!_.isDirectory).toList
 
-  private def buggedFiles: List[File] = new File("src" + File.separator + "test"
-                                                 + File.separator + "resources" + File.separator + "AMPL" +
-                                                 File.separator + "bugged").listFiles.filter(!_.isDirectory).toList
+  private def buggedFiles: List[File] = new File("src" + / + "test"
+                                                 + / + "resources" + / + "AMPL" +
+                                                 / + "bugged").listFiles.filter(!_.isDirectory).toList
 
-  private def getContent(file: File): String = Source.fromFile(file).getLines().reduce(_ + _)
+  private def / = File.separator
+
+  private def getContent(file: File): String = Source.fromFile(file).mkString
 
   private def parse(str: String) = parser.parseAll(parser.declarations, str)
 }

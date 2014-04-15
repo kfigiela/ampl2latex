@@ -3,9 +3,18 @@ package pl.edu.agh.mplt.parser.declaration.constraint
 import pl.edu.agh.mplt.parser.formula.expression.Expression
 import pl.edu.agh.mplt.parser.ASTNode
 
-case class ConstraintExpression(leftExpression: Option[ConstraintComparison] = None,
-                                expr: Expression,
-                                rightExpression: Option[ConstraintComparison] = None) extends ASTNode
+trait ConstraintExpression
+
+case class BoundedConstraint(leftExpression: Option[ConstraintComparison] = None,
+                             expr: Expression,
+                             rightExpression: Option[ConstraintComparison] = None) extends ConstraintExpression
+
+trait ComplementaryConstraint extends ConstraintExpression
+
+case class MixedComplementarity(expr: Expression, cexpr: BoundedConstraint) extends ComplementaryConstraint
+
+case class SimpleComplementarity(leftBound: BoundedConstraint,
+                                 rightBound: BoundedConstraint) extends ComplementaryConstraint
 
 trait ConstraintComparison extends ASTNode
 

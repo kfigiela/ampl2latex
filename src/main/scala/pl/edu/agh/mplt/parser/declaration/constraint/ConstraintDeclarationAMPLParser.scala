@@ -16,7 +16,7 @@ trait ConstraintDeclarationAMPLParser extends JavaTokenParsers {
 
   def constraintDeclaration: Parser[ConstraintDeclaration] =
     ("subject to" ?) ~> nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ ":" ~ constraintExpression ~
-    (piecewiseLinearTerm ?) <~ ";" ^^ { case name ~ optAlias ~ optIndexing ~ _ ~ constraint ~ piecewiseOpt =>
+    (piecewiseLinearTerm ?) <~ ";" ^? { case name ~ optAlias ~ optIndexing ~ _ ~ constraint ~ piecewiseOpt =>
       ConstraintDeclaration(name, optAlias, optIndexing, constraint, piecewiseOpt)
     }
 }

@@ -32,6 +32,8 @@ object Attribute {
 
   case class Objective(indexing: Option[Indexing], objective: Reference, expr: Expression) extends VariableAttribute
 
+  case class Defined(expr: Expression) extends VariableAttribute
+
   case class Initial(expr: Expression) extends VariableAttribute
 
   case class Dimension(n: String) extends SetAttribute

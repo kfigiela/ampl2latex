@@ -68,7 +68,7 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse var declaration with '=' attribute" in {
-    parse("var x = 3;") should be(VariableDeclaration("x", attributes = List(Attribute.Relation("==", 3))))
+    parse("var x = 3;") should be(VariableDeclaration("x", attributes = List(Attribute.Defined(3))))
   }
 
   it should "parse var declaration with inclusion attribute" in {
@@ -83,14 +83,14 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse coeff attribute" in {
-    parse("var x coeff y 1;") should be(VariableDeclaration("x", attributes = List(Attribute.Coefficient(None, "y", 1))))
+    parse("var x coeff y 1;") should be(VariableDeclaration("x", attributes = List(Attribute.Coefficient(None, "y",
+      1))))
   }
 
   it should "parse coeff attribute with indexing" in {
     parse("var x coeff {A} y 1;") should be(VariableDeclaration(
       "x",
-      indexing = Some(Indexing(List(SimpleReference("A")))),
-      attributes = List(Attribute.Coefficient(None, "y", 1))))
+      attributes = List(Attribute.Coefficient(Some(Indexing(List(SimpleReference("A")))), "y", 1))))
   }
 
   it should "parse cover attribute" in {
@@ -104,8 +104,8 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   it should "parse objective attribute with indexing" in {
     parse("var x obj {A} y 1;") should be(VariableDeclaration(
       "x",
-      indexing = Some(Indexing(List(SimpleReference("A")))),
-      attributes = List(Attribute.Objective(None, "y", 1))))
+
+      attributes = List(Attribute.Objective(Some(Indexing(List(SimpleReference("A")))), "y", 1))))
   }
 
 }

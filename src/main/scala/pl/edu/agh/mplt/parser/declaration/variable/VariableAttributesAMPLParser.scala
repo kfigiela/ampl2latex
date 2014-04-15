@@ -19,7 +19,8 @@ trait VariableAttributesAMPLParser extends JavaTokenParsers {
     "binary" ^^ { case _ => Attribute.Binary } |
     "integer" ^^ { case _ => Attribute.Integer } |
     "symbolic" ^^ { case _ => Attribute.Symbolic } |
-    (">=" | "<=" | "=" ^^ { case _ => "==" }) ~ expr ^^ { case op ~ expr => Attribute.Relation(op, expr) } |
+    (">=" | "<=") ~ expr ^^ { case op ~ expr => Attribute.Relation(op, expr) } |
+    "=" ~> expr ^^ Attribute.Defined |
     ":=" ~> expr ^^ Attribute.Initial |
     "default" ~> expr ^^ Attribute.Default |
     "in" ~> sexpr ^^ Attribute.Inclusion |
@@ -32,4 +33,5 @@ trait VariableAttributesAMPLParser extends JavaTokenParsers {
     "obj" ~> (indexing ?) ~ reference ~ expr ^^ { case optIndexing ~ constraint ~ expr =>
       Attribute.Objective(optIndexing, constraint, expr)
     }
+
 }

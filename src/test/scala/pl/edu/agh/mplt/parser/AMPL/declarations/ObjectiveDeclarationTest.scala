@@ -17,17 +17,17 @@ class ObjectiveDeclarationTest extends FlatSpec with Matchers with IntercodeImpl
 
   "objective parser" should "parser minimize objective" in {
     parse("minimize x : 1 ;") should be(Minimize("x", expression = 1))
-  }
+}
 
-  it should "parser maximize objective" in {
+  it should "parse maximize objective" in {
     parse("maximize x : 1 ;") should be(Maximize("x", expression = 1))
   }
 
-  it should "parser maximize objective with an alias" in {
+  it should "parse maximize objective with an alias" in {
     parse("maximize x y: 1 ;") should be(Maximize("x", Some("y"), expression = 1))
   }
 
-  it should "parser maximize objective with indexing" in {
+  it should "parse maximize objective with indexing" in {
     parse("maximize x {i in A} : i ;") should be(
       Maximize("x",
         indexing = Some(Indexing(List(IndexedSet(List("i"), SimpleReference("A"))))),

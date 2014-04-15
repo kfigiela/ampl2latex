@@ -3,6 +3,7 @@ package pl.edu.agh.mplt.parser.declaration.objective
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 import pl.edu.agh.mplt.parser.formula.expression.Expression
+import pl.edu.agh.mplt.parser.declaration.PiecewiseLinearTerm
 
 trait ObjectiveDeclarationAMPLParser extends JavaTokenParsers {
   def nonKeyword: Parser[String]
@@ -13,10 +14,14 @@ trait ObjectiveDeclarationAMPLParser extends JavaTokenParsers {
 
   def expr: Parser[Expression]
 
+  def piecewiseLinearTerm: Parser[PiecewiseLinearTerm]
+
   def objectiveDeclaration: Parser[ObjectiveDeclaration] =
-    keyword ~ nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ ":" ~ expr <~ ";" ^^ {
-      case "maximize" ~ name ~ optAlias ~ optIndexing ~ _ ~ expr => Maximize(name, optAlias, optIndexing, expr)
-      case "minimize" ~ name ~ optAlias ~ optIndexing ~ _ ~ expr => Minimize(name, optAlias, optIndexing, expr)
+    keyword ~ nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ ":" ~ expr ~ (piecewiseLinearTerm ?) <~ ";" ^^ {
+      case "maximize" ~ name ~ optAlias ~ optIndexing ~ _ ~ expr ~ piecewiseOpt => Maximize(name, optAlias, optIndexing,
+        expr, piecewiseOpt)
+      case "minimize" ~ name ~ optAlias ~ optIndexing ~ _ ~ expr ~ piecewiseOpt => Minimize(name, optAlias, optIndexing,
+        expr, piecewiseOpt)
     }
 
 

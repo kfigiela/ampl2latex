@@ -88,7 +88,7 @@ class ParamDeclarationTest extends FlatSpec with Matchers with IntercodeImplicit
   }
 
   it should "parse parameter declaration with '=' attribute" in {
-    parse("param x = 3;") should be(ParameterDeclaration("x", attributes = List(Attribute.Relation("==", 3))))
+    parse("param x = 3;") should be(ParameterDeclaration("x", attributes = List(Attribute.FinalValue(3))))
   }
 
   it should "parse parameter declaration with '!=' attribute" in {

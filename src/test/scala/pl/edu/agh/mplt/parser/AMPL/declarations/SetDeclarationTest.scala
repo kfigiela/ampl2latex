@@ -71,8 +71,12 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
 
   it should "parse set declaration with = attribute" in {
     parse("set numbers = {1, 2, 3};") should be(SetDeclaration("numbers",
-      attributes = List(Attribute.InitialSet(
+      attributes = List(Attribute.FinalSet(
         ExplicitSet(Set[Member](1, 2, 3))))))
+  }
+
+  it should "parse set declaration with := attribute the sme as '='" in {
+    parse("set numbers := {1, 2, 3};") should be(parse("set numbers = {1, 2, 3};"))
   }
 
   it should "parse set declaration with default attribute" in {

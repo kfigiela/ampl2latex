@@ -4,10 +4,10 @@ import pl.edu.agh.mplt.parser.declaration.Declaration
 import pl.edu.agh.mplt.parser.AMPLParser
 import scala.io.Source
 
-class ParsedFile(val name: String, parser: AMPLParser) {
-  lazy val ast: List[Declaration] = {
+class ParsedFile(val name: String, val parser: AMPLParser) {
+  val ast = {
     val fileContent = Source.fromFile(name).mkString
-    parser.parse(fileContent).get
+    parser.parse(fileContent)
   }
 }
 

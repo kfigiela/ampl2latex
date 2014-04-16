@@ -1,5 +1,7 @@
 *.class
 *.log
+out/*
+src/main/scala/META-INF/*
 
 # sbt specific
 dist/*

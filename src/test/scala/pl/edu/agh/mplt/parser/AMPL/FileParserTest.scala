@@ -17,11 +17,11 @@ class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
     file =>
       it should ("parse file " + file.getName) in {
         val content = getContent(file)
-        //        parse(content) should  be (1)
+//                parse(content) should  be (1)
 
         parse(content) match {
           case parser.Success(_, _) =>
-          case _                    => throw new Exception("File " + file.getName + " was not parsed")
+          case _ => throw new Exception("File " + file.getName + " was not parsed")
         }
       }
   }

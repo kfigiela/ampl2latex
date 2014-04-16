@@ -1,10 +1,10 @@
 package pl.edu.agh.mplt.parser
 
-import pl.edu.agh.mplt.parser.declaration.Declaration
-import pl.edu.agh.mplt.parser.declaration.set.{SetAttributesAMPLParser, SetDeclarationAMPLParser, SetDeclaration}
-import pl.edu.agh.mplt.parser.declaration.param.{ParameterAttributesAMPLParser, ParameterDeclarationAMPLParser,
+import pl.edu.agh.mplt.parser.declaration.{AttributeAMPLParser, Declaration}
+import pl.edu.agh.mplt.parser.declaration.set.{SetDeclarationAMPLParser, SetDeclaration}
+import pl.edu.agh.mplt.parser.declaration.param.{ParameterDeclarationAMPLParser,
 ParameterDeclaration}
-import pl.edu.agh.mplt.parser.declaration.variable.{VariableAttributesAMPLParser, VariableDeclarationAMPLParser,
+import pl.edu.agh.mplt.parser.declaration.variable.{VariableDeclarationAMPLParser,
 VariableDeclaration}
 import pl.edu.agh.mplt.parser.declaration.constraint.{ConstraintExpressionAMPLParser,
 ConstraintDeclarationAMPLParser, ConstraintDeclaration}
@@ -49,9 +49,10 @@ trait AMPLParser extends JavaTokenParsers {
 
 object AMPLParser {
   def apply(): AMPLParser = new AMPLParser with KeywordAMPLParser with CommentAMPLParser
-    with SetDeclarationAMPLParser with SetAttributesAMPLParser
-    with ParameterDeclarationAMPLParser with ParameterAttributesAMPLParser
-    with VariableDeclarationAMPLParser with VariableAttributesAMPLParser
+    with SetDeclarationAMPLParser
+    with ParameterDeclarationAMPLParser
+    with VariableDeclarationAMPLParser
+    with AttributeAMPLParser
     with ConstraintDeclarationAMPLParser with ConstraintExpressionAMPLParser
     with ObjectiveDeclarationAMPLParser
     with ExpressionAMPLParser

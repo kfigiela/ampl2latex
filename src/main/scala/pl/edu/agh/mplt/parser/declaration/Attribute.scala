@@ -6,43 +6,39 @@ import pl.edu.agh.mplt.parser.formula.set.{Indexing, SetExpression}
 import pl.edu.agh.mplt.parser.reference.Reference
 
 
-trait ParameterAttribute extends ASTNode
-
-trait VariableAttribute extends ASTNode
-
-trait SetAttribute extends ASTNode
+trait Attribute extends ASTNode
 
 object Attribute {
 
-  case object Binary extends ParameterAttribute with VariableAttribute
+  case object Binary extends Attribute
 
-  case object Integer extends ParameterAttribute with VariableAttribute
+  case object Integer extends Attribute
 
-  case object Symbolic extends ParameterAttribute with VariableAttribute
+  case object Symbolic extends Attribute
 
-  case class Relation(op: String, expr: Expression) extends ParameterAttribute with VariableAttribute
+  case class Relation(op: String, expr: Expression) extends Attribute
 
-  case class Inclusion(sexpr: SetExpression) extends ParameterAttribute with VariableAttribute
+  case class Inclusion(sexpr: SetExpression) extends Attribute
 
-  case class Default(expr: Expression) extends ParameterAttribute with VariableAttribute
+  case class Default(expr: Expression) extends Attribute
 
-  case class Coefficient(indexing: Option[Indexing], constraint: Reference, expr: Expression) extends VariableAttribute
+  case class Coefficient(indexing: Option[Indexing], constraint: Reference, expr: Expression) extends Attribute
 
-  case class Cover(indexing: Option[Indexing], constraint: Reference) extends VariableAttribute
+  case class Cover(indexing: Option[Indexing], constraint: Reference) extends Attribute
 
-  case class Objective(indexing: Option[Indexing], objective: Reference, expr: Expression) extends VariableAttribute
+  case class Objective(indexing: Option[Indexing], objective: Reference, expr: Expression) extends Attribute
 
-  case class Defined(expr: Expression) extends VariableAttribute
+  case class Defined(expr: Expression) extends Attribute
 
-  case class Initial(expr: Expression) extends VariableAttribute
+  case class Dimension(n: String) extends Attribute
 
-  case class Dimension(n: String) extends SetAttribute
+  case class Within(set: SetExpression) extends Attribute
 
-  case class Within(set: SetExpression) extends SetAttribute
+  case class FinalValue(expr: Expression) extends Attribute
 
-  case class InitialSet(set: SetExpression) extends SetAttribute
+  case class FinalSet(set: SetExpression) extends Attribute
 
-  case class DefaultSet(set: SetExpression) extends SetAttribute
+  case class DefaultSet(set: SetExpression) extends Attribute
 
 
 }

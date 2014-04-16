@@ -60,7 +60,7 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse var declaration with ':=' attribute" in {
-    parse("var x := 3;") should be(VariableDeclaration("x", attributes = List(Attribute.Initial(3))))
+    parse("var x := 3;") should be(VariableDeclaration("x", attributes = List(Attribute.FinalValue(3))))
   }
 
   it should "parse var declaration with default attribute" in {
@@ -68,7 +68,7 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse var declaration with '=' attribute" in {
-    parse("var x = 3;") should be(VariableDeclaration("x", attributes = List(Attribute.Defined(3))))
+    parse("var x = 3;") should be(VariableDeclaration("x", attributes = List(Attribute.FinalValue(3))))
   }
 
   it should "parse var declaration with inclusion attribute" in {

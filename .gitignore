@@ -2,6 +2,7 @@
 *.log
 out/*
 src/main/scala/META-INF/*
+forFutureTests/*
 
 # sbt specific
 dist/*

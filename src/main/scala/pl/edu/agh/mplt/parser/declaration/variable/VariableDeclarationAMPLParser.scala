@@ -2,7 +2,7 @@ package pl.edu.agh.mplt.parser.declaration.variable
 
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.formula.set.Indexing
-import pl.edu.agh.mplt.parser.declaration.{ VariableAttribute}
+import pl.edu.agh.mplt.parser.declaration.VariableAttribute
 
 
 trait VariableDeclarationAMPLParser extends JavaTokenParsers {
@@ -14,8 +14,8 @@ trait VariableDeclarationAMPLParser extends JavaTokenParsers {
 
 
   def variableDeclaration: Parser[VariableDeclaration] =
-    "var" ~> nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ repsep(variableAttribute, "," ?)  <~ ";" ^^ {
-      case name ~ optAlias ~ optIndexing ~ optAttributes  =>
+    "var" ~> nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ repsep(variableAttribute, "," ?) <~ ";" ^^ {
+      case name ~ optAlias ~ optIndexing ~ optAttributes =>
         VariableDeclaration(name, optAlias, optIndexing, optAttributes)
     }
 }

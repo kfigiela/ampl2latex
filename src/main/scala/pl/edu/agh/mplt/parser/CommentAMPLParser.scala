@@ -6,7 +6,8 @@ import scala.util.matching.Regex
 trait CommentAMPLParser extends JavaTokenParsers {
 
   private def comment: Regex = """(\s|#.*)+""".r
-//  whiteSpace
+
+  //  whiteSpace
   protected override val whiteSpace = comment
 
 }

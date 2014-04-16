@@ -1,6 +1,6 @@
 package pl.edu.agh.mplt.parser
 
-import pl.edu.agh.mplt.parser.declaration.{ Declaration}
+import pl.edu.agh.mplt.parser.declaration.Declaration
 import pl.edu.agh.mplt.parser.declaration.set.{SetAttributesAMPLParser, SetDeclarationAMPLParser, SetDeclaration}
 import pl.edu.agh.mplt.parser.declaration.param.{ParameterAttributesAMPLParser, ParameterDeclarationAMPLParser,
 ParameterDeclaration}
@@ -33,6 +33,8 @@ trait AMPLParser extends JavaTokenParsers {
   def objectiveDeclaration: Parser[ObjectiveDeclaration]
 
   def check: Parser[Assertion]
+
+  def parse(input: String): ParseResult[List[Declaration]] = parseAll(declarations, input)
 
   def declarations = (fileOpening ?) ~> rep1(declaration)
 

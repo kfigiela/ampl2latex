@@ -1,12 +1,9 @@
 package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.{AMPLParser, KeywordAMPLParser, IntercodeImplicits}
+import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.member.Member
-import pl.edu.agh.mplt.parser.declaration.param.ParameterAttributesAMPLParser
 import pl.edu.agh.mplt.parser.declaration.Attribute
 import pl.edu.agh.mplt.parser.declaration.param.ParameterDeclaration
 import pl.edu.agh.mplt.parser.reference.SimpleReference

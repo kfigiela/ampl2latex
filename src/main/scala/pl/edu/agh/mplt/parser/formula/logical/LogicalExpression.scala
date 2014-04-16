@@ -55,7 +55,10 @@ object Comparision {
 }
 
 object LogicalReduction {
+
   case class Forall(indexing: Indexing, lexpr: LogicalExpression) extends LogicalExpression
+
   case class Exists(indexing: Indexing, lexpr: LogicalExpression) extends LogicalExpression
+
 }
 

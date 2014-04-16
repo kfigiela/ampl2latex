@@ -1,6 +1,6 @@
 package pl.edu.agh.mplt.parser.declaration.constraint
 
-import pl.edu.agh.mplt.parser.declaration.{PiecewiseLinearTerm, Declaration}
+import pl.edu.agh.mplt.parser.declaration.Declaration
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 
 

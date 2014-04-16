@@ -222,7 +222,7 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
                          | - sum {t in 1..T}
                        """.stripMargin) match {
       case parser.Success(_, _) =>
-      case _ => throw new Exception
+      case _                    => throw new Exception
     }
   }
 

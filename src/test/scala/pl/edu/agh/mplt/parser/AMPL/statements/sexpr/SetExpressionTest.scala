@@ -34,7 +34,7 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse explicit string literal set definition" in {
-    parse("""{"a", "b", "c"}""") should be(ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember(
+    parse( """{"a", "b", "c"}""") should be(ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember(
       "c"))))
   }
 
@@ -47,7 +47,7 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse string set comprehension" in {
-    parse(""" "a" .. "f" """) should be(SetComprehension(StringMember("a"), StringMember("f")))
+    parse( """ "a" .. "f" """) should be(SetComprehension(StringMember("a"), StringMember("f")))
   }
 
   it should "parse number set comprehension with step" in {
@@ -55,7 +55,7 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse string set comprehension with step" in {
-    parse(""" "a" .. "d" by 5""") should be(SetComprehension(StringMember("a"), StringMember("d"), 5))
+    parse( """ "a" .. "d" by 5""") should be(SetComprehension(StringMember("a"), StringMember("d"), 5))
   }
 
 

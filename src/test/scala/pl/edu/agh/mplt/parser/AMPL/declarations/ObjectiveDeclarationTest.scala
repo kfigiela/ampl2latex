@@ -17,7 +17,7 @@ class ObjectiveDeclarationTest extends FlatSpec with Matchers with IntercodeImpl
 
   "objective parser" should "parser minimize objective" in {
     parse("minimize x : 1 ;") should be(Minimize("x", expression = Some(1)))
-}
+  }
 
   it should "parse simple objective declaration" in {
     parse("maximize Net_Profit;") should be(Maximize("Net_Profit"));

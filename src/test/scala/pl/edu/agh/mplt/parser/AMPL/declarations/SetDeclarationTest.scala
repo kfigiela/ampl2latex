@@ -48,7 +48,7 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse set declaration with indexing" in {
-    parse("""set apples { 1 + 3 .. 10 by 4 , {1, 2, 3}, {"a", "b", "c"} };""") should be(
+    parse( """set apples { 1 + 3 .. 10 by 4 , {1, 2, 3}, {"a", "b", "c"} };""") should be(
       SetDeclaration("apples", indexing = Some(Indexing(List(
         SetComprehension(Bin.+(1, 3), 10, 4),
         ExplicitSet(Set[Member](Number(1), Number(2), Number(3))),
@@ -64,7 +64,7 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse set declaration with within attribute" in {
-    parse("""set apples within {"a", "b", "c"} ;""") should be(SetDeclaration("apples",
+    parse( """set apples within {"a", "b", "c"} ;""") should be(SetDeclaration("apples",
       attributes = List(Attribute.Within(
         ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember("c")))))))
   }

@@ -7,7 +7,6 @@ import pl.edu.agh.mplt.parser.formula.set.Indexing
 case class ConstraintDeclaration(name: String,
                                  alias: Option[String] = None,
                                  indexing: Option[Indexing] = None,
-                                 constraint: ConstraintExpression,
-                                 piecewiseLinearTerms: Option[PiecewiseLinearTerm] = None) extends Declaration
+                                 constraint: ConstraintExpression) extends Declaration
 
 

@@ -30,6 +30,7 @@ class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
     buggedFile =>
       it should ("not parse file " + buggedFile.getName) in {
         val content = getContent(buggedFile)
+
         parse(content) match {
           case parser.Success(_, _) => throw new Exception("File " + buggedFile.getName + " was parsed")
           case _                    =>

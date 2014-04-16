@@ -15,6 +15,10 @@ case class ExpressionIf(lexpr: LogicalExpression, trueBranch: Expression,
 
 case class FunctionCall(name: String, args: List[Expression]) extends Expression
 
+case class PiecewiseLinearTerm(breakpoints: List[(Option[Indexing], Expression)],
+                               slopes: List[(Option[Indexing], Expression)],
+                               arguments: (Expression, Option[Expression])) extends Expression
+
 sealed trait ArithmeticOperation extends Expression
 
 object Bin {

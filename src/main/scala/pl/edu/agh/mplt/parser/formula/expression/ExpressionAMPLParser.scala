@@ -48,8 +48,22 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
     case name ~ _ ~ args => FunctionCall(name, args)
   }
 
+  def piecewiseLinearTerm: Parser[PiecewiseLinearTerm] = pointsAndSlopes ~ expr ^^ {
+    case (br, sl) ~ expr => PiecewiseLinearTerm(br, sl, (expr, None))
+  } | pointsAndSlopes ~ "(" ~ expr ~ "," ~ expr <~ ")" ^^ {
+    case (br, sl) ~ _ ~ e1 ~ _ ~ e2 => PiecewiseLinearTerm(br, sl, (e1, Some(e2)))
+  }
+
+  def pointsAndSlopes: Parser[(List[(Option[Indexing], Expression)], List[(Option[Indexing], Expression)])] =
+    "<<" ~> exprs ~ ";" ~ exprs <~ ">>" ^^ { case br ~ _ ~ sl => (br, sl) }
+
+  def exprs: Parser[List[(Option[Indexing], Expression)]] =
+    rep1sep((indexing ?) ~ expr ^^ { case indOpt ~ expr =>
+      (indOpt, expr)
+    }, ",")
+
   private def freeTokens: Parser[Expression] =
-    List(ifExpr, reduction, function, number, reference) reduce (_ | _)
+    List(ifExpr, reduction, piecewiseLinearTerm, function, number, reference) reduce (_ | _)
 
 
 }

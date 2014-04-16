@@ -9,8 +9,6 @@ trait ConstraintExpressionAMPLParser extends JavaTokenParsers {
 
   def keyword: Parser[String]
 
-  def op: Parser[String]
-
   def constraintExpression: Parser[ConstraintExpression] =
     complementary | boundedConstraint
 

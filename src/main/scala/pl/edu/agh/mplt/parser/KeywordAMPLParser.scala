@@ -10,10 +10,8 @@ trait KeywordAMPLParser extends JavaTokenParsers {
 
   private def string = "[a-zA-Z][a-zA-Z_0-9]*".r
 
-  private[this] val ops = List[String]("<", "<=", "=", "==", "!=", "<>", ">", ">=", "+", "-", "*", "/", "^", "**", "and", "&&",
-    "or", "||", "not", "!", "product", "prod")
 
-  private[this] val keywords: List[String] = ops ++ List("#",
+  private[this] val keywords: List[String] = List("#",
     "all", "binary", "by", "check", "coeff", "complements", "contains", "cover", "Current", "default",
     "dimen", "div", "else", "environ", "exists", "forall", "if", "IN", "in", "Infinity",
     "Initial", "INOUT", "integer", "less", "LOCAL", "logical", "minimize", "maximize", "max",
@@ -22,7 +20,5 @@ trait KeywordAMPLParser extends JavaTokenParsers {
     "while", "within")
 
   def keyword: Parser[String] = keywords.map(Parser(_)).reduce(_ | _)
-
-  def op: Parser[String] = ops.map(Parser(_)).reduce(_ | _)
 
 }

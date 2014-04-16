@@ -11,11 +11,13 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
 
   def indexing: Parser[Indexing]
 
-  def expr: Parser[Expression] = arithmeticExpression |  freeTokens
+  def expr: Parser[Expression] = arithmeticExpression | freeTokens
 
   def number: Parser[Number] = """-?(\d+(\.\d+)?|\d*\.\d+)([eE][+-]?\d+)?[fFdD]?""".r ^^ Number
 
   def keyword: Parser[String]
+
+  def nonKeyword: Parser[String]
 
   def lexpr: Parser[LogicalExpression]
 
@@ -42,8 +44,12 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
     case "prod" ~ indexing ~ expr => ExpressionReduction.Prod(indexing, expr)
   }
 
+  private def function: Parser[Expression] = (nonKeyword | keyword) ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
+    case name ~ _ ~ args => FunctionCall(name, args)
+  }
+
   private def freeTokens: Parser[Expression] =
-    List(ifExpr, reduction, number, reference) reduce (_ | _)
+    List(ifExpr, reduction, function, number, reference) reduce (_ | _)
 
 
 }

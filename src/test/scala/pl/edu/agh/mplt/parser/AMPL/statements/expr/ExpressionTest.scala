@@ -1,12 +1,16 @@
 package pl.edu.agh.mplt.parser.AMPL.statements.expr
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.formula.expression.{ExpressionIf, Unary, Number, ExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.formula.expression._
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SimpleReference}
+import pl.edu.agh.mplt.parser.reference.ReferenceParser
 import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, IndexingAMPLParser}
 import pl.edu.agh.mplt.parser.formula.logical.{Comparision, LogicalExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
+import pl.edu.agh.mplt.parser.formula.expression.Number
+import pl.edu.agh.mplt.parser.formula.expression.ExpressionIf
+import pl.edu.agh.mplt.parser.reference.SimpleReference
+import scala.Some
 
 class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new ReferenceParser with KeywordAMPLParser with ExpressionAMPLParser with IndexingAMPLParser
@@ -52,6 +56,10 @@ class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
         Number(1),
         Some(Number(2))),
       Some(Number(3))))
+  }
+
+  it should "parse function call" in {
+    parse("max(1, 2, 3)") should be(FunctionCall("max", List[Expression](1, 2, 3)))
   }
 
 }

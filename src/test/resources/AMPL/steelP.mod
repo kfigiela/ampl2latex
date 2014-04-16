@@ -1,16 +1,16 @@
-set ORIG;   
-set DEST;   
-set PROD;   
+set ORIG;   # origins (steel mills)
+set DEST;   # destinations (factories)
+set PROD;   # products
 
-param rate {ORIG,PROD} > 0;     
-param avail {ORIG} >= 0;        
-param demand {DEST,PROD} >= 0;  
+param rate {ORIG,PROD} > 0;     # tons per hour at origins
+param avail {ORIG} >= 0;        # hours available at origins
+param demand {DEST,PROD} >= 0;  # tons required at destinations
 
-param make_cost {ORIG,PROD} >= 0;        
-param trans_cost {ORIG,DEST,PROD} >= 0;  
+param make_cost {ORIG,PROD} >= 0;        # manufacturing cost/ton
+param trans_cost {ORIG,DEST,PROD} >= 0;  # shipping cost/ton
 
-var Make {ORIG,PROD} >= 0;       
-var Trans {ORIG,DEST,PROD} >= 0; 
+var Make {ORIG,PROD} >= 0;       # tons produced at origins
+var Trans {ORIG,DEST,PROD} >= 0; # tons shipped
 
 minimize Total_Cost:
    sum {i in ORIG, p in PROD} make_cost[i,p] * Make[i,p] +

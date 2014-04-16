@@ -1,8 +1,8 @@
-set MINREQ;   
-set MAXREQ;   
+set MINREQ;   # nutrients with minimum requirements
+set MAXREQ;   # nutrients with maximum requirements
 
-set NUTR = MINREQ union MAXREQ;    
-set FOOD;                          
+set NUTR = MINREQ union MAXREQ;    # nutrients
+set FOOD;                          # foods
 
 param cost {FOOD} > 0;
 param f_min {FOOD} >= 0;

@@ -16,25 +16,22 @@ param revenue {PROD,1..T} >= 0; # revenue per ton sold
 
 var Make {PROD,1..T} >= 0;                  # tons produced
 var Inv {PROD,0..T} >= 0;                   # tons inventoried
-var Sell1 {p in PROD, t in 1..T} 
-   >= 0, <= market[p,t]-commit[p,t];        # tons sold above commitment
-var Sell0 {p in PROD, t in 1..T}
-   >= 0, <= commit[p,t];                    # tons sold below commitment
+var Sell {p in PROD, t in 1..T} 
+   >= 0, <= market[p,t];                    # tons sold
 
-var Use1 {t in 1..T} >= 0, <= avail_min[t];
-var Use2 {t in 1..T} >= 0, <= avail_max[t]-avail_min[t];
+var Use {t in 1..T} >= 0, <= avail_max[t];  # hours used
 
 maximize Total_Profit: 
-   sum {p in PROD, t in 1..T} 
-     (revenue[p,t]*(commit[p,t]+Sell1[p,t]-Sell0[p,t]) -
+   sum {p in PROD, t in 1..T} (revenue[p,t]*Sell[p,t] -
       prodcost[p]*Make[p,t] - invcost[p]*Inv[p,t]) -
-   sum {t in 1..T} time_penalty[t] * Use2[t] -
-   sum {p in PROD, t in 1..T} 1000000*Sell0[p,t];
+   sum {t in 1..T} <<avail_min[t]; 0,time_penalty[t]>> Use[t] -
+   sum {p in PROD, t in 1..T} 
+      <<commit[p,t]; -100000,0>> (Sell[p,t],commit[p,t]);
 
                # Objective: total revenue less costs in all weeks
 
 subject to Time {t in 1..T}:  
-   sum {p in PROD} (1/rate[p]) * Make[p,t] = Use1[t] + Use2[t];
+   sum {p in PROD} (1/rate[p]) * Make[p,t] = Use[t];
 
                # Total of hours used by all products
                # may not exceed hours available, in each week
@@ -44,7 +41,7 @@ subject to Init_Inv {p in PROD}:  Inv[p,0] = inv0[p];
                # Initial inventory must equal given value
 
 subject to Balance {p in PROD, t in 1..T}:
-   Make[p,t] + Inv[p,t-1] = (commit[p,t]+Sell1[p,t]-Sell0[p,t]) + Inv[p,t];
+   Make[p,t] + Inv[p,t-1] = Sell[p,t] + Inv[p,t];
 
                # Tons produced and taken from inventory
                # must equal tons sold and put into inventory

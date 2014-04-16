@@ -2,7 +2,11 @@ set PROD;   # products
 set STAGE;  # stages
 
 param rate {PROD,STAGE} > 0; # tons per hour in each stage
-param avail {STAGE} >= 0;    # hours available/week in each stage
+param avail_mean {STAGE} > 0;
+param avail_variance {s in STAGE} > 0, < avail_mean[s] / 2;
+param avail {s in STAGE} =
+   max(Normal(avail_mean[s], avail_variance[s]), 0);
+                             # hours available/week in each stage
 param profit {PROD};         # profit per ton
 
 param commit {PROD} >= 0;    # lower limit on tons sold in week

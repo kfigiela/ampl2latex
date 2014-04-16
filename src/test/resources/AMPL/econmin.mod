@@ -1,10 +1,10 @@
-set PROD;  
-set ACT;   
+set PROD;  # products
+set ACT;   # activities
 
-param cost {ACT} > 0;     
-param demand {PROD} >= 0; 
-param io {PROD,ACT} >= 0; 
-                          
+param cost {ACT} > 0;     # cost per unit of each activity
+param demand {PROD} >= 0; # units of demand for each product
+param io {PROD,ACT} >= 0; # units of each product from
+                          # 1 unit of each activity
 
 var Level {j in ACT} >= 0;
 

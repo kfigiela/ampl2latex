@@ -2,14 +2,15 @@
 set PEOPLE;
 set PROJECTS;
 
-param supply {PEOPLE} >= 0;   
-param demand {PROJECTS} >= 0; 
+param supply {PEOPLE} >= 0;   # hours each person is available
+param demand {PROJECTS} >= 0; # hours each project requires
 
+   check: sum {i in PEOPLE} supply[i]
+          = sum {j in PROJECTS} demand[j];
 
-
-param cost {PEOPLE,PROJECTS} >= 0;   
-param limit {PEOPLE,PROJECTS} >= 0;  
-                                     
+param cost {PEOPLE,PROJECTS} >= 0;   # cost per hour of work
+param limit {PEOPLE,PROJECTS} >= 0;  # maximum contributions
+                                     # to projects
 
 var M;
 var Assign {i in PEOPLE, j in PROJECTS} >= 0, <= limit[i,j];

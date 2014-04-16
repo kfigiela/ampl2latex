@@ -3,7 +3,7 @@ package pl.edu.agh.mplt.parser.AMPL
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
 import java.io.File
-import scala.io.Source
+import pl.edu.agh.mplt.ParsedFile
 
 
 class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
@@ -16,24 +16,16 @@ class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
   files.map {
     file =>
       it should ("parse file " + file.getName) in {
-        val content = getContent(file)
-//                parse(content) should  be (1)
-
-        parse(content) match {
-          case parser.Success(_, _) =>
-          case _ => throw new Exception("File " + file.getName + " was not parsed")
-        }
+        //                parse(content) should  be (1)
+        ParsedFile.fromAMPL(file).ast
       }
   }
 
   buggedFiles.map {
     buggedFile =>
       it should ("not parse file " + buggedFile.getName) in {
-        val content = getContent(buggedFile)
-
-        parse(content) match {
-          case parser.Success(_, _) => throw new Exception("File " + buggedFile.getName + " was parsed")
-          case _                    =>
+        intercept[Exception] {
+          ParsedFile.fromAMPL(buggedFile).ast
         }
       }
   }
@@ -46,8 +38,6 @@ class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
                                                  / + "bugged").listFiles.filter(!_.isDirectory).toList
 
   private def / = File.separator
-
-  private def getContent(file: File): String = Source.fromFile(file).mkString
 
   private def parse(str: String) = parser.parseAll(parser.declarations, str)
 }

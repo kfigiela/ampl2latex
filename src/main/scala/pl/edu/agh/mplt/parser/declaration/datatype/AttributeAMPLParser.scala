@@ -22,7 +22,7 @@ trait AttributeAMPLParser extends JavaTokenParsers {
     "in" ~> sexpr ^^ Attribute.Inclusion |
     "dimen" ~> wholeNumber ^^ Attribute.Dimension |
     "within" ~> sexpr ^^ Attribute.Within |
-    ":?=".r ~> (sexpr ^^ Attribute.FinalSet | expr ^^ Attribute.FinalValue) |
+    (":=" | "=") ~> (sexpr ^^ Attribute.FinalSet | expr ^^ Attribute.FinalValue) |
     "default" ~> (sexpr ^^ Attribute.DefaultSet | expr ^^ Attribute.Default) |
     "<>" ~ expr ^^ { case "<>" ~ expr => Attribute.Relation("!=", expr) } |
     relationOperators ~ expr ^^ { case op ~ expr => Attribute.Relation(op, expr) } |

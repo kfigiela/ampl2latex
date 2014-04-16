@@ -7,19 +7,17 @@ import pl.edu.agh.mplt.parser.formula.expression.Expression
 trait ConstraintExpressionAMPLParser extends JavaTokenParsers {
   def expr: Parser[Expression]
 
-  def keyword: Parser[String]
-
   def constraintExpression: Parser[ConstraintExpression] =
     complementary | boundedConstraint
 
   private def boundedConstraint = dualBounds | singleBound
 
-  private def complementary = dualBounds ~ keyword ~ expr ^? {
-    case cexpr ~ "complements" ~ expr => MixedComplementarity(expr, cexpr)
-  } | expr ~ keyword ~ dualBounds ^? {
-    case expr ~ "complements" ~ cexpr => MixedComplementarity(expr, cexpr)
-  } | singleBound ~ keyword ~ singleBound ^? {
-    case leftBound ~ "complements" ~ rightBound => SimpleComplementarity(leftBound, rightBound)
+  private def complementary = dualBounds ~ "complements" ~ expr ^? {
+    case cexpr ~ _ ~ expr => MixedComplementarity(expr, cexpr)
+  } | expr ~ "complements" ~ dualBounds ^? {
+    case expr ~ _ ~ cexpr => MixedComplementarity(expr, cexpr)
+  } | singleBound ~ "complements" ~ singleBound ^? {
+    case leftBound ~ _ ~ rightBound => SimpleComplementarity(leftBound, rightBound)
   }
 
   private def singleBound = <= | == | >=

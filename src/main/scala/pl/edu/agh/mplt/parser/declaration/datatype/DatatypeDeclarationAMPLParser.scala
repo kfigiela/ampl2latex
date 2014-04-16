@@ -10,10 +10,12 @@ trait DatatypeDeclarationAMPLParser extends JavaTokenParsers {
 
   def nonKeyword: Parser[String]
 
+  def nonAttributeKeyword: Parser[String]
+
   private def datatype: Parser[String] = "param" | "set" | "var"
 
   def datatypeDeclaration: Parser[DatatypeDeclaration] =
-    datatype ~ nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ repsep(attribute, "," ?) <~ ";" ^^ {
+    datatype ~ nonKeyword ~ (nonAttributeKeyword ?) ~ (indexing ?) ~ repsep(attribute, "," ?) <~ ";" ^^ {
       case "param" ~ name ~ optAlias ~ optIndexing ~ optAttributes => ParameterDeclaration(name, optAlias, optIndexing,
         optAttributes)
       case "set" ~ name ~ optAlias ~ optIndexing ~ optAttributes => SetDeclaration(name, optAlias, optIndexing,

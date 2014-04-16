@@ -7,15 +7,14 @@ import pl.edu.agh.mplt.parser.formula.expression.Expression
 trait ObjectiveDeclarationAMPLParser extends JavaTokenParsers {
   def nonKeyword: Parser[String]
 
-  def keyword: Parser[String]
+  def objective: Parser[String] = "maximize" | "minimize"
 
   def indexing: Parser[Indexing]
 
   def expr: Parser[Expression]
 
-
   def objectiveDeclaration: Parser[ObjectiveDeclaration] =
-    keyword ~ nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ (":" ~> expr ?) <~ ";" ^^ {
+    objective ~ nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ (":" ~> expr ?) <~ ";" ^^ {
       case "maximize" ~ name ~ optAlias ~ optIndexing ~ (exprOpt) => Maximize(name, optAlias, optIndexing,
         exprOpt)
       case "minimize" ~ name ~ optAlias ~ optIndexing ~ (exprOpt) => Minimize(name, optAlias, optIndexing,

@@ -15,9 +15,9 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
 
   def number: Parser[Number] = """-?(\d+(\.\d+)?|\d*\.\d+)([eE][+-]?\d+)?[fFdD]?""".r ^^ Number
 
-  def keyword: Parser[String]
+  def functionName: Parser[String]
 
-  def nonKeyword: Parser[String]
+  def exprReductionOp: Parser[String]
 
   def lexpr: Parser[LogicalExpression]
 
@@ -37,15 +37,15 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
 
   private def production4 = freeTokens | "(" ~> expr <~ ")"
 
-  private def reduction: Parser[Expression] = keyword ~ indexing ~ production1 ^^ {
-    case "max" ~ indexing ~ expr  => ExpressionReduction.Max(indexing, expr)
-    case "min" ~ indexing ~ expr  => ExpressionReduction.Min(indexing, expr)
-    case "sum" ~ indexing ~ expr  => ExpressionReduction.Sum(indexing, expr)
+  private def reduction: Parser[Expression] = exprReductionOp ~ indexing ~ production1 ^? {
+    case "max" ~ indexing ~ expr => ExpressionReduction.Max(indexing, expr)
+    case "min" ~ indexing ~ expr => ExpressionReduction.Min(indexing, expr)
+    case "sum" ~ indexing ~ expr => ExpressionReduction.Sum(indexing, expr)
     case "prod" ~ indexing ~ expr => ExpressionReduction.Prod(indexing, expr)
   }
 
-  private def function: Parser[Expression] = (nonKeyword | keyword) ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
-    case name ~ _ ~ args => FunctionCall(name, args)
+  private def function: Parser[Expression] = functionName ~ "(" ~ repsep(expr, ",") <~ ")" ^^ {
+    case name ~ "(" ~ args => FunctionCall(name, args)
   }
 
   def piecewiseLinearTerm: Parser[PiecewiseLinearTerm] = pointsAndSlopes ~ expr ^^ {
@@ -58,12 +58,13 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
     "<<" ~> exprs ~ ";" ~ exprs <~ ">>" ^^ { case br ~ _ ~ sl => (br, sl) }
 
   def exprs: Parser[List[(Option[Indexing], Expression)]] =
-    rep1sep((indexing ?) ~ expr ^^ { case indOpt ~ expr =>
-      (indOpt, expr)
+    rep1sep((indexing ?) ~ expr ^^ {
+      case indOpt ~ expr =>
+        (indOpt, expr)
     }, ",")
 
   private def freeTokens: Parser[Expression] =
-    List(ifExpr, reduction, piecewiseLinearTerm, function, number, reference) reduce (_ | _)
+    List(ifExpr, reduction, function,piecewiseLinearTerm, number, reference) reduce (_ | _)
 
 
 }

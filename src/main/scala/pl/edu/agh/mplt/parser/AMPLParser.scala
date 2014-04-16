@@ -1,11 +1,6 @@
 package pl.edu.agh.mplt.parser
 
-import pl.edu.agh.mplt.parser.declaration.{AttributeAMPLParser, Declaration}
-import pl.edu.agh.mplt.parser.declaration.set.{SetDeclarationAMPLParser, SetDeclaration}
-import pl.edu.agh.mplt.parser.declaration.param.{ParameterDeclarationAMPLParser,
-ParameterDeclaration}
-import pl.edu.agh.mplt.parser.declaration.variable.{VariableDeclarationAMPLParser,
-VariableDeclaration}
+import pl.edu.agh.mplt.parser.declaration.Declaration
 import pl.edu.agh.mplt.parser.declaration.constraint.{ConstraintExpressionAMPLParser,
 ConstraintDeclarationAMPLParser, ConstraintDeclaration}
 import pl.edu.agh.mplt.parser.declaration.objective.{ObjectiveDeclarationAMPLParser, ObjectiveDeclaration}
@@ -16,17 +11,15 @@ import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.declaration.assertion.{Assertion, CheckAMPLParser}
+import pl.edu.agh.mplt.parser.declaration.datatype.{DatatypeDeclaration, ParameterDeclaration, AttributeAMPLParser,
+DatatypeDeclarationAMPLParser}
 
 trait AMPLParser extends JavaTokenParsers {
   def fileOpening: Parser[String] = "problem" ~> nonKeyword <~ ";"
 
   def nonKeyword: Parser[String]
 
-  def setDeclaration: Parser[SetDeclaration]
-
-  def parameterDeclaration: Parser[ParameterDeclaration]
-
-  def variableDeclaration: Parser[VariableDeclaration]
+  def datatypeDeclaration: Parser[DatatypeDeclaration]
 
   def constraintDeclaration: Parser[ConstraintDeclaration]
 
@@ -43,15 +36,13 @@ trait AMPLParser extends JavaTokenParsers {
   def exprs: Parser[List[(Option[Indexing], Expression)]]
 
   private def declaration: Parser[Declaration] =
-    setDeclaration | parameterDeclaration | variableDeclaration | constraintDeclaration | objectiveDeclaration | check
+    datatypeDeclaration | constraintDeclaration | objectiveDeclaration | check
 
 }
 
 object AMPLParser {
   def apply(): AMPLParser = new AMPLParser with KeywordAMPLParser with CommentAMPLParser
-    with SetDeclarationAMPLParser
-    with ParameterDeclarationAMPLParser
-    with VariableDeclarationAMPLParser
+    with DatatypeDeclarationAMPLParser
     with AttributeAMPLParser
     with ConstraintDeclarationAMPLParser with ConstraintExpressionAMPLParser
     with ObjectiveDeclarationAMPLParser

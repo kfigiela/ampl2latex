@@ -2,15 +2,15 @@ package pl.edu.agh.mplt.parser.AMPL
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.declaration.set.SetDeclaration
 import pl.edu.agh.mplt.parser.formula.set.{Indexing, IndexedSet}
 import pl.edu.agh.mplt.parser.reference.SimpleReference
+import pl.edu.agh.mplt.parser.declaration.datatype.SetDeclaration
 
 
 class CommentsTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = AMPLParser()
 
-  def expr = parser.setDeclaration
+  def expr = parser.datatypeDeclaration
 
   def parse(input: String) = parser.parseAll(expr, input)
 

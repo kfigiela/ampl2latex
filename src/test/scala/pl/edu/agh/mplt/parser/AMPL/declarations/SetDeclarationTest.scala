@@ -1,7 +1,6 @@
 package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.declaration.set.SetDeclaration
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.expression.{Bin, Number}
 import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
@@ -12,14 +11,14 @@ import pl.edu.agh.mplt.parser.formula.set.Indexing
 import scala.Some
 import pl.edu.agh.mplt.parser.member.StringMember
 import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
-import pl.edu.agh.mplt.parser.declaration.Attribute
+import pl.edu.agh.mplt.parser.declaration.datatype.{SetDeclaration, Attribute}
 
 
 class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
 
   val parser = AMPLParser()
 
-  def expr = parser.setDeclaration
+  def expr = parser.datatypeDeclaration
 
   def parse(input: String) = parser.parse(expr, input).get
 

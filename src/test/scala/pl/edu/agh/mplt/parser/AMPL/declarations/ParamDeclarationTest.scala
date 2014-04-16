@@ -4,18 +4,17 @@ import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.member.Member
-import pl.edu.agh.mplt.parser.declaration.Attribute
-import pl.edu.agh.mplt.parser.declaration.param.ParameterDeclaration
 import pl.edu.agh.mplt.parser.reference.SimpleReference
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 import scala.Some
 import pl.edu.agh.mplt.parser.formula.set.IndexedSet
+import pl.edu.agh.mplt.parser.declaration.datatype.{ParameterDeclaration, Attribute}
 
 
 class ParamDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = AMPLParser()
 
-  def expr = parser.parameterDeclaration
+  def expr = parser.datatypeDeclaration
 
   def parse(input: String) = parser.parse(expr, input).get
 

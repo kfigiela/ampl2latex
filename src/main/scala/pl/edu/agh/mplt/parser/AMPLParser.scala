@@ -11,7 +11,7 @@ import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.declaration.assertion.{Assertion, CheckAMPLParser}
-import pl.edu.agh.mplt.parser.declaration.datatype.{DatatypeDeclaration, ParameterDeclaration, AttributeAMPLParser,
+import pl.edu.agh.mplt.parser.declaration.datatype.{DatatypeDeclaration, AttributeAMPLParser,
 DatatypeDeclarationAMPLParser}
 
 trait AMPLParser extends JavaTokenParsers {
@@ -27,9 +27,9 @@ trait AMPLParser extends JavaTokenParsers {
 
   def check: Parser[Assertion]
 
-  def parse(input: String): ParseResult[List[Declaration]] = parseAll(declarations, input)
+  def parse(input: String): ParseResult[Declaration] = parseAll(declarations, input)
 
-  def declarations = (fileOpening ?) ~> rep1(declaration)
+  def declarations = (fileOpening ?) ~> declaration
 
   def pointsAndSlopes: Parser[(List[(Option[Indexing], Expression)], List[(Option[Indexing], Expression)])]
 

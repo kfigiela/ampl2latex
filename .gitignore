@@ -4,6 +4,12 @@ out/*
 src/main/scala/META-INF/*
 forFutureTests/*
 
+MPLT.iml
+classes/
+
+*out
+*.jar
+
 # sbt specific
 dist/*
 target/

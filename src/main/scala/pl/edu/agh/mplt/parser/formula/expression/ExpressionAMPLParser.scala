@@ -4,6 +4,7 @@ import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.reference.Reference
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
+import language.postfixOps
 
 trait ExpressionAMPLParser extends JavaTokenParsers {
 
@@ -31,11 +32,11 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
   private def production1 = chainl1(production2, "*" ^^^ Bin.* | "/" ^^^ Bin./ | "div" ^^^ Bin.div | "mod" ^^^ Bin.mod)
 
   private def production2 = "+" ~> production3 | rep1("-" ~ "-") ~> production3 | "-" ~> production3 ^^ Unary.- |
-                            production3
+    production3
 
   private def production3 = rep1sep(production4, "^" | "**") ^^ (_.reduceRight(Bin.^))
 
-  private def production4 = freeTokens | "(" ~> expr <~ ")"
+  private def production4 = freeTokens | "(" ~> expr <~ ")" ^^ ParenthesizedExpression
 
   private def reduction: Parser[Expression] = exprReductionOp ~ indexing ~ production1 ^? {
     case "max" ~ indexing ~ expr => ExpressionReduction.Max(indexing, expr)
@@ -55,7 +56,9 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
   }
 
   def pointsAndSlopes: Parser[(List[(Option[Indexing], Expression)], List[(Option[Indexing], Expression)])] =
-    "<<" ~> exprs ~ ";" ~ exprs <~ ">>" ^^ { case br ~ _ ~ sl => (br, sl) }
+    "<<" ~> exprs ~ ";" ~ exprs <~ ">>" ^^ {
+      case br ~ _ ~ sl => (br, sl)
+    }
 
   def exprs: Parser[List[(Option[Indexing], Expression)]] =
     rep1sep((indexing ?) ~ expr ^^ {
@@ -64,7 +67,7 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
     }, ",")
 
   private def freeTokens: Parser[Expression] =
-    List(ifExpr, reduction, function,piecewiseLinearTerm, number, reference) reduce (_ | _)
+    List(ifExpr, reduction, function, piecewiseLinearTerm, number, reference) reduce (_ | _)
 
 
 }

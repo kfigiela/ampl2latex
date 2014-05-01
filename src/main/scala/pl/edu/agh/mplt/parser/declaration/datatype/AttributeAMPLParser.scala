@@ -4,7 +4,7 @@ import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.formula.expression.Expression
 import pl.edu.agh.mplt.parser.formula.set.{Indexing, SetExpression}
 import pl.edu.agh.mplt.parser.reference.Reference
-
+import language.postfixOps
 
 trait AttributeAMPLParser extends JavaTokenParsers {
   def expr: Parser[Expression]

@@ -43,7 +43,7 @@ object Bin {
 
 object Unary {
 
-  case class -(e: Expression) extends ArithmeticOperation
+  case class -(expr: Expression) extends ArithmeticOperation
 
 }
 

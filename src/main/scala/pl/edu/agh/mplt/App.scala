@@ -24,15 +24,16 @@ object App {
           }
         println("prints")
         persist(parsedFile.ast)
+
         //        parsedFile.ast.foreach(line => {
         //          out.println(line.toString)
         //        })
-//        println(parsedFile.ast)
+        //        println(parsedFile.ast)
 
       } catch {
         case e: Throwable =>
           out.write("\n error: " + e.getMessage)
-        throw e
+          throw e
       } finally {
         out.close()
       }

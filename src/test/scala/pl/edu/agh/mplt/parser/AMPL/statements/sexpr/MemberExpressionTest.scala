@@ -34,11 +34,11 @@ class MemberExpressionTest extends FlatSpec with Matchers with IntercodeImplicit
   }
 
   it should "parse multidimensional member" in {
-    parse( """( 1, 2)""") should be(MultiMember(Seq[Member](1, 2)))
+    parse( """( 1, 2)""") should be(MultiMember(List[Member](1, 2)))
   }
 
   it should "parse mixed multidimensional member" in {
-    parse( """( 1, "a" )""") should be(MultiMember(Seq[Member](1, StringMember("a"))))
+    parse( """( 1, "a" )""") should be(MultiMember(List[Member](1, StringMember("a"))))
   }
 
   it should "parse set reference" in {

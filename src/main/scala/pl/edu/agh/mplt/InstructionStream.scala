@@ -13,13 +13,12 @@ class InstructionStream(filename: File) {
     case stream if stream.isEmpty => Stream.empty[String]
     case stream =>
       val line = stream.head
-//      println(s"parsing $line")
       val (instructions, newCarry) =
         if (line.endsWith(";")) {
           (((carry ++ line) split ";").map(_ + ";"), "")
         } else {
           val s = (carry ++ line) split ";"
-          (s.dropRight(1), s.last + "\n")
+          (s.dropRight(1).map(_ + ";"), s.last + "\n")
         }
       carry = newCarry
 

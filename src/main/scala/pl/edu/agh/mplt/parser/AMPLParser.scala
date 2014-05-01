@@ -14,7 +14,17 @@ import pl.edu.agh.mplt.parser.declaration.assertion.{Assertion, CheckAMPLParser}
 import pl.edu.agh.mplt.parser.declaration.datatype.{DatatypeDeclaration, AttributeAMPLParser,
 DatatypeDeclarationAMPLParser}
 
-trait AMPLParser extends JavaTokenParsers {
+trait AMPLParser extends JavaTokenParsers with KeywordAMPLParser with CommentAMPLParser
+with DatatypeDeclarationAMPLParser
+with AttributeAMPLParser
+with ConstraintDeclarationAMPLParser with ConstraintExpressionAMPLParser
+with ObjectiveDeclarationAMPLParser
+with ExpressionAMPLParser
+with LogicalExpressionAMPLParser
+with SetExpressionAMPLParser with IndexingAMPLParser
+with MemberAMPLParser
+with ReferenceParser
+with CheckAMPLParser {
   def fileOpening: Parser[String] = "problem" ~> nonKeyword <~ ";"
 
   def nonKeyword: Parser[String]
@@ -41,16 +51,6 @@ trait AMPLParser extends JavaTokenParsers {
 }
 
 object AMPLParser {
-  def apply(): AMPLParser = new AMPLParser with KeywordAMPLParser with CommentAMPLParser
-    with DatatypeDeclarationAMPLParser
-    with AttributeAMPLParser
-    with ConstraintDeclarationAMPLParser with ConstraintExpressionAMPLParser
-    with ObjectiveDeclarationAMPLParser
-    with ExpressionAMPLParser
-    with LogicalExpressionAMPLParser
-    with SetExpressionAMPLParser with IndexingAMPLParser
-    with MemberAMPLParser
-    with ReferenceParser
-    with CheckAMPLParser
+  def apply(): AMPLParser = new AMPLParser() {}
 
 }

@@ -12,9 +12,4 @@ case class SetComprehension(start: Member,
                             end: Member,
                             step: Number = Number("1")) extends SetLiteral
 
-case class Indexing(sexprs: List[SetExpression],
-                    lexpr: Option[LogicalExpression] = None) extends SetExpression
-
-case class IndexedSet(indexes: List[String],
-                      sexpr: SetExpression) extends SetExpression
 

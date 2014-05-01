@@ -12,9 +12,16 @@ case class ParenthesizedSetExpression(expr: SetExpression) extends SetExpression
 case class SetExpressionIf(lexpr: LogicalExpression, trueBranch: SetExpression,
                            falseBranch: SetExpression) extends SetExpression
 
+
+case class Indexing(sexprs: List[SetExpression],
+                    lexpr: Option[LogicalExpression] = None) extends SetExpression
+
+case class IndexedSet(indexes: List[String],
+                      sexpr: SetExpression) extends SetExpression
+
 object Sets {
 
-  case class SetOf(indexin: Indexing, member: Member) extends SetExpression
+  case class SetOf(indexing: Indexing, member: Member) extends SetExpression
 
   case class Union(s1: SetExpression, s2: SetExpression) extends SetExpression
 

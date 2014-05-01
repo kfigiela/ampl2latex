@@ -6,7 +6,7 @@ import pl.edu.agh.mplt.parser.formula.expression.Expression
 import pl.edu.agh.mplt.parser.formula.Formula
 
 
-trait LogicalExpression extends Formula
+sealed trait LogicalExpression extends Formula
 
 case class ParenthesizedLogical(expr: LogicalExpression) extends LogicalExpression
 

@@ -21,16 +21,6 @@ class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
       }
   }
 
-  buggedFiles.map {
-    buggedFile =>
-      it should ("not parse file " + buggedFile.getName) in {
-        intercept[Exception] {
-          ParsedFile.fromAMPL(buggedFile).ast
-        }
-      }
-  }
-
-
   private def files: List[File] = resources.listFiles.filter(!_.isDirectory).toList
 
   private def buggedFiles: List[File] = new File("src" + / + "test"

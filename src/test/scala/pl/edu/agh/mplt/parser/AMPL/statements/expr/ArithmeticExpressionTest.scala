@@ -69,7 +69,7 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
   }
 
   it should "parse parenthesis" in {
-    parse("(1 + 2) * 3") should be(Bin.*(Bin.+(1, 2), 3))
+    parse("(1 + 2) * 3") should be(Bin.*(ParenthesizedExpression(Bin.+(1, 2)), 3))
   }
 
   ////////////////////////////////////////////
@@ -222,7 +222,7 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
                          | - sum {t in 1..T}
                        """.stripMargin) match {
       case parser.Success(_, _) =>
-      case _                    => throw new Exception
+      case _ => throw new Exception
     }
   }
 

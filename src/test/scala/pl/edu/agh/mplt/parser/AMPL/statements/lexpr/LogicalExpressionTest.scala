@@ -59,7 +59,8 @@ class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplici
     parse("1 + 3 >= 7 * z - 5") should be(
       Comparision.>=(
         Bin.+(1, 3),
-        Bin.-(Bin.*(7, "a"), 5)))
+        Bin.-(Bin.*(7, "z"), 5))
+    )
   }
 
   //////////////////////

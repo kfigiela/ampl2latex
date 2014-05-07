@@ -32,11 +32,11 @@ trait LogicalExpressionTranslator {
     case and(_, _) => 5
     case LogicalReduction.Exists(_, _) | LogicalReduction.Forall(_, _) => 6
     case or(_, _) => 7
-    case _ => 10
-  }
+  case _ => 10
+}
 
   def translateLogicalExpression(lexpr: LogicalExpression): String = lexpr match {
-    case ParenthesizedLogical(l) => s"($l)"
+    case ParenthesizedLogical(l) => s"(${translateLogicalExpression(l)})"
     case _ => translateWithPriority(lexpr)(logicalPriority(lexpr))
 
   }

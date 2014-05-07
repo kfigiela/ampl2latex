@@ -189,8 +189,6 @@ class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplici
 
   ///////////////////
 
-
-
   "conjunction" should "precede alternative" in {
     parse("x and y or z") should be(Logical.or(Logical.and("x", "y"), "z"))
   }

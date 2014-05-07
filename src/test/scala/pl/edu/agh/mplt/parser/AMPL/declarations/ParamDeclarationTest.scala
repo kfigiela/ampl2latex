@@ -52,7 +52,7 @@ class ParamDeclarationTest extends FlatSpec with Matchers with IntercodeImplicit
   }
 
   it should "parse parameter declaration with default attribute" in {
-    parse("param x default 3;") should be(ParameterDeclaration("x", attributes = List(Attribute.Default(3))))
+    parse("param x default 3;") should be(ParameterDeclaration("x", attributes = List(Attribute.DefaultValue(3))))
   }
 
   it should "parse parameter declaration with  attribute" in {

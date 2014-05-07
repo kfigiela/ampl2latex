@@ -1,11 +1,13 @@
 package pl.edu.agh.mplt.manipulators.latex
 
-import pl.edu.agh.mplt.manipulators.Manipulator
 import pl.edu.agh.mplt.parser.formula.expression._
-import pl.edu.agh.mplt.parser.formula.set.Indexing
+import pl.edu.agh.mplt.parser.formula.set.{SetExpression, Indexing}
 import pl.edu.agh.mplt.parser.reference.SimpleReference
 
 import language.implicitConversions
+import pl.edu.agh.mplt.parser.ASTNode
+import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
+
 trait ExpressionTranslator {
 
   import Bin._
@@ -14,20 +16,26 @@ trait ExpressionTranslator {
   implicit def expressionPriority(expr: Expression): Int = expr match {
     case +(_, _) | -(_, _) | less(_, _) => 1
     case *(_, _) | /(_, _) | div(_, _) | mod(_, _) => 2
-    case ^(_, _) => 3
+    case FunctionCall(_, _) => 3
+    case ^(_, _) => 4
     case _ => 10
   }
 
   def translateIndexing(indexing: Indexing): String
 
+  def reduce[A <: ASTNode](begin: String, end: String)(delim: String)(list: Traversable[A], f: A => String): String
+
+  def translateSetExpression(sexpr: SetExpression): String
+
+  def translateLogicalExpression(lexpr: LogicalExpression): String
 
   def translateExpression(expr: Expression): String = expr match {
     case Number(n) => n
     case arith: ArithmeticOperation => translateArithmeticExpression(arith)(expressionPriority(arith))
-    case ExpressionIf(lexpr, t, f) => s"if $lexpr then $t else $f"
-    case fun@FunctionCall(_, _) => translateFunction(fun)
+    case ExpressionIf(lexpr, t, f) => s"if \\ ${translateLogicalExpression(lexpr)}\\ then:\\ ${translateExpression(t)}\\ else:\\ ${translateExpression(f)}"
+    case fun@FunctionCall(_, _) => s"${translateFunction(fun)}"
     case PiecewiseLinearTerm(_, _, _) => "plt"
-    case ParenthesizedExpression(expr) => s"(${translateExpression (expr)})"
+    case ParenthesizedExpression(expr) => s"(${translateExpression(expr)})"
     case SimpleReference(x) => x
   }
 
@@ -51,20 +59,23 @@ trait ExpressionTranslator {
     case /(left, right) => s"\\frac{${translateExpression(left)}}{${translateExpression(right)}}"
 
 
-    case Unary.-(expr) => s"- ${translateExpression(expr)}"
+    case Unary.-(expr) => s"(- ${translateExpression(expr)})"
 
-    case Sum(indexing: Indexing, expr: Expression) => s"$indexing \\sum {${translateExpression(expr)}}"
-    case Prod(indexing: Indexing, expr: Expression) => s"$indexing \\prod {${translateExpression(expr)}}"
-    case Max(indexing: Indexing, expr: Expression) => s"$indexing max(${translateExpression(expr)})"
-    case Min(indexing: Indexing, expr: Expression) => s"$indexing min(${translateExpression(expr)})"
+    case Sum(Indexing(sexprs, _), expr) => s"${mergeIndexingWithReduction(sexprs, "\\sum")} {${translateExpression(expr)}}"
+    case Prod(Indexing(sexprs, _), expr) => s"${mergeIndexingWithReduction(sexprs, "\\prod")} {${translateExpression(expr)}}"
+    case Max(Indexing(sexprs, _), expr) => s"${mergeIndexingWithReduction(sexprs, "\\max")}(${translateExpression(expr)})"
+    case Min(Indexing(sexprs, _), expr) => s"${mergeIndexingWithReduction(sexprs, "\\min")}(${translateExpression(expr)})"
   }
+
+  def mergeIndexingWithReduction(sexprs: List[SetExpression], red: String) =
+    s"${red}_${reduce[SetExpression]("{", "}")("\\atop")(sexprs, "{" + translateSetExpression(_) + "}")}"
 
   def translateFunction(function: FunctionCall): String = {
     val FunctionCall(name, args) = function
 
     def translateFirstArg: String = translateExpression(args(0))
     def translateSecondArg: String = translateExpression(args(0))
-    def translateArgs: String = (translateExpression(args(0)) /: args.drop(1))(_ + ", " + translateExpression(_))
+    def translateArgs: String = (translateExpression(args(0)) /: args.drop(1))(_ + ",\\ " + translateExpression(_))
 
     name match {
       case "abs" => s"|$translateFirstArg|"

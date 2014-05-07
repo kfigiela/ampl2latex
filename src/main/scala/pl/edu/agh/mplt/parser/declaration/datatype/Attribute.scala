@@ -20,13 +20,7 @@ object Attribute {
 
   case class Inclusion(sexpr: SetExpression) extends Attribute
 
-  case class Default(expr: Expression) extends Attribute
-
-  case class Coefficient(indexing: Option[Indexing], constraint: Reference, expr: Expression) extends Attribute
-
-  case class Cover(indexing: Option[Indexing], constraint: Reference) extends Attribute
-
-  case class Objective(indexing: Option[Indexing], objective: Reference, expr: Expression) extends Attribute
+  case class DefaultValue(expr: Expression) extends Attribute
 
   case class Defined(expr: Expression) extends Attribute
 
@@ -40,5 +34,10 @@ object Attribute {
 
   case class DefaultSet(set: SetExpression) extends Attribute
 
+  case class Coefficient(indexing: Option[Indexing], constraint: Reference, expr: Expression) extends Attribute
+
+  case class Cover(indexing: Option[Indexing], constraint: Reference) extends Attribute
+
+  case class Objective(indexing: Option[Indexing], objective: Reference, expr: Expression) extends Attribute
 
 }

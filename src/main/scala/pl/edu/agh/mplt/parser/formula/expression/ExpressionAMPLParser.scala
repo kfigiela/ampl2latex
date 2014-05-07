@@ -22,8 +22,9 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
 
   def lexpr: Parser[LogicalExpression]
 
-  private def ifExpr: Parser[Expression] = "if" ~> lexpr ~ "then" ~ expr ~ (("else" ~> expr) ?) ^^ {
-    case lexpr ~ _ ~ t ~ f => ExpressionIf(lexpr, t, f)
+  private def ifExpr: Parser[Expression] = "if" ~> lexpr ~ ("then" ~> expr) ~ (("else" ~> expr) ?) ^^ {
+    case lexpr ~  t ~ None => ExpressionIf(lexpr, t)
+    case lexpr ~  t ~ Some(f) => ExpressionIf(lexpr, t, f)
   }
 
   private def arithmeticExpression: Parser[Expression] =

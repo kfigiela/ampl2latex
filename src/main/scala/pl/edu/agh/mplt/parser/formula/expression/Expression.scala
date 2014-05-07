@@ -11,7 +11,7 @@ case class ParenthesizedExpression(expr: Expression) extends Expression
 case class Number(v: String) extends Expression
 
 case class ExpressionIf(lexpr: LogicalExpression, trueBranch: Expression,
-                        falseBranch: Option[Expression] = None) extends Expression
+falseBranch: Expression = Number("0")) extends Expression
 
 case class FunctionCall(name: String, args: List[Expression]) extends Expression
 

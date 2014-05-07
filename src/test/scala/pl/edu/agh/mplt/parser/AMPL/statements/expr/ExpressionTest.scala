@@ -39,23 +39,22 @@ class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   }
 
   it should "parse conditional expression with else" in {
-    parse("if 1 == 1 then 2 else 3") should be(ExpressionIf(Comparision.==(1, 1), 2, Some(3)))
+    parse("if 1 == 1 then 2 else 3") should be(ExpressionIf(Comparision.==(1, 1), 2, 3))
   }
 
   it should "parse chained conditional expressions" in {
     parse("if 1 == 1 then if 1 == 1 then 2 else 3") should be(ExpressionIf(Comparision.==(Number(1), Number(1)),
       ExpressionIf(Comparision.==(Number(1), Number(1)),
         Number(2),
-        Some(Number(3))),
-      None))
+        Number(3))))
   }
 
   it should "parse chained conditional expressions with two elses" in {
     parse("if 1 == 1 then if 1 == 1 then 1 else 2 else 3") should be(ExpressionIf(Comparision.==(Number(1), Number(1)),
       ExpressionIf(Comparision.==(Number(1), Number(1)),
         Number(1),
-        Some(Number(2))),
-      Some(Number(3))))
+        Number(2)),
+      Number(3)))
   }
 
   it should "parse function call" in {

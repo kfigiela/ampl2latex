@@ -9,22 +9,24 @@ import pl.edu.agh.mplt.parser.declaration.datatype.ParameterDeclaration
 trait DataDeclarationTranslator {
   def translateIndexing(i: Indexing): String
 
+  def translateAttribute(attr: Attribute)(name: String): String
+
   def translateData(data: DatatypeDeclaration): String = data match {
     case ParameterDeclaration(name, alias, indexing, attributes) =>
-      s"param $name ${translate(alias, indexing, attributes)}"
+      s"param \\ ${translate(name, alias, indexing, attributes)}"
     case VariableDeclaration(name, alias, indexing, attributes) =>
-      s"var $name ${translate(alias, indexing, attributes)}"
+      s"var \\ ${translate(name, alias, indexing, attributes)}"
     case SetDeclaration(name, alias, indexing, attributes) =>
-      s"set $name ${translate(alias, indexing, attributes)}"
+      s"set \\ ${translate(name, alias, indexing, attributes)}"
   }
 
-  def translate(alias: Option[String], indexing: Option[Indexing], attributes: List[Attribute]): String =
-    s"${if (indexing.isEmpty) "" else indexing.map(translateIndexing)} ${translate(attributes)}"
+  def translate(name: String, alias: Option[String], indexing: Option[Indexing], attributes: List[Attribute]): String =
+    s"$name : ${indexing.fold("")(translateIndexing)} ${translate(attributes)(name)}"
 
-  def translate(attrs: List[Attribute]): String = {
+  def translate(attrs: List[Attribute])(name: String): String = {
     attrs match {
       case Nil => ""
-      case hd :: tl => (translate(hd) /: tl)(_ + ", " + translate(_))
+      case hd :: tl => (translateAttribute(hd)(name) /: tl)(_ + ",\\ " + translateAttribute(_)(name))
     }
   }
 

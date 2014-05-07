@@ -20,8 +20,8 @@ trait SetExpressionAMPLParser extends JavaTokenParsers {
 
   def indexing: Parser[Indexing]
 
-  private def ifSetExpr: Parser[SetExpression] = "if" ~> lexpr ~ "then" ~ sexpr ~ ("else" ~> sexpr) ^^ {
-    case lexpr ~ _ ~ t ~ f => SetExpressionIf(lexpr, t, f)
+  private def ifSetExpr: Parser[SetExpression] = "if" ~> lexpr ~ ("then" ~> sexpr) ~ ("else" ~> sexpr) ^^ {
+    case lexpr  ~ t ~ f => SetExpressionIf(lexpr, t, f)
   }
 
   private def setOperation = chainl1(intersection, "union" ^^^ Sets.Union | "diff" ^^^ Sets.Difference |

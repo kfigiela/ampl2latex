@@ -1,6 +1,6 @@
-package pl.edu.agh.mplt.manipulators
+package pl.edu.agh.mplt.visitors
 
-import pl.edu.agh.mplt.manipulators.latex._
+import pl.edu.agh.mplt.visitors.latex._
 import pl.edu.agh.mplt.parser.declaration.Declaration
 import pl.edu.agh.mplt.parser.declaration.constraint.ConstraintDeclaration
 import pl.edu.agh.mplt.parser.declaration.assertion.Assertion
@@ -8,7 +8,7 @@ import pl.edu.agh.mplt.parser.declaration.objective.ObjectiveDeclaration
 import pl.edu.agh.mplt.parser.declaration.datatype.DatatypeDeclaration
 import pl.edu.agh.mplt.parser.ASTNode
 
-class LatexTranslator extends Manipulator with DataDeclarationTranslator with ExpressionTranslator
+class LatexTranslator extends Visitor with DataDeclarationTranslator with ExpressionTranslator
 with SetExpressionTranslator with LogicalExpressionTranslator with MemberTranslator with DataAttributeTranslator
 with ReferenceTranslator {
 

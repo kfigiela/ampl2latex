@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.manipulators.latex
+package pl.edu.agh.mplt.visitors.latex
 
 import pl.edu.agh.mplt.parser.declaration.datatype._
 import pl.edu.agh.mplt.parser.declaration.datatype.VariableDeclaration

@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.manipulators.latex
+package pl.edu.agh.mplt.visitors.latex
 
 import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.member.Member
@@ -39,7 +39,8 @@ trait SetExpressionTranslator {
       case _ => "{}"
     }
     case SetComprehension(start, end, Number("1")) => s"[ x | x \\in [${translateMember(start)}, ${translateMember(end)}] ]"
-    case SetComprehension(start, end, step) => s"[ x | x \\in [${translateMember(start)}, ${translateMember(end)}]: (${translateExpression(step)} \\mid x) ]"
+    case SetComprehension(start, end, step) => "[ x_{n} | \\bigwedge_{n \\in \\mathbb{N}}: " +
+      s"x_{0} = ${translateMember(start)}, x_{n} = x_{n-1} + ${translateExpression(step)}, x_{n} < ${translateMember(end)}]"
 
     case ref: Reference => translateRef(ref)
   }

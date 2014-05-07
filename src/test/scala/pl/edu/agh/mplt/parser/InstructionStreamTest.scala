@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser
 
 import org.scalatest.{FlatSpec, Matchers}
-import pl.edu.agh.mplt.manipulators.LatexTranslator
+import pl.edu.agh.mplt.visitors.LatexTranslator
 
 class InstructionStreamTest extends FlatSpec with Matchers {
 

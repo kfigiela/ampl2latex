@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.manipulators.latex
+package pl.edu.agh.mplt.visitors.latex
 
 import pl.edu.agh.mplt.parser.declaration.datatype.Attribute
 import pl.edu.agh.mplt.parser.declaration.datatype.Attribute._
@@ -17,7 +17,7 @@ trait DataAttributeTranslator {
     case Relation(op, expr) => s"$name ${translateOperator(op)} ${translateExpression(expr)}"
     case Inclusion(sexpr) => s"$name \\in {${translateSetExpression(sexpr)}}"
     case Defined(expr) => s"$name := {${translateExpression(expr)}}"
-    case Dimension(n) => s"$name \\in \\mathbb{Z}^{$n}"
+    case Dimension(n) => s"$name \\in \\mathbb{R}^{$n}"
     case Within(sexpr) => s"$name \\subseteq  {${translateSetExpression(sexpr)}}"
     case DefaultValue(expr) => s"$name = {${translateExpression(expr)}}"
     case FinalValue(expr) => s"$name = {${translateExpression(expr)}}"

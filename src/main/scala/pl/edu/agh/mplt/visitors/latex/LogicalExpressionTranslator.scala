@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.manipulators.latex
+package pl.edu.agh.mplt.visitors.latex
 
 import pl.edu.agh.mplt.parser.formula.logical._
 import pl.edu.agh.mplt.parser.formula.set.{SetExpression, Indexing}

@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.manipulators.latex
+package pl.edu.agh.mplt.visitors.latex
 
 import pl.edu.agh.mplt.parser.member.{StringMember, ExpressionMember, MultiMember, Member}
 import pl.edu.agh.mplt.parser.formula.expression.Expression

@@ -1,8 +1,8 @@
-package pl.edu.agh.mplt.manipulators
+package pl.edu.agh.mplt.visitors
 
 import pl.edu.agh.mplt.parser.declaration.Declaration
 
 
-trait Manipulator {
+trait Visitor {
   def translateDeclaration(declaration: Declaration): String
 }

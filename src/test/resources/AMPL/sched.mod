@@ -1,6 +1,6 @@
 set SHIFTS;               # shifts
 
-param Nsched;             # number of schedules;
+param Nsched;             # number of schedules
 set SCHEDS = 1..Nsched;   # set of schedules
 
 set SHIFT_LIST {SCHEDS} within SHIFTS;

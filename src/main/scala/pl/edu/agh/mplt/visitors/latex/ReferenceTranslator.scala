@@ -10,9 +10,8 @@ trait ReferenceTranslator {
 
   def translateRef(ref: Reference): String = ref match {
     case SimpleReference(name) => name
-    case IndexedReference(name, indexes) => s"$name${reduce("[", "]")("][")(indexes, translateExpression)}"
-
-  }
+    case IndexedReference(ref, indexes) => s"${translateRef(ref)}${reduce("[", "]")("][")(indexes, translateExpression)}"
+}
 
   def reduce[A <: ASTNode](begin: String, end: String)(delim: String)(list: Traversable[A], f: A => String): String
 

@@ -35,12 +35,12 @@ trait SetExpressionTranslator {
 
   private def translateLiteral(lit: SetLiteral): String = lit match {
     case ExplicitSet(members) => members.find(_ => true) match {
-      case Some(member) => (translateMember(member) /: (members - member))(_ + ", " + translateMember(_))
+      case Some(member) => "\\{" + (translateMember(member) /: (members - member))(_ + ", " + translateMember(_)) + "\\}"
       case _ => "{}"
     }
-    case SetComprehension(start, end, Number("1")) => s"[ x | x \\in [${translateMember(start)}, ${translateMember(end)}] ]"
-    case SetComprehension(start, end, step) => "[ x_{n} | \\bigwedge_{n \\in \\mathbb{N}}: " +
-      s"x_{0} = ${translateMember(start)}, x_{n} = x_{n-1} + ${translateExpression(step)}, x_{n} < ${translateMember(end)}]"
+    case SetComprehension(start, end, Number("1")) => s"{ x | x \\in [${translateMember(start)}, ${translateMember(end)}] }"
+    case SetComprehension(start, end, step) => "{ x_{n} | \\bigwedge_{n \\in \\mathbb{N}}: " +
+      s"x_{0} = ${translateMember(start)}, x_{n} = x_{n-1} + ${translateExpression(step)}, x_{n} < ${translateMember(end)}}"
 
     case ref: Reference => translateRef(ref)
   }

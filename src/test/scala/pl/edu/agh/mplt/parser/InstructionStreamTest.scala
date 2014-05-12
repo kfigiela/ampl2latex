@@ -18,14 +18,14 @@ class InstructionStreamTest extends FlatSpec with Matchers {
         | - min(5, 5) ** floor( exp(x*y));""".stripMargin
 
     val v2 =
-    """ param v2 {j in A: j > 0} < 10, > -10, in {1, 2, 3, e ^ x}, <> v1, default if (v1 > 3) then 5;"""
+    """ param v2 {j in A: j > 0} < 10, > -10, in {1, 2, 3, e ^ x}, <> v1, default if (v1 > 3) then s1[j, i+1, t*3];"""
 
     val s1 =
     """set apples oranges {i in INDICES} dimen 14, default if(7 * 5 < i) then 1..2.3 else 1..3 by 6;"""
 
     val decs = List(v1, v2, s1)
 
-    val declarations = decs.map(parser.parse).map(_.get).map(tr.translateDeclaration).reduce(_ + " \\\\ \n"  + _)
+    val declarations = decs.map(parser.parse).map(_.get).map(tr.visit).reduce(_ + " \\\\ \n"  + _)
 
     println(declarations)
 

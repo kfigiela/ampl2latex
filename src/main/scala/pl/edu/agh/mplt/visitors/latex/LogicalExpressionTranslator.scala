@@ -6,6 +6,7 @@ import pl.edu.agh.mplt.parser.member.Member
 import pl.edu.agh.mplt.parser.formula.expression.Expression
 
 import language.implicitConversions
+import pl.edu.agh.mplt.parser.reference.Reference
 
 trait LogicalExpressionTranslator {
 
@@ -16,7 +17,7 @@ trait LogicalExpressionTranslator {
   def translateExpression(expr: Expression): String
 
   def translateMember(member: Member): String
-
+  def translateRef(ref: Reference): String
   import Logical._
   import LogicalReduction._
 
@@ -37,6 +38,7 @@ trait LogicalExpressionTranslator {
 
   def translateLogicalExpression(lexpr: LogicalExpression): String = lexpr match {
     case ParenthesizedLogical(l) => s"(${translateLogicalExpression(l)})"
+      case ref :Reference => translateRef(ref)
     case _ => translateWithPriority(lexpr)(logicalPriority(lexpr))
 
   }

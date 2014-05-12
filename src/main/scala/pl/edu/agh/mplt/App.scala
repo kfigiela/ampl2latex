@@ -3,6 +3,7 @@ package pl.edu.agh.mplt
 import java.io.{PrintWriter, File}
 import pl.edu.agh.mplt.parser.declaration.Declaration
 import scala.annotation.tailrec
+import pl.edu.agh.mplt.visitors.LatexTranslator
 
 object App {
   def main(args: Array[String]) {
@@ -15,20 +16,18 @@ object App {
       val out = new PrintWriter(new File(args(1)))
 
       println("starts")
+
+      val tr = new LatexTranslator
+
       try {
         @tailrec
         def persist(str: Stream[Declaration]): Unit =
           if (!str.isEmpty) {
-            out.println(str.head)
+            out.println(tr.visit(str.head) + "\\\\")
             persist(str.tail)
           }
         println("prints")
         persist(parsedFile.ast)
-
-        //        parsedFile.ast.foreach(line => {
-        //          out.println(line.toString)
-        //        })
-        //        println(parsedFile.ast)
 
       } catch {
         case e: Throwable =>

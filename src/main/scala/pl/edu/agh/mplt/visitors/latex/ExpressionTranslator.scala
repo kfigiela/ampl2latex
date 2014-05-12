@@ -2,7 +2,7 @@ package pl.edu.agh.mplt.visitors.latex
 
 import pl.edu.agh.mplt.parser.formula.expression._
 import pl.edu.agh.mplt.parser.formula.set.{SetExpression, Indexing}
-import pl.edu.agh.mplt.parser.reference.SimpleReference
+import pl.edu.agh.mplt.parser.reference.Reference
 
 import language.implicitConversions
 import pl.edu.agh.mplt.parser.ASTNode
@@ -29,14 +29,16 @@ trait ExpressionTranslator {
 
   def translateLogicalExpression(lexpr: LogicalExpression): String
 
+  def translateRef(ref: Reference): String
+
   def translateExpression(expr: Expression): String = expr match {
+    case ref: Reference => translateRef(ref)
     case Number(n) => n
     case arith: ArithmeticOperation => translateArithmeticExpression(arith)(expressionPriority(arith))
     case ExpressionIf(lexpr, t, f) => s"if \\ ${translateLogicalExpression(lexpr)}\\ then:\\ ${translateExpression(t)}\\ else:\\ ${translateExpression(f)}"
     case fun@FunctionCall(_, _) => s"${translateFunction(fun)}"
     case PiecewiseLinearTerm(_, _, _) => "plt"
     case ParenthesizedExpression(expr) => s"(${translateExpression(expr)})"
-    case SimpleReference(x) => x
   }
 
   def joinWithDelimeter(left: Expression, right: Expression, delimeter: String)

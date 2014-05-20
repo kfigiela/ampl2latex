@@ -23,7 +23,7 @@ trait DataDeclarationTranslator {
   }
 
   def translate(name: String, alias: Option[String], indexing: Option[Indexing], attributes: List[Attribute]): String =
-    s"${fixFloor(name) } : ${indexing.fold("")(translateIndexing) } ${translate(attributes)(name) }"
+    s"${fixFloor(name) } : ${indexing.fold("")(translateIndexing) } ${translate(attributes)(fixFloor(name)) }"
 
   def translate(attrs: List[Attribute])(name: String): String = {
     attrs match {

@@ -27,8 +27,15 @@ trait SetExpressionTranslator {
       case Difference(left, right)           => s"{${translateSetExpression(left) } \\setminus ${translateSetExpression(right) }"
       case SymetricDifference(left, right)   => s"{${translateSetExpression(left) } \\oplus ${translateSetExpression(right) }"
       case Cartesian(left, right)            => s"{${translateSetExpression(left) } \\times ${translateSetExpression(right) }"
-      case SetExpressionIf(c, t, f)          =>
-        s"if \\ ${translateLogicalExpression(c) } \\ then: \\ ${translateSetExpression(t) } \\ else: \\ ${translateSetExpression(f) }"
+      case SetExpressionIf(lexpr, t, f)     =>
+        val (trueBranch, falseBranch) = (t, f) match {
+          case (SetExpressionIf(_, _, _),
+          SetExpressionIf(_, _, _))          => (s"(${translateSetExpression(t) })", s"(${translateSetExpression(f) })")
+          case (SetExpressionIf(_, _, _), _) => (s"(${translateSetExpression(t) })", translateSetExpression(f))
+          case (_, SetExpressionIf(_, _, _)) => (translateSetExpression(t), s"(${translateSetExpression(f) })")
+          case _                          => (translateSetExpression(t), translateSetExpression(f))
+        }
+        s"if \\ ${translateLogicalExpression(lexpr) } \\ then:\\ $trueBranch\\ else:\\ $falseBranch "
       case IndexedSet(indexes, sexpr)        => s"{${
         (indexes.head /: indexes.tail)(_ + ", " + _)
       } \\in ${translateSetExpression(sexpr) }}"

@@ -6,6 +6,12 @@ import pl.edu.agh.mplt.parser.formula.set.Indexing
 
 trait DataDeclaration extends Declaration {
   def name: String
+
+  def alias: Option[String]
+
+  def indexing: Option[Indexing]
+
+  def attributes: List[Attribute]
 }
 
 case class ParameterDeclaration(name: String,

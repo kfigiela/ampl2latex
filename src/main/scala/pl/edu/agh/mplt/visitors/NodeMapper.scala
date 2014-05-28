@@ -2,13 +2,14 @@ package pl.edu.agh.mplt.visitors
 
 import pl.edu.agh.mplt.parser.ASTNode
 import scala.collection.mutable
+import pl.edu.agh.mplt.visitors.latex.tmp.TmpVisitor
 
-trait NodeMapper {
+trait NodeMapper[A <: ASTNode] {
   def operations: mutable.Seq[NodeMapper]
 
-  def apply(node: ASTNode): ASTNode
+  def apply(node: A): A
 
   def andThen(mapping: NodeMapper) = mapping +: operations
 
-  def andThen[A](v: Visitor[A]): NodeAggregator[A] = new NodeAggregator[A](operations :+ this, v)
+  def andThen[B](v: TmpVisitor[A, B]): NodeAggregator[A, B] = new NodeAggregator[A, B](operations :+ this, v)
 }

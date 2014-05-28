@@ -2,7 +2,7 @@ package pl.edu.agh.mplt.visitors
 
 import pl.edu.agh.mplt.parser.ASTNode
 import scala.collection.mutable
-import pl.edu.agh.mplt.visitors.latex.tmp.TmpVisitor
+import pl.edu.agh.mplt.visitors.latex.TmpVisitor
 
 trait NodeMapper[A <: ASTNode] {
   def operations: mutable.Seq[NodeMapper]

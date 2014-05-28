@@ -64,7 +64,7 @@ trait SetExpressionTranslator {
         IndexedSet(List(s"\\_x${i }"), set)
     }
     Indexing(sexprs, ind.lexpr)
-  }
+}
 
   def translateIndexing(ind: Indexing): String = addSetMembers(ind) match {
     case Indexing(sexprs, lexpr) => {

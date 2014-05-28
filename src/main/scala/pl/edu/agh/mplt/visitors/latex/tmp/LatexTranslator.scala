@@ -18,5 +18,4 @@ class LatexTranslator extends Translator[Declaration] {
     case dec                      => throw new Error(s"Unexpected token: $dec")
   }
 
-  override def apply(node: Declaration): String = ???
 }

@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.parser.declaration.datatype
+package pl.edu.agh.mplt.parser.declaration.data
 
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.formula.set.Indexing
@@ -14,7 +14,7 @@ trait DatatypeDeclarationAMPLParser extends JavaTokenParsers {
 
   private def datatype: Parser[String] = "param" | "set" | "var"
 
-  def datatypeDeclaration: Parser[DatatypeDeclaration] =
+  def datatypeDeclaration: Parser[DataDeclaration] =
     datatype ~ nonKeyword ~ (nonAttributeKeyword ?) ~ (indexing ?) ~ repsep(attribute, "," ?) <~ ";" ^^ {
       case "param" ~ name ~ optAlias ~ optIndexing ~ optAttributes => ParameterDeclaration(name, optAlias, optIndexing,
         optAttributes)

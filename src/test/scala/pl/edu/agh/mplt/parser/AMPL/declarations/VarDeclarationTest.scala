@@ -8,7 +8,7 @@ import pl.edu.agh.mplt.parser.reference.SimpleReference
 import pl.edu.agh.mplt.parser.formula.set.Indexing
 import scala.Some
 import pl.edu.agh.mplt.parser.formula.set.IndexedSet
-import pl.edu.agh.mplt.parser.declaration.datatype.{VariableDeclaration, Attribute}
+import pl.edu.agh.mplt.parser.declaration.data.{VariableDeclaration, Attribute}
 
 class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = AMPLParser()

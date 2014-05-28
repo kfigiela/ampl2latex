@@ -11,7 +11,7 @@ import pl.edu.agh.mplt.parser.formula.set.Indexing
 import scala.Some
 import pl.edu.agh.mplt.parser.member.StringMember
 import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
-import pl.edu.agh.mplt.parser.declaration.datatype.{SetDeclaration, Attribute}
+import pl.edu.agh.mplt.parser.declaration.data.{SetDeclaration, Attribute}
 
 
 class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {

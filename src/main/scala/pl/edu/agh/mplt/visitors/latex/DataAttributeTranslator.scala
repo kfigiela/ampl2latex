@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.visitors.latex
 
-import pl.edu.agh.mplt.parser.declaration.datatype.Attribute
-import pl.edu.agh.mplt.parser.declaration.datatype.Attribute._
+import pl.edu.agh.mplt.parser.declaration.data.Attribute
+import pl.edu.agh.mplt.parser.declaration.data.Attribute._
 import pl.edu.agh.mplt.parser.formula.expression.Expression
 import pl.edu.agh.mplt.parser.formula.set.SetExpression
 

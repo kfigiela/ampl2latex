@@ -1,9 +1,9 @@
 package pl.edu.agh.mplt.visitors.latex
 
-import pl.edu.agh.mplt.parser.declaration.datatype._
-import pl.edu.agh.mplt.parser.declaration.datatype.VariableDeclaration
+import pl.edu.agh.mplt.parser.declaration.data._
+import pl.edu.agh.mplt.parser.declaration.data.VariableDeclaration
 import pl.edu.agh.mplt.parser.formula.set.Indexing
-import pl.edu.agh.mplt.parser.declaration.datatype.ParameterDeclaration
+import pl.edu.agh.mplt.parser.declaration.data.ParameterDeclaration
 
 
 trait DataDeclarationTranslator {
@@ -13,7 +13,7 @@ trait DataDeclarationTranslator {
 
   def fixFloor(name: String): String
 
-  def translateData(data: DatatypeDeclaration): String = data match {
+  def translateData(data: DataDeclaration): String = data match {
     case ParameterDeclaration(name, alias, indexing, attributes) =>
       s"param \\ ${translate(name, alias, indexing, attributes) }"
     case VariableDeclaration(name, alias, indexing, attributes)  =>

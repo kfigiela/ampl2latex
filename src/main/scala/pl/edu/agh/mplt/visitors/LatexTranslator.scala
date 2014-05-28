@@ -5,7 +5,7 @@ import pl.edu.agh.mplt.parser.declaration.Declaration
 import pl.edu.agh.mplt.parser.declaration.constraint.ConstraintDeclaration
 import pl.edu.agh.mplt.parser.declaration.assertion.Assertion
 import pl.edu.agh.mplt.parser.declaration.objective.ObjectiveDeclaration
-import pl.edu.agh.mplt.parser.declaration.datatype.DatatypeDeclaration
+import pl.edu.agh.mplt.parser.declaration.data.DataDeclaration
 import pl.edu.agh.mplt.parser.ASTNode
 
 class LatexTranslator extends Visitor[String] with DataDeclarationTranslator with ExpressionTranslator
@@ -15,7 +15,7 @@ with ReferenceTranslator {
   override def visit(declaration: Declaration): String = declaration match {
 //    case c: ConstraintDeclaration => translateConstraint(c)
 //    case o: ObjectiveDeclaration => translateObjective(o)
-    case d: DatatypeDeclaration => translateData(d)
+    case d: DataDeclaration => translateData(d)
     case _ => ""
 //    case a: Assertion => translateAssertion(a)
   }

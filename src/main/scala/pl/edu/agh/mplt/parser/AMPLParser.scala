@@ -11,7 +11,7 @@ import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.declaration.assertion.{Assertion, CheckAMPLParser}
-import pl.edu.agh.mplt.parser.declaration.datatype.{DatatypeDeclaration, AttributeAMPLParser,
+import pl.edu.agh.mplt.parser.declaration.data.{DataDeclaration, AttributeAMPLParser,
 DatatypeDeclarationAMPLParser}
 
 trait AMPLParser extends JavaTokenParsers with KeywordAMPLParser with CommentAMPLParser
@@ -29,7 +29,7 @@ with CheckAMPLParser {
 
   def nonKeyword: Parser[String]
 
-  def datatypeDeclaration: Parser[DatatypeDeclaration]
+  def datatypeDeclaration: Parser[DataDeclaration]
 
   def constraintDeclaration: Parser[ConstraintDeclaration]
 

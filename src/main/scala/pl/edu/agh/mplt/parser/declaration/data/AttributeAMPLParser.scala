@@ -1,4 +1,4 @@
-package pl.edu.agh.mplt.parser.declaration.datatype
+package pl.edu.agh.mplt.parser.declaration.data
 
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.formula.expression.Expression

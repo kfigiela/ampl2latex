@@ -8,7 +8,7 @@ import pl.edu.agh.mplt.parser.formula.expression.ExpressionReduction.{Min, Max, 
 class ArithmeticTranslator extends Translator[ArithmeticOperation] {
 
   override def apply(node: ArithmeticOperation): String = node match {
-    case Unary.-(expr)            => s"-${(new ExprTranslator)(expr) }"
+    case Unary.-(expr)            => s"-(${(new ExprTranslator)(expr) })"
     case /(left, right)           => s"\\frac{${(new ExprTranslator)(left) }}{${(new ExprTranslator)(right) }}"
     case bin: BinaryOperation     => translateBinary(bin)
     case red: ExpressionReduction => translateReduction(red)
@@ -27,7 +27,7 @@ class ArithmeticTranslator extends Translator[ArithmeticOperation] {
     val op = getOperator(reduction)
     val expr = (new ExprTranslator)(reduction.expr)
 
-    s"$op_{$members}($expr)"
+    s"${op}_{$members}($expr)"
   }
 
   private def getOperator(operation: ArithmeticOperation) = operation match {

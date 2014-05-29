@@ -3,7 +3,7 @@ package pl.edu.agh.mplt.parser.declaration.constraint
 import pl.edu.agh.mplt.parser.formula.expression.Expression
 import pl.edu.agh.mplt.parser.ASTNode
 
-trait ConstraintExpression
+sealed trait ConstraintExpression
 
 case class BoundedConstraint(leftExpression: Option[ConstraintComparison] = None,
                              expr: Expression,

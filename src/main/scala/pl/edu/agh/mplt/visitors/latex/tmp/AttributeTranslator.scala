@@ -5,14 +5,13 @@ import pl.edu.agh.mplt.parser.declaration.data.Attribute._
 
 
 class AttributeTranslator extends Translator[Attribute] {
-   def translateOperator(op: String): String
 
    override def apply(node: Attribute): String = node match {
       case Binary   => s""
       case Integer  => s""
       case Symbolic => s""
 
-      case Relation(op, expr) => s"${translateOperator(op) } ${(new ExprTranslator)(expr) }"
+      case Relation(op, expr) => s"${translateOp(op) } ${(new ExprTranslator)(expr) }"
 
       case DefaultValue(expr) => s"= {${(new ExprTranslator)(expr) }}"
       case FinalValue(expr)   => s"= {${(new ExprTranslator)(expr) }}"

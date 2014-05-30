@@ -11,4 +11,11 @@ trait Translator[A <: ASTNode] extends TmpVisitor[A, String] {
       (new StringBuilder(ss.head) /: ss.tail)((buf, str) =>
          buf.append(",").append(str)
       ).toString()
+
+   protected def translateOp(op:String):String = op match {
+      case "!=" => "\\neq"
+      case "<=" => "\\le"
+      case ">=" => "\\ge"
+      case _ => op
+   }
 }

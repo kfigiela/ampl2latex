@@ -8,26 +8,27 @@ trait Expression extends Formula
 
 object Expression {
 
-  import Bin._
+   import Bin._
 
-  trait Associativity
+   trait Associativity
 
-  case object Left extends Associativity
+   case object Left extends Associativity
 
-  case object Right extends Associativity
+   case object Right extends Associativity
 
-  def priority(expr: Expression): Int = expr match {
-    case +(_, _) | -(_, _) | less(_, _)            => 1
-    case *(_, _) | /(_, _) | div(_, _) | mod(_, _) => 2
-    case FunctionCall(_, _)                        => 3
-    case ^(_, _)                                   => 4
-    case _                                         => 128 //based on fair dice role
-  }
+   def priority(expr: Expression): Int = expr match {
+      case +(_, _) | -(_, _) | less(_, _)            => 1
+      case *(_, _) | /(_, _) | div(_, _) | mod(_, _) => 2
+      case FunctionCall(_, _)                        => 3
+      case ^(_, _)                                   => 4
+      case ExpressionIf(_, _, _)                     => 5
+      case _                                         => 128 //based on fair dice role
+   }
 
-  def associativity(expr: BinaryOperation): Associativity = expr match {
-    case ExpressionIf(_, _, _) | -(_, _) | ^(_, _) => Right
-    case _                                         => Left
-  }
+   def associativity(expr: BinaryOperation): Associativity = expr match {
+      case ExpressionIf(_, _, _) | -(_, _) | ^(_, _) => Right
+      case _                                         => Left
+   }
 }
 
 
@@ -45,9 +46,9 @@ case class PiecewiseLinearTerm(breakpoints: List[(Option[Indexing], Expression)]
 sealed trait ArithmeticOperation extends Expression
 
 sealed trait BinaryOperation extends ArithmeticOperation {
-  def left: Expression
+   def left: Expression
 
-  def right: Expression
+   def right: Expression
 }
 
 case class ExpressionIf(lexpr: LogicalExpression,
@@ -56,44 +57,44 @@ case class ExpressionIf(lexpr: LogicalExpression,
 
 object Bin {
 
-  case class +(left: Expression, right: Expression) extends BinaryOperation
+   case class +(left: Expression, right: Expression) extends BinaryOperation
 
-  case class -(left: Expression, right: Expression) extends BinaryOperation
+   case class -(left: Expression, right: Expression) extends BinaryOperation
 
-  case class less(left: Expression, right: Expression) extends BinaryOperation
+   case class less(left: Expression, right: Expression) extends BinaryOperation
 
-  case class *(left: Expression, right: Expression) extends BinaryOperation
+   case class *(left: Expression, right: Expression) extends BinaryOperation
 
-  case class /(left: Expression, right: Expression) extends BinaryOperation
+   case class /(left: Expression, right: Expression) extends BinaryOperation
 
-  case class div(left: Expression, right: Expression) extends BinaryOperation
+   case class div(left: Expression, right: Expression) extends BinaryOperation
 
-  case class mod(left: Expression, right: Expression) extends BinaryOperation
+   case class mod(left: Expression, right: Expression) extends BinaryOperation
 
-  case class ^(left: Expression, right: Expression) extends BinaryOperation
+   case class ^(left: Expression, right: Expression) extends BinaryOperation
 
 }
 
 object Unary {
 
-  case class -(expr: Expression) extends ArithmeticOperation
+   case class -(expr: Expression) extends ArithmeticOperation
 
 }
 
 sealed trait ExpressionReduction extends ArithmeticOperation {
-  def indexing: Indexing
+   def indexing: Indexing
 
-  def expr: Expression
+   def expr: Expression
 }
 
 object ExpressionReduction {
 
-  case class Sum(indexing: Indexing, expr: Expression) extends ExpressionReduction
+   case class Sum(indexing: Indexing, expr: Expression) extends ExpressionReduction
 
-  case class Prod(indexing: Indexing, expr: Expression) extends ExpressionReduction
+   case class Prod(indexing: Indexing, expr: Expression) extends ExpressionReduction
 
-  case class Max(indexing: Indexing, expr: Expression) extends ExpressionReduction
+   case class Max(indexing: Indexing, expr: Expression) extends ExpressionReduction
 
-  case class Min(indexing: Indexing, expr: Expression) extends ExpressionReduction
+   case class Min(indexing: Indexing, expr: Expression) extends ExpressionReduction
 
 }

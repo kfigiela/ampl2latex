@@ -1,6 +1,7 @@
-package pl.edu.agh.mplt.visitors.latex.tmp
+package pl.edu.agh.mplt.visitors.translator.latex
 
 import pl.edu.agh.mplt.parser.reference.{IndexedReference, SimpleReference, Reference}
+import pl.edu.agh.mplt.visitors.translator.Translator
 
 
 class ReferenceTranslator extends Translator[Reference] {

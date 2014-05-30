@@ -1,8 +1,9 @@
-package pl.edu.agh.mplt.visitors.latex.tmp
+package pl.edu.agh.mplt.visitors.translator.latex
 
 import pl.edu.agh.mplt.parser.formula.expression._
 import pl.edu.agh.mplt.parser.formula.expression.Bin._
 import pl.edu.agh.mplt.parser.formula.expression.ExpressionReduction._
+import pl.edu.agh.mplt.visitors.translator.Translator
 
 
 class ArithmeticTranslator(translate: ExprTranslator) extends Translator[ArithmeticOperation] {
@@ -30,8 +31,6 @@ class ArithmeticTranslator(translate: ExprTranslator) extends Translator[Arithme
       val members = (new IndexingMembersTranslator)(reduction.indexing)
       val op = getOperator(reduction)
       val expr = translate(reduction.expr)
-
-      println(reduction.expr, expr)
 
       s"${op }_{$members}($expr)"
    }

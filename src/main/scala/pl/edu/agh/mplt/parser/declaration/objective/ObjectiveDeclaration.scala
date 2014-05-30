@@ -5,6 +5,8 @@ import pl.edu.agh.mplt.parser.formula.set.Indexing
 import pl.edu.agh.mplt.parser.formula.expression.Expression
 
 trait ObjectiveDeclaration extends Declaration {
+   def name:String
+
   def indexing: Option[Indexing]
 
   def expression: Option[Expression]

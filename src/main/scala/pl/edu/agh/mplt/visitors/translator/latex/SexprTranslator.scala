@@ -1,17 +1,13 @@
-package pl.edu.agh.mplt.visitors.latex.tmp
+package pl.edu.agh.mplt.visitors.translator.latex
 
 import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.formula.set.Sets.Intersection
-import pl.edu.agh.mplt.parser.formula.set.Sets.SymetricDifference
-import pl.edu.agh.mplt.parser.formula.set.Sets.Cartesian
+import pl.edu.agh.mplt.parser.formula.set.Sets._
 import pl.edu.agh.mplt.parser.formula.set.SetExpressionIf
-import pl.edu.agh.mplt.parser.formula.set.Sets.SetOf
-import pl.edu.agh.mplt.parser.formula.set.Sets.Difference
 import pl.edu.agh.mplt.parser.formula.set.Indexing
-import pl.edu.agh.mplt.parser.formula.set.Sets.Union
 import pl.edu.agh.mplt.parser.formula.set.IndexedSet
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.reference.Reference
+import pl.edu.agh.mplt.visitors.translator.Translator
 
 
 class SexprTranslator extends Translator[SetExpression] {
@@ -41,7 +37,9 @@ class SexprTranslator extends Translator[SetExpression] {
          s"\\{ x | \\ x \\in [{${(new MemberTranslator)(start) }},\\ {${(new MemberTranslator)(end) }} \\}"
 
       case SetComprehension(start, end, step) =>
-         s"\\{{${(new MemberTranslator)(start) }} \\ .. \\ {${(new MemberTranslator)(end) }} \\ by \\ {${(new ExprTranslator)(step) }}\\}"
+         s"\\{{${(new MemberTranslator)(start) }} \\ .. \\ {${(new MemberTranslator)(end) }} \\ by \\ {${
+            (new ExprTranslator)(step)
+         }}\\}"
 
       case ref: Reference => (new ReferenceTranslator)(ref)
 

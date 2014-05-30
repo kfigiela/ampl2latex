@@ -18,7 +18,7 @@ object App {
          try {
             @tailrec
             def persist(stream: Stream[String]): Unit = if (!stream.isEmpty) {
-               out.println(s"${stream.head } + \\\\")
+               out.println(s"${stream.head } \\\\")
                persist(stream.tail)
             }
 

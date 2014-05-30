@@ -1,6 +1,7 @@
-package pl.edu.agh.mplt.visitors.latex.tmp
+package pl.edu.agh.mplt.visitors.translator.latex
 
 import pl.edu.agh.mplt.parser.member._
+import pl.edu.agh.mplt.visitors.translator.Translator
 
 
 class MemberTranslator extends Translator[Member] {

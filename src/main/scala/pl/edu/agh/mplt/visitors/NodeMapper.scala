@@ -3,7 +3,7 @@ package pl.edu.agh.mplt.visitors
 
 import scala.collection.mutable
 
-import pl.edu.agh.mplt.parser.declaration.Declaration
+import pl.edu.agh.mplt.parser.declaration.{InvalidDeclaration, Declaration}
 import pl.edu.agh.mplt.parser.declaration.assertion.Assertion
 import pl.edu.agh.mplt.parser.declaration.constraint._
 import pl.edu.agh.mplt.parser.declaration.data._
@@ -20,9 +20,9 @@ import pl.edu.agh.mplt.parser.formula.set.Sets._
 import pl.edu.agh.mplt.parser.member._
 import pl.edu.agh.mplt.parser.reference._
 
-class NodeMapper(val operations: mutable.Seq[NodeMapper]) {
+class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
    def andThen(mapping: NodeMapper): NodeMapper = {
-      mapping +: operations
+      mapping +=: operations
       this
    }
 
@@ -57,7 +57,9 @@ class NodeMapper(val operations: mutable.Seq[NodeMapper]) {
          SetDeclaration(mapName(n), mapAlias(a),
             index.map(mapIndexing), attrs.map(mapAttribute))
 
-      case n => n
+      case error@InvalidDeclaration(_) => error
+
+      case n => throw new Error(s"Usupported: $n")
    }
 
    def mapName(name: String): String = name
@@ -213,6 +215,9 @@ class NodeMapper(val operations: mutable.Seq[NodeMapper]) {
    }
 
    def mapConstraint(constraint: ConstraintExpression): ConstraintExpression = constraint match {
+      case BoundedConstraint(left, expr, right) =>
+         BoundedConstraint(left.map(mapConstraintComparision), mapExpr(expr), right.map(mapConstraintComparision))
+
       case MixedComplementarity(expr, cexpr) =>
          MixedComplementarity(mapExpr(expr), mapBoundedConstraint(cexpr))
 
@@ -231,7 +236,7 @@ class NodeMapper(val operations: mutable.Seq[NodeMapper]) {
    /// DataAttribute
 
    def mapAttribute(attr: Attribute): Attribute = attr match {
-      case d@Dimension(_)               => d
+      case d@Dimension(_)             => d
       case Relation(name, expr)       => Relation(name, expr)
       case DefaultValue(expr)         => DefaultValue(mapExpr(expr))
       case Defined(expr)              => Defined(mapExpr(expr))

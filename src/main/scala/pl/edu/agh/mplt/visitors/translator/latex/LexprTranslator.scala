@@ -1,10 +1,11 @@
-package pl.edu.agh.mplt.visitors.latex.tmp
+package pl.edu.agh.mplt.visitors.translator.latex
 
 import pl.edu.agh.mplt.parser.formula.logical._
 import pl.edu.agh.mplt.parser.reference.Reference
 import pl.edu.agh.mplt.parser.formula.logical.Logical._
-import pl.edu.agh.mplt.parser.formula.logical.LogicalReduction.{Exists, Forall}
+import pl.edu.agh.mplt.parser.formula.logical.LogicalReduction._
 import pl.edu.agh.mplt.parser.formula.logical.ParenthesizedLogical
+import pl.edu.agh.mplt.visitors.translator.Translator
 
 
 class LexprTranslator extends Translator[LogicalExpression] {
@@ -20,21 +21,21 @@ class LexprTranslator extends Translator[LogicalExpression] {
       case Exclusion.subset(subset, set) =>
          s"${(new SexprTranslator)(subset) } \\in {${(new SexprTranslator)(set) }}"
 
-      case not(l)    => s"~ {${apply (l)}"
-      case or(l, r)  => s"${apply(l)} \\vee ${apply(r)}"
-      case and(l, r) => s"${apply(l)} \\wedge ${apply(r)}"
+      case not(l)    => s"~ {${apply(l) }"
+      case or(l, r)  => s"${apply(l) } \\vee ${apply(r) }"
+      case and(l, r) => s"${apply(l) } \\wedge ${apply(r) }"
 
       case Forall(indexing, lexpr) =>
-                  s"${(new IndexingTranslator)(indexing) }: {${(new LexprTranslator)(lexpr) }}"
+         s"${(new IndexingTranslator)(indexing) }: {${(new LexprTranslator)(lexpr) }}"
       case Exists(indexing, lexpr) =>
          s"${(new IndexingTranslator)(indexing) }: \\exists {${(new LexprTranslator)(lexpr) }}"
 
-      case Comparision.<=(l, r) => s"${(new ExprTranslator)(l)} \\le ${(new ExprTranslator)(r)}"
-      case Comparision.<(l, r)  => s"${(new ExprTranslator)(l)} < ${(new ExprTranslator)(r)}"
-      case Comparision.>=(l, r) => s"${(new ExprTranslator)(l)} \\ge ${(new ExprTranslator)(r)}"
-      case Comparision.>(l, r)  => s"${(new ExprTranslator)(l)} > ${(new ExprTranslator)(r)}"
-      case Comparision.==(l, r) => s"${(new ExprTranslator)(l)} == ${(new ExprTranslator)(r)}"
-      case Comparision.!=(l, r) => s"${(new ExprTranslator)(l)} \\le ${(new ExprTranslator)(r)}"
+      case Comparision.<=(l, r) => s"${(new ExprTranslator)(l) } \\le ${(new ExprTranslator)(r) }"
+      case Comparision.<(l, r)  => s"${(new ExprTranslator)(l) } < ${(new ExprTranslator)(r) }"
+      case Comparision.>=(l, r) => s"${(new ExprTranslator)(l) } \\ge ${(new ExprTranslator)(r) }"
+      case Comparision.>(l, r)  => s"${(new ExprTranslator)(l) } > ${(new ExprTranslator)(r) }"
+      case Comparision.==(l, r) => s"${(new ExprTranslator)(l) } == ${(new ExprTranslator)(r) }"
+      case Comparision.!=(l, r) => s"${(new ExprTranslator)(l) } \\le ${(new ExprTranslator)(r) }"
 
       case ref: Reference => (new ReferenceTranslator)(ref)
    }

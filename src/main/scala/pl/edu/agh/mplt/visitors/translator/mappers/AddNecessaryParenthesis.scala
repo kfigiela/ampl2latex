@@ -1,17 +1,20 @@
-package pl.edu.agh.mplt.visitors.latex.mappers
+package pl.edu.agh.mplt.visitors.translator.mappers
 
-import pl.edu.agh.mplt.visitors.NodeMapper
+import scala.collection.mutable
+
 import pl.edu.agh.mplt.parser.formula.expression._
 import pl.edu.agh.mplt.parser.formula.expression.Bin._
-import scala.collection.mutable
-import pl.edu.agh.mplt.parser.formula.logical.Logical.{and, or, not}
-import pl.edu.agh.mplt.parser.formula.logical.{ParenthesizedLogical, LogicalExpression}
+import pl.edu.agh.mplt.parser.formula.logical.{LogicalExpression, ParenthesizedLogical}
+import pl.edu.agh.mplt.parser.formula.logical.Logical._
+import pl.edu.agh.mplt.visitors.NodeMapper
 
-
-class AddNecessaryParenthesis(operations: mutable.Seq[NodeMapper] = mutable.Seq())
+class AddNecessaryParenthesis(operations: mutable.Buffer[NodeMapper] = mutable.Buffer())
       extends NodeMapper(operations) {
 
    override def mapExpr(expr: Expression): Expression = expr match {
+      case Bin./(left, right) =>
+         Bin./(mapExpr(left), mapExpr(right)) //top level fraction expressions don't need to be parenthesized
+
       case bin: BinaryOperation => parenthesizeBinary(bin)
 
       case e => super.mapExpr(e)
@@ -56,8 +59,10 @@ class AddNecessaryParenthesis(operations: mutable.Seq[NodeMapper] = mutable.Seq(
       }
 
       assoc match {
-         case Left  => parenthesizeWith(_ < _)
-         case Right => parenthesizeWith(_ <= _)
+         case Expression.Left  => parenthesizeWith(_ < _)
+         case Expression.Right => parenthesizeWith(_ <= _)
+
+         case a => throw new Error(s"Unexpected: $a")
       }
    }
 
@@ -73,6 +78,8 @@ class AddNecessaryParenthesis(operations: mutable.Seq[NodeMapper] = mutable.Seq(
          case mod(_, _)  => Bin.mod(left, right)
          case less(_, _) => Bin.less(left, right)
 
-         case e@ExpressionIf(_, _, _) => throw new Error(s"Unexpected token: $e")
+         case ExpressionIf(cond, _, _) => ExpressionIf(cond, left, right)
+
+         case e => throw new Error(s"Unexpected token: $e")
       }
 }

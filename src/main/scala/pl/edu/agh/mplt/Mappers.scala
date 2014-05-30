@@ -1,7 +1,10 @@
 package pl.edu.agh.mplt
 
-import pl.edu.agh.mplt.visitors.latex.mappers.{NameFixer, AddNecessaryParenthesis, StripAllParenthesis}
-import pl.edu.agh.mplt.visitors.latex.tmp.LatexTranslator
+import pl.edu.agh.mplt.visitors.translator.mappers.{NameFixer, AddNecessaryParenthesis, StripAllParenthesis}
+import pl.edu.agh.mplt.visitors.translator.latex.LatexTranslator
+import pl.edu.agh.mplt.visitors.Visitor
+import pl.edu.agh.mplt.parser.declaration.Declaration
+import pl.edu.agh.mplt.visitors.translator.Translator
 
 
 trait Mappers {
@@ -13,5 +16,5 @@ trait Mappers {
 
   protected def fixNames = new NameFixer
 
-  protected def translateToLatex = new LatexTranslator
+  protected def translateToLatex :Translator[Declaration] = new LatexTranslator
 }

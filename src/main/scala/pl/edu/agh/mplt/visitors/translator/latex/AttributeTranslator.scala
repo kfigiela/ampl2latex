@@ -1,7 +1,8 @@
-package pl.edu.agh.mplt.visitors.latex.tmp
+package pl.edu.agh.mplt.visitors.translator.latex
 
 import pl.edu.agh.mplt.parser.declaration.data.Attribute
 import pl.edu.agh.mplt.parser.declaration.data.Attribute._
+import pl.edu.agh.mplt.visitors.translator.Translator
 
 
 class AttributeTranslator extends Translator[Attribute] {

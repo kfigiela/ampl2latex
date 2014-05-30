@@ -1,6 +1,7 @@
-package pl.edu.agh.mplt.visitors.latex.tmp
+package pl.edu.agh.mplt.visitors.translator.latex
 
 import pl.edu.agh.mplt.parser.declaration.data.DataDeclaration
+import pl.edu.agh.mplt.visitors.translator.Translator
 
 
 class DataTranslator extends Translator[DataDeclaration] {

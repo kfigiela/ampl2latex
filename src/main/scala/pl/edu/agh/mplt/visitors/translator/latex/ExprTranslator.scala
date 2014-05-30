@@ -1,9 +1,10 @@
-package pl.edu.agh.mplt.visitors.latex.tmp
+package pl.edu.agh.mplt.visitors.translator.latex
 
 import pl.edu.agh.mplt.parser.formula.expression._
 import pl.edu.agh.mplt.parser.formula.expression.ParenthesizedExpression
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.reference.Reference
+import pl.edu.agh.mplt.visitors.translator.Translator
 
 
 class ExprTranslator extends Translator[Expression] {
@@ -34,12 +35,8 @@ class ExprTranslator extends Translator[Expression] {
       val t = apply(expr.left)
       val f = apply(expr.right)
 
-      println(expr.left, expr.right)
-      println(t, f)
-
       bracketedConditional(cond, t, f)
    }
-
 
 
 }

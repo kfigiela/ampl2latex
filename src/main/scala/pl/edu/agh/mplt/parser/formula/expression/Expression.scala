@@ -44,7 +44,7 @@ case class PiecewiseLinearTerm(breakpoints: List[(Option[Indexing], Expression)]
 
 sealed trait ArithmeticOperation extends Expression
 
-trait BinaryOperation extends ArithmeticOperation {
+sealed trait BinaryOperation extends ArithmeticOperation {
   def left: Expression
 
   def right: Expression
@@ -80,7 +80,7 @@ object Unary {
 
 }
 
-trait ExpressionReduction extends ArithmeticOperation {
+sealed trait ExpressionReduction extends ArithmeticOperation {
   def indexing: Indexing
 
   def expr: Expression

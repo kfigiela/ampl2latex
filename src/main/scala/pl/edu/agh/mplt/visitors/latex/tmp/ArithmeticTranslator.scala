@@ -2,23 +2,10 @@ package pl.edu.agh.mplt.visitors.latex.tmp
 
 import pl.edu.agh.mplt.parser.formula.expression._
 import pl.edu.agh.mplt.parser.formula.expression.Bin._
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionReduction.{Min, Max, Prod, Sum}
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionReduction.Max
-import pl.edu.agh.mplt.parser.formula.expression.Bin./
-import pl.edu.agh.mplt.parser.formula.expression.Bin.*
-import pl.edu.agh.mplt.parser.formula.expression.Bin.+
-import pl.edu.agh.mplt.parser.formula.expression.Bin.^
-import pl.edu.agh.mplt.parser.formula.expression.Bin.-
-import pl.edu.agh.mplt.parser.formula.expression.Bin.less
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionReduction.Sum
-import pl.edu.agh.mplt.parser.formula.expression.Bin.mod
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionReduction.Prod
-import pl.edu.agh.mplt.parser.formula.expression.Bin.div
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionReduction.Min
-import pl.edu.agh.mplt.visitors.latex.ExpressionTranslator
+import pl.edu.agh.mplt.parser.formula.expression.ExpressionReduction._
 
 
-class ArithmeticTranslator(translate:ExprTranslator) extends Translator[ArithmeticOperation] {
+class ArithmeticTranslator(translate: ExprTranslator) extends Translator[ArithmeticOperation] {
 
    override def apply(node: ArithmeticOperation): String = node match {
       case Unary.-(expr)  => s"-(${translate(expr) })"
@@ -44,23 +31,30 @@ class ArithmeticTranslator(translate:ExprTranslator) extends Translator[Arithmet
       val op = getOperator(reduction)
       val expr = translate(reduction.expr)
 
+      println(reduction.expr, expr)
+
       s"${op }_{$members}($expr)"
    }
 
    private def getOperator(operation: ArithmeticOperation) = operation match {
+      case Unary.-(_) => "-"
+
       case +(_, _)    => "+"
-      case -(_, -)    => "-"
-      case less(-, _) => "less"
+      case -(_, _)    => "-"
+      case less(_, _) => "less"
 
       case *(_, _)   => "\\cdot"
+      case /(_, _)   => ":"
       case div(_, _) => "\\div"
       case mod(_, _) => "\\mod"
 
-      case ^(_, -) => "^"
+      case ^(_, _) => "^"
 
       case Sum(_, _)  => "\\sum"
       case Prod(_, _) => "\\prod"
       case Max(_, _)  => "\\max"
       case Min(_, _)  => "\\min"
+
+      case e@ExpressionIf(_, _, _) => throw new Error(s"Unexpected token: $e")
    }
 }

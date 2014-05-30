@@ -1,43 +1,39 @@
 package pl.edu.agh.mplt
 
 import java.io.{PrintWriter, File}
-import pl.edu.agh.mplt.parser.declaration.Declaration
 import scala.annotation.tailrec
-import pl.edu.agh.mplt.visitors.LatexTranslator
 
 object App {
-  def main(args: Array[String]) {
-    if (args.size < 2) {
-      println("Please specify input and output files")
-    } else {
-      val start = System.currentTimeMillis()
-      val parsedFile = ParsedFile.fromAMPL(new File(args(0)))
+   def main(args: Array[String]) {
+      if (args.size < 2) {
+         println("Please specify input and output files")
+      } else {
+         val start = System.currentTimeMillis()
+         val parsedFile = ParsedFile.fromAMPL(new File(args(0)))
 
-      val out = new PrintWriter(new File(args(1)))
+         val out = new PrintWriter(new File(args(1)))
 
-      println("starts")
+         println("starts")
 
-      val tr = new LatexTranslator
+         try {
+            @tailrec
+            def persist(stream: Stream[String]): Unit = if (!stream.isEmpty) {
+               out.println(s"${stream.head } + \\\\")
+               persist(stream.tail)
+            }
 
-      try {
-        @tailrec
-        def persist(str: Stream[Declaration]): Unit =
-          if (!str.isEmpty) {
-            out.println(tr.visit(str.head) + "\\\\")
-            persist(str.tail)
-          }
-        println("prints")
-        persist(parsedFile.ast)
+            println("prints")
+            persist(parsedFile.translate)
 
-      } catch {
-        case e: Throwable =>
-          out.write("\n error: " + e.getMessage)
-          throw e
-      } finally {
-        out.close()
+         } catch {
+            case e: Throwable =>
+               out.write("\n error: " + e.getMessage)
+               throw e
+         } finally {
+            out.close()
+         }
+
+         println("\n\n in: " + (System.currentTimeMillis() - start))
       }
-
-      println("\n\n in: " + (System.currentTimeMillis() - start))
-    }
-  }
+   }
 }

@@ -19,7 +19,6 @@ import pl.edu.agh.mplt.parser.formula.set._
 import pl.edu.agh.mplt.parser.formula.set.Sets._
 import pl.edu.agh.mplt.parser.member._
 import pl.edu.agh.mplt.parser.reference._
-import pl.edu.agh.mplt.visitors.latex.TmpVisitor
 
 class NodeMapper(val operations: mutable.Seq[NodeMapper]) {
    def andThen(mapping: NodeMapper): NodeMapper = {
@@ -27,12 +26,11 @@ class NodeMapper(val operations: mutable.Seq[NodeMapper]) {
       this
    }
 
-   def andThen[B](v: TmpVisitor[Declaration, B]): NodeAggregator[B] = new
+   def andThen[B](v: Visitor[Declaration, B]): NodeAggregator[B] = new
                NodeAggregator[B](operations :+ this, v)
 
    def map(node: Declaration): Declaration = node match {
       case Assertion(index, lexpr) => Assertion(index.map(mapIndexing), mapLexpr(lexpr))
-      case Assertion(None, lexpr)  => Assertion(None, mapLexpr(lexpr))
 
       case ConstraintDeclaration(n, a, index, constr) =>
          ConstraintDeclaration(mapName(n), mapAlias(a),
@@ -68,6 +66,8 @@ class NodeMapper(val operations: mutable.Seq[NodeMapper]) {
 
    def mapIndexes(indexes: List[String]): List[String] = indexes
 
+   def mapNumber(n: Number): Number = n
+
    //////////////
    /// Expression
 
@@ -90,8 +90,12 @@ class NodeMapper(val operations: mutable.Seq[NodeMapper]) {
 
       case Unary.-(expr) => Unary.-(mapExpr(expr))
 
+      case n@Number(_) => mapNumber(n)
+
       case bin: BinaryOperation           => mapBinary(bin)
       case reduction: ExpressionReduction => mapReduction(reduction)
+
+      case ref: Reference => mapReference(ref)
 
       case node => throw new Error(s"Usupported: $node")
    }
@@ -136,6 +140,11 @@ class NodeMapper(val operations: mutable.Seq[NodeMapper]) {
       case Cartesian(s1, s2)          => Cartesian(mapSexpr(s1), mapSexpr(s2))
       case SetOf(index, m)            => SetOf(mapIndexing(index), mapMember(m))
       case Union(s1, s2)              => Union(mapSexpr(s1), mapSexpr(s2))
+
+      case ExplicitSet(members)               => ExplicitSet(members.map(mapMember))
+      case SetComprehension(start, end, step) => SetComprehension(mapMember(start), mapMember(end), mapExpr(step))
+
+      case ref: Reference => mapReference(ref)
 
       case node => throw new Error(s"Usupported: $node")
    }
@@ -187,6 +196,8 @@ class NodeMapper(val operations: mutable.Seq[NodeMapper]) {
       case Forall(index, l) => Forall(mapIndexing(index), mapLexpr(l))
       case Exists(index, l) => Exists(mapIndexing(index), mapLexpr(l))
 
+      case ref: Reference => mapReference(ref)
+
       case node => throw new Error(s"Usupported: $node")
    }
 
@@ -220,14 +231,15 @@ class NodeMapper(val operations: mutable.Seq[NodeMapper]) {
    /// DataAttribute
 
    def mapAttribute(attr: Attribute): Attribute = attr match {
-      case Relation(name, expr) => Relation(name, expr)
-      case DefaultValue(expr)   => DefaultValue(mapExpr(expr))
-      case Defined(expr)        => Defined(mapExpr(expr))
-      case FinalValue(expr)     => FinalValue(mapExpr(expr))
-      case Inclusion(sexpr)     => Inclusion(mapSexpr(sexpr))
-      case Within(sexpr)        => Within(mapSexpr(sexpr))
-      case FinalSet(sexpr)      => FinalSet(mapSexpr(sexpr))
-      case DefaultSet(sexpr)    => DefaultSet(mapSexpr(sexpr))
+      case d@Dimension(_)               => d
+      case Relation(name, expr)       => Relation(name, expr)
+      case DefaultValue(expr)         => DefaultValue(mapExpr(expr))
+      case Defined(expr)              => Defined(mapExpr(expr))
+      case FinalValue(expr)           => FinalValue(mapExpr(expr))
+      case Attribute.Inclusion(sexpr) => Attribute.Inclusion(mapSexpr(sexpr))
+      case Within(sexpr)              => Within(mapSexpr(sexpr))
+      case FinalSet(sexpr)            => FinalSet(mapSexpr(sexpr))
+      case DefaultSet(sexpr)          => DefaultSet(mapSexpr(sexpr))
 
       case Cover(index, ref)             =>
          Cover(index.map(mapIndexing), mapReference(ref))

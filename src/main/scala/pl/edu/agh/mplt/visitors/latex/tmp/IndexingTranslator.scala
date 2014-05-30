@@ -7,9 +7,9 @@ class IndexingTranslator extends Translator[Indexing] {
 
    override def apply(node: Indexing): String = {
       val members = (new IndexingMembersTranslator)(node)
-      val lexpr = new StringBuilder(":") append (node.lexpr.map(l => (new LexprTranslator)(l)) getOrElse "")
+      val lexpr = node.lexpr.map(l => (new LexprTranslator)(l)) getOrElse ""
 
-      s"$members $lexpr"
+      s"\\mathop\\forall_{$members\\atop{$lexpr}}"
    }
 
 }

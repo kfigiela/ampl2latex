@@ -8,29 +8,31 @@ import pl.edu.agh.mplt.parser.formula.logical.Logical.{and, or, not}
 import pl.edu.agh.mplt.parser.formula.logical.{ParenthesizedLogical, LogicalExpression}
 
 
-class AddNecessaryParenthesis(operations: mutable.Seq[NodeMapper] = Nil)
+class AddNecessaryParenthesis(operations: mutable.Seq[NodeMapper] = mutable.Seq())
       extends NodeMapper(operations) {
 
    override def mapExpr(expr: Expression): Expression = expr match {
       case bin: BinaryOperation => parenthesizeBinary(bin)
-      case e                    => super.mapExpr(e)
+
+      case e => super.mapExpr(e)
    }
 
    override def mapLexpr(lexpr: LogicalExpression): LogicalExpression = lexpr match {
       case n@not(_)    => parenthesizeLogic(n)
       case o@or(_, _)  => parenthesizeLogic(o)
       case a@and(_, _) => parenthesizeLogic(a)
+
+      case l => super.mapLexpr(l)
    }
 
-   private def parenthesizeLogic(lexpr:LogicalExpression):LogicalExpression = lexpr match {
+   private def parenthesizeLogic(lexpr: LogicalExpression): LogicalExpression = lexpr match {
       case o@or(or(_, _), or(_, _)) => o
-      case or(l@or(_, _), r) => or(l, ParenthesizedLogical(r))
-      case or(l, r@or(_, _)) => or(ParenthesizedLogical(l), r)
-      case or(l, r) => or(ParenthesizedLogical(l), ParenthesizedLogical(r))
+      case or(l@or(_, _), r)        => or(l, ParenthesizedLogical(r))
+      case or(l, r@or(_, _))        => or(ParenthesizedLogical(l), r)
+      case or(l, r)                 => or(ParenthesizedLogical(l), ParenthesizedLogical(r))
 
       case log => log
    }
-
 
 
    private def parenthesizeBinary(bin: BinaryOperation): Expression = {
@@ -60,15 +62,17 @@ class AddNecessaryParenthesis(operations: mutable.Seq[NodeMapper] = Nil)
    }
 
    private def copyBinary(bin: BinaryOperation)(left: Expression,
-                                                right: Expression): BinaryOperation = bin match {
-      case +(_, _)    => Bin.+(left, right)
-      case -(_, _)    => Bin.-(left, right)
-      case *(_, _)    => Bin.*(left, right)
-      case /(_, _)    => Bin./(left, right)
-      case ^(_, _)    => Bin.^(left, right)
-      case div(_, _)  => Bin.div(left, right)
-      case mod(_, _)  => Bin.mod(left, right)
-      case less(_, _) => Bin.less(left, right)
+                                                right: Expression): BinaryOperation =
+      bin match {
+         case +(_, _)    => Bin.+(left, right)
+         case -(_, _)    => Bin.-(left, right)
+         case *(_, _)    => Bin.*(left, right)
+         case /(_, _)    => Bin./(left, right)
+         case ^(_, _)    => Bin.^(left, right)
+         case div(_, _)  => Bin.div(left, right)
+         case mod(_, _)  => Bin.mod(left, right)
+         case less(_, _) => Bin.less(left, right)
 
-   }
+         case e@ExpressionIf(_, _, _) => throw new Error(s"Unexpected token: $e")
+      }
 }

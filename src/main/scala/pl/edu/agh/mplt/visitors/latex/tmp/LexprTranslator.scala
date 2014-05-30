@@ -20,22 +20,22 @@ class LexprTranslator extends Translator[LogicalExpression] {
       case Exclusion.subset(subset, set) =>
          s"${(new SexprTranslator)(subset) } \\in {${(new SexprTranslator)(set) }}"
 
-      case not(l)    => s"~ {$l}"
-      case or(l, r)  => s"$l \\vee $r"
-      case and(l, r) => s"$l \\wedge $r"
+      case not(l)    => s"~ {${apply (l)}"
+      case or(l, r)  => s"${apply(l)} \\vee ${apply(r)}"
+      case and(l, r) => s"${apply(l)} \\wedge ${apply(r)}"
 
       case Forall(indexing, lexpr) =>
-         s"${(new IndexingTranslator)(indexing) }: {${(new LexprTranslator)(lexpr) }}"
+                  s"${(new IndexingTranslator)(indexing) }: {${(new LexprTranslator)(lexpr) }}"
       case Exists(indexing, lexpr) =>
          s"${(new IndexingTranslator)(indexing) }: \\exists {${(new LexprTranslator)(lexpr) }}"
 
-      case Comparision.<=(l, r) => s"$l \\le $r"
-      case Comparision.<(l, r)  => s"$l \\< $r"
-      case Comparision.>=(l, r) => s"$l \\ge $r"
-      case Comparision.>(l, r)  => s"$l \\> $r"
-      case Comparision.==(l, r) => s"$l \\= $r"
-      case Comparision.!=(l, r) => s"$l \\le $r"
+      case Comparision.<=(l, r) => s"${(new ExprTranslator)(l)} \\le ${(new ExprTranslator)(r)}"
+      case Comparision.<(l, r)  => s"${(new ExprTranslator)(l)} < ${(new ExprTranslator)(r)}"
+      case Comparision.>=(l, r) => s"${(new ExprTranslator)(l)} \\ge ${(new ExprTranslator)(r)}"
+      case Comparision.>(l, r)  => s"${(new ExprTranslator)(l)} > ${(new ExprTranslator)(r)}"
+      case Comparision.==(l, r) => s"${(new ExprTranslator)(l)} == ${(new ExprTranslator)(r)}"
+      case Comparision.!=(l, r) => s"${(new ExprTranslator)(l)} \\le ${(new ExprTranslator)(r)}"
 
-      case ref: Reference => (new Referencetranslator)(ref)
+      case ref: Reference => (new ReferenceTranslator)(ref)
    }
 }

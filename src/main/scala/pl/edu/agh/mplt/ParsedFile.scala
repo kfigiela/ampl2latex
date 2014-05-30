@@ -5,9 +5,9 @@ import pl.edu.agh.mplt.parser.declaration.{InvalidDeclaration, Declaration}
 import java.io.File
 
 class ParsedFile(val file: File, val parser: AMPLParser) extends Mappers {
-   private val instructionStream: InstructionStream = new InstructionStream(file)
+   private lazy val instructionStream: InstructionStream = new InstructionStream(file)
 
-   val instructions: Stream[String] = instructionStream.instructions
+   lazy val instructions: Stream[String] = instructionStream.instructions
 
    lazy val ast: Stream[Declaration] = instructions.map(instruction =>
       parser.parse(instruction) match {

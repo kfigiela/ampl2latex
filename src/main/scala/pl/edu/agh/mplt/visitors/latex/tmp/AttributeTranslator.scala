@@ -7,9 +7,9 @@ import pl.edu.agh.mplt.parser.declaration.data.Attribute._
 class AttributeTranslator extends Translator[Attribute] {
 
    override def apply(node: Attribute): String = node match {
-      case Binary   => s""
-      case Integer  => s""
-      case Symbolic => s""
+      case Binary   => s"binary"
+      case Integer  => s"int"
+      case Symbolic => s"symbol"
 
       case Relation(op, expr) => s"${translateOp(op) } ${(new ExprTranslator)(expr) }"
 
@@ -28,6 +28,6 @@ class AttributeTranslator extends Translator[Attribute] {
       case Objective(_, _, _)   => "Unsupported Attribute: objective"
       case Cover(_, _)          => "Unsupported Attribute: cover"
 
-      case a => s"Unsupported attribute: $a"
+      case a => throw new Error(s"Unsupported attribute: $a")
    }
 }

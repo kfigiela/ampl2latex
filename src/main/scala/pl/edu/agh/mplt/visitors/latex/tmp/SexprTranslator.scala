@@ -12,7 +12,6 @@ import pl.edu.agh.mplt.parser.formula.set.Sets.Union
 import pl.edu.agh.mplt.parser.formula.set.IndexedSet
 import pl.edu.agh.mplt.parser.formula.expression.Number
 import pl.edu.agh.mplt.parser.reference.Reference
-import pl.edu.agh.mplt.visitors.latex.ReferenceTranslator
 
 
 class SexprTranslator extends Translator[SetExpression] {
@@ -20,7 +19,7 @@ class SexprTranslator extends Translator[SetExpression] {
       case ParenthesizedSetExpression(sexpr) => s"(${apply(sexpr) }})"
 
       case SetOf(indexing, member)         =>
-         s"{ ${(new MemberTranslator)(member) } | ${(new IndexingTranslator)(indexing) }"
+         s"\\{${(new MemberTranslator)(member) } | ${(new IndexingTranslator)(indexing) }\\}"
       case Union(left, right)              => s"{${apply(left) } \\bigcup ${apply(right) }"
       case Intersection(left, right)       => s"{${apply(left) } \\bigcap ${apply(right) }"
       case Difference(left, right)         => s"{${apply(left) } \\setminus ${apply(right) }"
@@ -39,10 +38,10 @@ class SexprTranslator extends Translator[SetExpression] {
                .toString()
 
       case SetComprehension(start, end, Number("1")) =>
-         s"{ x | x \\in [${(new MemberTranslator)(start) }, ${(new MemberTranslator)(end) }] }"
+         s"\\{ x | \\ x \\in [{${(new MemberTranslator)(start) }},\\ {${(new MemberTranslator)(end) }} \\}"
 
       case SetComprehension(start, end, step) =>
-         s"[${(new MemberTranslator)(start) } to ${(new MemberTranslator)(end) }} by {${(new ExprTranslator)(step) }}]"
+         s"\\{{${(new MemberTranslator)(start) }} \\ .. \\ {${(new MemberTranslator)(end) }} \\ by \\ {${(new ExprTranslator)(step) }}\\}"
 
       case ref: Reference => (new ReferenceTranslator)(ref)
 
@@ -50,23 +49,11 @@ class SexprTranslator extends Translator[SetExpression] {
    }
 
    private def translatorIf(sexpr: SetExpressionIf): String = {
-      def parenthesize(sexpr: SetExpression) = sexpr match {
-         case e@SetExpressionIf(_, _, _) => s"(${(new ExprTranslator)(e) }})"
-         case e                          => (new ExprTranslator)(e)
-      }
-
       val cond = (new LexprTranslator)(sexpr.lexpr)
 
       val t = apply(sexpr.left)
       val f = apply(sexpr.right)
+
       bracketedConditional(cond, t, f)
    }
-
-   private def bracketedConditional(cond: String, t: String, f: String) =
-      s"""
-      |\begin{cases}
-      |    \$t,& \text{if } $cond
-      |    $f,              & \text{otherwise}
-      |\end{cases}
-    """.stripMargin
 }

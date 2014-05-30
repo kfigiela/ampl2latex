@@ -33,7 +33,7 @@ trait SetExpressionTranslator {
           SetExpressionIf(_, _, _))          => (s"(${translateSetExpression(t) })", s"(${translateSetExpression(f) })")
           case (SetExpressionIf(_, _, _), _) => (s"(${translateSetExpression(t) })", translateSetExpression(f))
           case (_, SetExpressionIf(_, _, _)) => (translateSetExpression(t), s"(${translateSetExpression(f) })")
-          case _                          => (translateSetExpression(t), translateSetExpression(f))
+          case _                         => (translateSetExpression(t), translateSetExpression(f))
         }
         s"if \\ ${translateLogicalExpression(lexpr) } \\ then:\\ $trueBranch\\ else:\\ $falseBranch "
       case IndexedSet(indexes, sexpr)        => s"{${

@@ -4,10 +4,11 @@ import pl.edu.agh.mplt.parser.formula.set.Indexing
 
 
 class IndexingMembersTranslator extends Translator[Indexing] {
-  override def apply(node: Indexing): String = {
-    val translatedMembers = node.sexprs.map(s => (new SexprTranslator)(s)).reverse
-    (translatedMembers.head /: translatedMembers.tail)(atop)
-  }
+   override def apply(node: Indexing): String = {
+      val translatedMembers = node.sexprs.map(s => (new SexprTranslator)(s)).reverse
 
-  def atop(above:String, below:String):String = s"$above \\atop {$below}"
+      (translatedMembers.head /: translatedMembers.tail)(atop)
+   }
+
+   def atop(above: String, below: String): String = s"$above \\atop {$below}"
 }

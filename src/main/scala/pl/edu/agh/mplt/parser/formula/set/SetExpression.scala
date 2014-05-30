@@ -9,8 +9,8 @@ trait SetExpression extends Formula
 case class ParenthesizedSetExpression(expr: SetExpression) extends SetExpression
 
 
-case class SetExpressionIf(lexpr: LogicalExpression, trueBranch: SetExpression,
-                           falseBranch: SetExpression) extends SetExpression
+case class SetExpressionIf(lexpr: LogicalExpression, left: SetExpression,
+                           right: SetExpression) extends SetExpression
 
 
 case class Indexing(sexprs: List[SetExpression],

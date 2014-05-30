@@ -5,11 +5,13 @@ import pl.edu.agh.mplt.parser.declaration.data.DataDeclaration
 
 class DataTranslator extends Translator[DataDeclaration] {
 
-  override def apply(node: DataDeclaration): String = {
-    val name = node.name
-    val indexing: String = node.indexing.map(i => (new IndexingTranslator)(i)) getOrElse ""
-    val attrs = node.attributes.map((new AttributeTranslator)(_))
+   override def apply(node: DataDeclaration): String = {
+      val name = node.name
+      val indexing: String = node.indexing.map(i => (new IndexingTranslator)(i)) getOrElse ""
+      val attrs = joinWith(",")(node.attributes.map((new AttributeTranslator)(_)))
 
-    s"$name: $indexing $attrs"
-  }
+      s"$name: $indexing $attrs"
+   }
+
+
 }

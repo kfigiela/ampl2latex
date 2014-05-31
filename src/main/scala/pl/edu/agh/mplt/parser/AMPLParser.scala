@@ -41,10 +41,6 @@ with CheckAMPLParser {
 
   def declarations = (fileOpening ?) ~> declaration
 
-  def pointsAndSlopes: Parser[(List[(Option[Indexing], Expression)], List[(Option[Indexing], Expression)])]
-
-  def exprs: Parser[List[(Option[Indexing], Expression)]]
-
   private def declaration: Parser[Declaration] =
     datatypeDeclaration | constraintDeclaration | objectiveDeclaration | check
 

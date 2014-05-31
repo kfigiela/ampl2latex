@@ -14,7 +14,6 @@ class ExprTranslator extends Translator[Expression] {
       case ParenthesizedExpression(expr)  => s"(${(new ExprTranslator)(expr) })"
       case i@ExpressionIf(_, _, _)        => translateIf(i)
       case f@FunctionCall(name, args)     => translateFunction(f)
-      case p@PiecewiseLinearTerm(_, _, _) => ""
 
       case a: ArithmeticOperation => (new ArithmeticTranslator(this))(a)
       case ref: Reference         => (new ReferenceTranslator)(ref)

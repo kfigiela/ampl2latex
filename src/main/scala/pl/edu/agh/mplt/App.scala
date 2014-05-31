@@ -8,12 +8,9 @@ object App {
       if (args.size < 2) {
          println("Please specify input and output files")
       } else {
-         val start = System.currentTimeMillis()
          val parsedFile = ParsedFile.fromAMPL(new File(args(0)))
 
          val out = new PrintWriter(new File(args(1)))
-
-         println("starts")
 
          try {
             @tailrec
@@ -22,7 +19,6 @@ object App {
                persist(stream.tail)
             }
 
-            println("prints")
             persist(parsedFile.translate)
 
          } catch {
@@ -32,8 +28,6 @@ object App {
          } finally {
             out.close()
          }
-
-         println("\n\n in: " + (System.currentTimeMillis() - start))
       }
    }
 }

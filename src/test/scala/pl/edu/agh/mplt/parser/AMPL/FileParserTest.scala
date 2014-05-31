@@ -37,5 +37,5 @@ class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
 
    private def / = File.separator
 
-   private def parse(str: String) = parser.parseAll(parser.declarations, str)
+   private def parse(str: String) = parser.parse(str)
 }

@@ -11,7 +11,7 @@ import pl.edu.agh.mplt.parser.reference.SimpleReference
 class CheckDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = AMPLParser()
 
-  def expr = parser.check
+  def expr = parser.assertion
 
   def parse(input: String) = parser.parse(expr, input).get
 

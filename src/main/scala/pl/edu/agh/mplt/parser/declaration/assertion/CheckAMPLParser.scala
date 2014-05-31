@@ -9,7 +9,7 @@ trait CheckAMPLParser extends JavaTokenParsers {
 
   def lexpr: Parser[LogicalExpression]
 
-  def check = "check" ~> (check1 | check2 | check3) <~ ";"
+  def assertion = "check" ~> (check1 | check2 | check3) <~ ";"
 
   private def check1 = lexpr ^^ { case lexpr => Assertion(None, lexpr) }
 

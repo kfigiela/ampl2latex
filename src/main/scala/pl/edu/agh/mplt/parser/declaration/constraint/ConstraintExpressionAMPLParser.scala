@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.declaration.constraint
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.formula.expression.Expression
+import pl.edu.agh.mplt.parser.phrase.expression.Expression
 
 
 trait ConstraintExpressionAMPLParser extends JavaTokenParsers {
@@ -27,7 +27,7 @@ trait ConstraintExpressionAMPLParser extends JavaTokenParsers {
   }
 
   private def == = expr ~ "=" ~ expr ^^ {
-    case vexpr ~ _ ~ cexpr => BoundedConstraint(expr = vexpr, rightExpression = Some(Constraint.===(cexpr)))
+    case vexpr ~ _ ~ cexpr => BoundedConstraint(expr = vexpr, rightExpression = Some(Constraint.==(cexpr)))
   }
 
   private def >= = expr ~ ">=" ~ expr ^^ {

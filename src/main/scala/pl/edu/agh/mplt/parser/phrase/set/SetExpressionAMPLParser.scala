@@ -1,14 +1,14 @@
-package pl.edu.agh.mplt.parser.formula.set
+package pl.edu.agh.mplt.parser.phrase.set
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.member.Member
-import pl.edu.agh.mplt.parser.formula.expression.Number
+import pl.edu.agh.mplt.parser.member.SetMember
+import pl.edu.agh.mplt.parser.phrase.expression.Number
 import pl.edu.agh.mplt.parser.reference.Reference
-import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
-import pl.edu.agh.mplt.parser.formula.set.Sets.SetOf
+import pl.edu.agh.mplt.parser.phrase.logical.LogicalExpression
+import pl.edu.agh.mplt.parser.phrase.set.Sets.SetOf
 
 trait SetExpressionAMPLParser extends JavaTokenParsers {
-  def member: Parser[Member]
+  def member: Parser[SetMember]
 
   def number: Parser[Number]
 

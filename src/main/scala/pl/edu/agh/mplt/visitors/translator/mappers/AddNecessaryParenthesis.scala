@@ -2,10 +2,10 @@ package pl.edu.agh.mplt.visitors.translator.mappers
 
 import scala.collection.mutable
 
-import pl.edu.agh.mplt.parser.formula.expression._
-import pl.edu.agh.mplt.parser.formula.expression.Bin._
-import pl.edu.agh.mplt.parser.formula.logical.{LogicalExpression, ParenthesizedLogical}
-import pl.edu.agh.mplt.parser.formula.logical.Logical._
+import pl.edu.agh.mplt.parser.phrase.expression._
+import pl.edu.agh.mplt.parser.phrase.expression.Bin._
+import pl.edu.agh.mplt.parser.phrase.logical.{LogicalExpression, ParenthesizedLogical}
+import pl.edu.agh.mplt.parser.phrase.logical.Logical._
 import pl.edu.agh.mplt.visitors.NodeMapper
 
 class AddNecessaryParenthesis(operations: mutable.Buffer[NodeMapper] = mutable.Buffer())
@@ -21,18 +21,18 @@ class AddNecessaryParenthesis(operations: mutable.Buffer[NodeMapper] = mutable.B
    }
 
    override def mapLexpr(lexpr: LogicalExpression): LogicalExpression = lexpr match {
-      case n@not(_)    => parenthesizeLogic(n)
-      case o@or(_, _)  => parenthesizeLogic(o)
-      case a@and(_, _) => parenthesizeLogic(a)
+      case n@Not(_)    => parenthesizeLogic(n)
+      case o@Or(_, _)  => parenthesizeLogic(o)
+      case a@And(_, _) => parenthesizeLogic(a)
 
       case l => super.mapLexpr(l)
    }
 
    private def parenthesizeLogic(lexpr: LogicalExpression): LogicalExpression = lexpr match {
-      case o@or(or(_, _), or(_, _)) => o
-      case or(l@or(_, _), r)        => or(l, ParenthesizedLogical(r))
-      case or(l, r@or(_, _))        => or(ParenthesizedLogical(l), r)
-      case or(l, r)                 => or(ParenthesizedLogical(l), ParenthesizedLogical(r))
+      case o@Or(Or(_, _), Or(_, _)) => o
+      case Or(l@Or(_, _), r)        => Or(l, ParenthesizedLogical(r))
+      case Or(l, r@Or(_, _))        => Or(ParenthesizedLogical(l), r)
+      case Or(l, r)                 => Or(ParenthesizedLogical(l), ParenthesizedLogical(r))
 
       case log => log
    }
@@ -74,9 +74,9 @@ class AddNecessaryParenthesis(operations: mutable.Buffer[NodeMapper] = mutable.B
          case *(_, _)    => Bin.*(left, right)
          case /(_, _)    => Bin./(left, right)
          case ^(_, _)    => Bin.^(left, right)
-         case div(_, _)  => Bin.div(left, right)
-         case mod(_, _)  => Bin.mod(left, right)
-         case less(_, _) => Bin.less(left, right)
+         case Div(_, _)  => Bin.Div(left, right)
+         case Mod(_, _)  => Bin.Mod(left, right)
+         case Less(_, _) => Bin.Less(left, right)
 
          case ExpressionIf(cond, _, _) => ExpressionIf(cond, left, right)
 

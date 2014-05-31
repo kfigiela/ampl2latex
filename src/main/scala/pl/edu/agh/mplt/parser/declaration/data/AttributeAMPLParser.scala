@@ -1,8 +1,8 @@
 package pl.edu.agh.mplt.parser.declaration.data
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.formula.expression.Expression
-import pl.edu.agh.mplt.parser.formula.set.{Indexing, SetExpression}
+import pl.edu.agh.mplt.parser.phrase.expression.Expression
+import pl.edu.agh.mplt.parser.phrase.set.{Indexing, SetExpression}
 import pl.edu.agh.mplt.parser.reference.Reference
 import language.postfixOps
 
@@ -21,7 +21,7 @@ trait AttributeAMPLParser extends JavaTokenParsers {
     "symbolic" ^^ { case _ => Attribute.Symbolic } |
     "in" ~> sexpr ^^ Attribute.Inclusion |
     "dimen" ~> wholeNumber ^^ Attribute.Dimension |
-    "within" ~> sexpr ^^ Attribute.Within |
+    "within" ~> sexpr ^^ Attribute.Membership |
     (":=" | "=") ~> (sexpr ^^ Attribute.FinalSet | expr ^^ Attribute.FinalValue) |
     "default" ~> (sexpr ^^ Attribute.DefaultSet | expr ^^ Attribute.DefaultValue) |
     "<>" ~ expr ^^ { case "<>" ~ expr => Attribute.Relation("!=", expr) } |

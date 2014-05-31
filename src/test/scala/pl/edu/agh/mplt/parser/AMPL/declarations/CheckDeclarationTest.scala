@@ -3,8 +3,8 @@ package pl.edu.agh.mplt.parser.AMPL.declarations
 import pl.edu.agh.mplt.parser.{IntercodeImplicits, AMPLParser}
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.declaration.assertion.Assertion
-import pl.edu.agh.mplt.parser.formula.logical.Comparision
-import pl.edu.agh.mplt.parser.formula.set.{IndexedSet, Indexing}
+import pl.edu.agh.mplt.parser.phrase.logical.Comparision
+import pl.edu.agh.mplt.parser.phrase.set.{IndexedSet, Indexing}
 import pl.edu.agh.mplt.parser.reference.SimpleReference
 
 

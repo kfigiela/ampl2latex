@@ -1,8 +1,8 @@
 package pl.edu.agh.mplt.visitors.translator.latex
 
-import pl.edu.agh.mplt.parser.formula.expression._
-import pl.edu.agh.mplt.parser.formula.expression.ParenthesizedExpression
-import pl.edu.agh.mplt.parser.formula.expression.Number
+import pl.edu.agh.mplt.parser.phrase.expression._
+import pl.edu.agh.mplt.parser.phrase.expression.ParenthesizedExpression
+import pl.edu.agh.mplt.parser.phrase.expression.Number
 import pl.edu.agh.mplt.parser.reference.Reference
 import pl.edu.agh.mplt.visitors.translator.Translator
 

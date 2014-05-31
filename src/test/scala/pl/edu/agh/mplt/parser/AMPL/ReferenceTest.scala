@@ -3,10 +3,10 @@ package pl.edu.agh.mplt.parser.AMPL
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.reference.{IndexedReference, SimpleReference, ReferenceParser}
-import pl.edu.agh.mplt.parser.formula.expression.{Expression, ExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.phrase.expression.{Expression, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
-import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, IndexingAMPLParser}
-import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
+import pl.edu.agh.mplt.parser.phrase.set.{SetExpressionAMPLParser, IndexingAMPLParser}
+import pl.edu.agh.mplt.parser.phrase.logical.LogicalExpressionAMPLParser
 
 
 class ReferenceTest extends FlatSpec with Matchers with IntercodeImplicits {

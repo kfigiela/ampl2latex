@@ -1,9 +1,9 @@
 package pl.edu.agh.mplt.parser.reference
 
 import pl.edu.agh.mplt.parser.ASTNode
-import pl.edu.agh.mplt.parser.formula.logical.{LogicalExpression, Bool}
-import pl.edu.agh.mplt.parser.formula.expression.Expression
-import pl.edu.agh.mplt.parser.formula.set.SetLiteral
+import pl.edu.agh.mplt.parser.phrase.logical.{LogicalExpression, Bool}
+import pl.edu.agh.mplt.parser.phrase.expression.Expression
+import pl.edu.agh.mplt.parser.phrase.set.SetLiteral
 
 sealed trait Reference extends ASTNode with LogicalExpression with Expression with SetLiteral
 

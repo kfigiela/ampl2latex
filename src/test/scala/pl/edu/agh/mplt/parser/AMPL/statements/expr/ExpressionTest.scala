@@ -1,14 +1,14 @@
 package pl.edu.agh.mplt.parser.AMPL.statements.expr
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.formula.expression._
+import pl.edu.agh.mplt.parser.phrase.expression._
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
-import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, IndexingAMPLParser}
-import pl.edu.agh.mplt.parser.formula.logical.{Comparision, LogicalExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.phrase.set.{SetExpressionAMPLParser, IndexingAMPLParser}
+import pl.edu.agh.mplt.parser.phrase.logical.{Comparision, LogicalExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
-import pl.edu.agh.mplt.parser.formula.expression.Number
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionIf
+import pl.edu.agh.mplt.parser.phrase.expression.Number
+import pl.edu.agh.mplt.parser.phrase.expression.ExpressionIf
 import pl.edu.agh.mplt.parser.reference.SimpleReference
 import scala.Some
 

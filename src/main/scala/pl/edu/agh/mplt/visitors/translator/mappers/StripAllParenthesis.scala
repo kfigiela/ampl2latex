@@ -1,10 +1,10 @@
 package pl.edu.agh.mplt.visitors.translator.mappers
 
 
-import pl.edu.agh.mplt.parser.formula.expression._
-import pl.edu.agh.mplt.parser.formula.set._
+import pl.edu.agh.mplt.parser.phrase.expression._
+import pl.edu.agh.mplt.parser.phrase.set._
 import pl.edu.agh.mplt.visitors.NodeMapper
-import pl.edu.agh.mplt.parser.formula.logical.{ParenthesizedLogical, LogicalExpression}
+import pl.edu.agh.mplt.parser.phrase.logical.{ParenthesizedLogical, LogicalExpression}
 import scala.collection.mutable
 
 class StripAllParenthesis(operations: mutable.Buffer[NodeMapper] = mutable.Buffer()) extends NodeMapper(operations) {

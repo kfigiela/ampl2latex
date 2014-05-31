@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.declaration.constraint
 
 import pl.edu.agh.mplt.parser.declaration.Declaration
-import pl.edu.agh.mplt.parser.formula.set.Indexing
+import pl.edu.agh.mplt.parser.phrase.set.Indexing
 
 
 case class ConstraintDeclaration(name: String,

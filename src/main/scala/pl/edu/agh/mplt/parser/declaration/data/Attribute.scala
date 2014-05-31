@@ -1,8 +1,8 @@
 package pl.edu.agh.mplt.parser.declaration.data
 
 import pl.edu.agh.mplt.parser.ASTNode
-import pl.edu.agh.mplt.parser.formula.expression.Expression
-import pl.edu.agh.mplt.parser.formula.set.{Indexing, SetExpression}
+import pl.edu.agh.mplt.parser.phrase.expression.Expression
+import pl.edu.agh.mplt.parser.phrase.set.{Indexing, SetExpression}
 import pl.edu.agh.mplt.parser.reference.Reference
 
 
@@ -22,11 +22,11 @@ object Attribute {
 
   case class DefaultValue(expr: Expression) extends Attribute
 
-  case class Defined(expr: Expression) extends Attribute
+  case class Definition(expr: Expression) extends Attribute
 
   case class Dimension(n: String) extends Attribute
 
-  case class Within(set: SetExpression) extends Attribute
+  case class Membership(set: SetExpression) extends Attribute
 
   case class FinalValue(expr: Expression) extends Attribute
 

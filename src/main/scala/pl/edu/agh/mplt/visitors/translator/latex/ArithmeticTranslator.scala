@@ -1,8 +1,8 @@
 package pl.edu.agh.mplt.visitors.translator.latex
 
-import pl.edu.agh.mplt.parser.formula.expression._
-import pl.edu.agh.mplt.parser.formula.expression.Bin._
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionReduction._
+import pl.edu.agh.mplt.parser.phrase.expression._
+import pl.edu.agh.mplt.parser.phrase.expression.Bin._
+import pl.edu.agh.mplt.parser.phrase.expression.ExpressionReduction._
 import pl.edu.agh.mplt.visitors.translator.Translator
 
 
@@ -40,12 +40,12 @@ class ArithmeticTranslator(translate: ExprTranslator) extends Translator[Arithme
 
       case +(_, _)    => "+"
       case -(_, _)    => "-"
-      case less(_, _) => "less"
+      case Less(_, _) => "less"
 
       case *(_, _)   => "\\cdot"
       case /(_, _)   => ":"
-      case div(_, _) => "\\div"
-      case mod(_, _) => "\\mod"
+      case Div(_, _) => "\\div"
+      case Mod(_, _) => "\\mod"
 
       case ^(_, _) => "^"
 

@@ -8,30 +8,34 @@ import pl.edu.agh.mplt.parser.declaration.InvalidDeclaration
 
 
 class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
-  "AMPL parser" should "" in {}
+   "AMPL parser" should "" in {}
 
-  val parser = AMPLParser()
+   val parser = AMPLParser()
 
-  val resources = new File("src" + / + "test" + / + "resources" + / + "AMPL")
+   val resources = new File("src" + / + "test" + / + "resources" + / + "AMPL")
 
-  files.map {
-    file =>
+   files.map(file =>
       it should ("parse file " + file.getName) in {
-        //                parse(content) should  be (1)
-        ParsedFile.fromAMPL(file).ast.foreach {
-          case InvalidDeclaration(msg) => false //throw new Exception(msg)
-          case _ => true
-        }
+
+         ParsedFile.fromAMPL(file).ast.filter {
+            case InvalidDeclaration(msg) => true
+            case _                       => false
+         }.foreach(println)
+
+         ParsedFile.fromAMPL(file).ast.forall {
+            case InvalidDeclaration(msg) => false
+            case _                       => true
+         } should not be false
       }
-  }
+   )
 
-  private def files: List[File] = resources.listFiles.filter(!_.isDirectory).toList
+   private def files: List[File] = resources.listFiles.filter(!_.isDirectory).toList
 
-  private def buggedFiles: List[File] = new File("src" + / + "test"
-    + / + "resources" + / + "AMPL" +
-    / + "bugged").listFiles.filter(!_.isDirectory).toList
+   private def buggedFiles: List[File] = new File("src" + / + "test"
+         + / + "resources" + / + "AMPL" +
+         / + "bugged").listFiles.filter(!_.isDirectory).toList
 
-  private def / = File.separator
+   private def / = File.separator
 
-  private def parse(str: String) = parser.parseAll(parser.declarations, str)
+   private def parse(str: String) = parser.parseAll(parser.declarations, str)
 }

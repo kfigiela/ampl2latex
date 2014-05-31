@@ -1,10 +1,10 @@
-package pl.edu.agh.mplt.parser.formula.set
+package pl.edu.agh.mplt.parser.phrase.set
 
-import pl.edu.agh.mplt.parser.formula.Formula
-import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
-import pl.edu.agh.mplt.parser.member.Member
+import pl.edu.agh.mplt.parser.phrase.Phrase
+import pl.edu.agh.mplt.parser.phrase.logical.LogicalExpression
+import pl.edu.agh.mplt.parser.member.SetMember
 
-trait SetExpression extends Formula
+trait SetExpression extends Phrase
 
 case class ParenthesizedSetExpression(expr: SetExpression) extends SetExpression
 
@@ -21,7 +21,7 @@ case class IndexedSet(indexes: List[String],
 
 object Sets {
 
-  case class SetOf(indexing: Indexing, member: Member) extends SetExpression
+  case class SetOf(indexing: Indexing, member: SetMember) extends SetExpression
 
   case class Union(s1: SetExpression, s2: SetExpression) extends SetExpression
 

@@ -1,16 +1,16 @@
 package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.formula.expression.{Bin, Number}
+import pl.edu.agh.mplt.parser.phrase.set._
+import pl.edu.agh.mplt.parser.phrase.expression.{Bin, Number}
 import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.member.Member
+import pl.edu.agh.mplt.parser.member.SetMember
 import pl.edu.agh.mplt.parser.reference.SimpleReference
-import pl.edu.agh.mplt.parser.formula.set.SetComprehension
-import pl.edu.agh.mplt.parser.formula.set.Indexing
+import pl.edu.agh.mplt.parser.phrase.set.SetComprehension
+import pl.edu.agh.mplt.parser.phrase.set.Indexing
 import scala.Some
 import pl.edu.agh.mplt.parser.member.StringMember
-import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
+import pl.edu.agh.mplt.parser.phrase.set.ExplicitSet
 import pl.edu.agh.mplt.parser.declaration.data.{SetDeclaration, Attribute}
 
 
@@ -50,8 +50,8 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
     parse( """set apples { 1 + 3 .. 10 by 4 , {1, 2, 3}, {"a", "b", "c"} };""") should be(
       SetDeclaration("apples", indexing = Some(Indexing(List(
         SetComprehension(Bin.+(1, 3), 10, 4),
-        ExplicitSet(Set[Member](Number(1), Number(2), Number(3))),
-        ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember("c"))))))))
+        ExplicitSet(Set[SetMember](Number(1), Number(2), Number(3))),
+        ExplicitSet(Set[SetMember](StringMember("a"), StringMember("b"), StringMember("c"))))))))
   }
 
   ///////////////////////////////
@@ -64,14 +64,14 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
 
   it should "parse set declaration with within attribute" in {
     parse( """set apples within {"a", "b", "c"} ;""") should be(SetDeclaration("apples",
-      attributes = List(Attribute.Within(
-        ExplicitSet(Set[Member](StringMember("a"), StringMember("b"), StringMember("c")))))))
+      attributes = List(Attribute.Membership(
+        ExplicitSet(Set[SetMember](StringMember("a"), StringMember("b"), StringMember("c")))))))
   }
 
   it should "parse set declaration with = attribute" in {
     parse("set numbers = {1, 2, 3};") should be(SetDeclaration("numbers",
       attributes = List(Attribute.FinalSet(
-        ExplicitSet(Set[Member](1, 2, 3))))))
+        ExplicitSet(Set[SetMember](1, 2, 3))))))
   }
 
   it should "parse set declaration with := attribute the sme as '='" in {
@@ -80,15 +80,15 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
 
   it should "parse set declaration with default attribute" in {
     parse("set numbers default {1, 2, 3};") should be(SetDeclaration("numbers",
-      attributes = List(Attribute.DefaultSet(ExplicitSet(Set[Member](1, 2, 3))))))
+      attributes = List(Attribute.DefaultSet(ExplicitSet(Set[SetMember](1, 2, 3))))))
   }
 
   it should "parse set declaration with many attributes" in {
     parse("set arcs dimen 3, within nodes cross nodes, default {1, 2};") should be(SetDeclaration("arcs",
       attributes = List(
         Attribute.Dimension(3),
-        Attribute.Within(Sets.Cartesian(SimpleReference("nodes"), SimpleReference("nodes"))),
-        Attribute.DefaultSet(ExplicitSet(Set[Member](1, 2))))))
+        Attribute.Membership(Sets.Cartesian(SimpleReference("nodes"), SimpleReference("nodes"))),
+        Attribute.DefaultSet(ExplicitSet(Set[SetMember](1, 2))))))
   }
 
   it should "parse set declaration with alias and attribute" in {

@@ -1,7 +1,7 @@
-package pl.edu.agh.mplt.parser.formula.set
+package pl.edu.agh.mplt.parser.phrase.set
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
+import pl.edu.agh.mplt.parser.phrase.logical.LogicalExpression
 
 trait IndexingAMPLParser extends JavaTokenParsers {
   def lexpr: Parser[LogicalExpression]

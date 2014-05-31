@@ -2,12 +2,12 @@ package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.member.Member
+import pl.edu.agh.mplt.parser.phrase.set._
+import pl.edu.agh.mplt.parser.member.SetMember
 import pl.edu.agh.mplt.parser.reference.SimpleReference
-import pl.edu.agh.mplt.parser.formula.set.Indexing
+import pl.edu.agh.mplt.parser.phrase.set.Indexing
 import scala.Some
-import pl.edu.agh.mplt.parser.formula.set.IndexedSet
+import pl.edu.agh.mplt.parser.phrase.set.IndexedSet
 import pl.edu.agh.mplt.parser.declaration.data.{VariableDeclaration, Attribute}
 
 class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits {
@@ -72,13 +72,13 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
 
   it should "parse var declaration with inclusion attribute" in {
     parse("var x in {1, 2, 3};") should be(
-      VariableDeclaration("x", attributes = List(Attribute.Inclusion(ExplicitSet(Set[Member](1, 2, 3))))))
+      VariableDeclaration("x", attributes = List(Attribute.Inclusion(ExplicitSet(Set[SetMember](1, 2, 3))))))
   }
 
   it should "parse multiple attributes" in {
     parse("var x integer, in {1, 2, 3};") should be(
       VariableDeclaration("x",
-        attributes = List(Attribute.Integer, Attribute.Inclusion(ExplicitSet(Set[Member](1, 2, 3))))))
+        attributes = List(Attribute.Integer, Attribute.Inclusion(ExplicitSet(Set[SetMember](1, 2, 3))))))
   }
 
   it should "parse coeff attribute" in {

@@ -1,11 +1,11 @@
 package pl.edu.agh.mplt.visitors.translator.latex
 
-import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.formula.set.Sets._
-import pl.edu.agh.mplt.parser.formula.set.SetExpressionIf
-import pl.edu.agh.mplt.parser.formula.set.Indexing
-import pl.edu.agh.mplt.parser.formula.set.IndexedSet
-import pl.edu.agh.mplt.parser.formula.expression.Number
+import pl.edu.agh.mplt.parser.phrase.set._
+import pl.edu.agh.mplt.parser.phrase.set.Sets._
+import pl.edu.agh.mplt.parser.phrase.set.SetExpressionIf
+import pl.edu.agh.mplt.parser.phrase.set.Indexing
+import pl.edu.agh.mplt.parser.phrase.set.IndexedSet
+import pl.edu.agh.mplt.parser.phrase.expression.Number
 import pl.edu.agh.mplt.parser.reference.Reference
 import pl.edu.agh.mplt.visitors.translator.Translator
 

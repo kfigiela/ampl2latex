@@ -1,6 +1,6 @@
 package pl.edu.agh.mplt.parser.declaration.constraint
 
-import pl.edu.agh.mplt.parser.formula.expression.Expression
+import pl.edu.agh.mplt.parser.phrase.expression.Expression
 import pl.edu.agh.mplt.parser.ASTNode
 
 sealed trait ConstraintExpression extends ASTNode
@@ -22,7 +22,7 @@ object Constraint {
 
   case class <=(expr: Expression) extends ConstraintComparison
 
-  case class ===(expr: Expression) extends ConstraintComparison
+  case class ==(expr: Expression) extends ConstraintComparison
 
   case class >=(expr: Expression) extends ConstraintComparison
 

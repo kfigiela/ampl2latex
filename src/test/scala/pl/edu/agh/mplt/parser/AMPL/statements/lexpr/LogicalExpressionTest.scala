@@ -2,13 +2,13 @@ package pl.edu.agh.mplt.parser.AMPL.statements.lexpr
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.formula.logical._
-import pl.edu.agh.mplt.parser.member.{Member, MemberAMPLParser}
-import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.formula.expression.{Bin, ExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.phrase.logical._
+import pl.edu.agh.mplt.parser.member.{SetMember, MemberAMPLParser}
+import pl.edu.agh.mplt.parser.phrase.set._
+import pl.edu.agh.mplt.parser.phrase.expression.{Bin, ExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.reference.{SimpleReference, ReferenceParser}
-import pl.edu.agh.mplt.parser.formula.set.SetComprehension
-import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
+import pl.edu.agh.mplt.parser.phrase.set.SetComprehension
+import pl.edu.agh.mplt.parser.phrase.set.ExplicitSet
 
 class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   val parser = new ReferenceParser with KeywordAMPLParser with ExpressionAMPLParser with IndexingAMPLParser
@@ -70,15 +70,15 @@ class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplici
   }
 
   it should "parse not expr" in {
-    parse("not x") should be(Logical.not("x"))
+    parse("not x") should be(Logical.Not("x"))
   }
 
   it should "parse or expr" in {
-    parse("x or y") should be(Logical.or("x", "y"))
+    parse("x or y") should be(Logical.Or("x", "y"))
   }
 
   it should "parse and expr" in {
-    parse("x and 7") should be(Logical.and("x", Comparision.!=(7, 0)))
+    parse("x and 7") should be(Logical.And("x", Comparision.!=(7, 0)))
   }
 
   it should "parse '!' as 'not'" in {
@@ -95,53 +95,53 @@ class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplici
 
 
   it should "maintain left associativity of conjunction" in {
-    parse("x and y and z") should be(Logical.and(Logical.and("x", "y"), "z"))
+    parse("x and y and z") should be(Logical.And(Logical.And("x", "y"), "z"))
   }
 
   it should "maintain left associativity of alternative" in {
-    parse("x or y or z") should be(Logical.or(Logical.or("x", "y"), "z"))
+    parse("x or y or z") should be(Logical.Or(Logical.Or("x", "y"), "z"))
   }
 
   ///////////////////
 
   it should "parse ands with or" in {
-    parse("x and y and z or a") should be(Logical.or(Logical.and(Logical.and("x", "y"), "z"), "a"))
-    parse("x and y or z and a") should be(Logical.or(Logical.and("x", "y"), Logical.and("z", "a")))
+    parse("x and y and z or a") should be(Logical.Or(Logical.And(Logical.And("x", "y"), "z"), "a"))
+    parse("x and y or z and a") should be(Logical.Or(Logical.And("x", "y"), Logical.And("z", "a")))
   }
 
   it should "parse ands with not" in {
-    parse("x and y and not z") should be(Logical.and(Logical.and("x", "y"), Logical.not("z")))
+    parse("x and y and not z") should be(Logical.And(Logical.And("x", "y"), Logical.Not("z")))
   }
 
   it should "parse ands with not and or 1" in {
-    parse("x and y or not z") should be(Logical.or(Logical.and("x", "y"), Logical.not("z")))
-    parse("x and not y or z") should be(Logical.or(Logical.and("x", Logical.not("y")), "z"))
-    parse("not x and  y or z") should be(Logical.or(Logical.and(Logical.not("x"), "y"), "z"))
-    parse("not x or  y and z") should be(Logical.or(Logical.not("x"), Logical.and("y", "z")))
+    parse("x and y or not z") should be(Logical.Or(Logical.And("x", "y"), Logical.Not("z")))
+    parse("x and not y or z") should be(Logical.Or(Logical.And("x", Logical.Not("y")), "z"))
+    parse("not x and  y or z") should be(Logical.Or(Logical.And(Logical.Not("x"), "y"), "z"))
+    parse("not x or  y and z") should be(Logical.Or(Logical.Not("x"), Logical.And("y", "z")))
   }
 
   it should "parse simple member inclusion" in {
     parse("1 in {1, 2, 3}") should be(
-      Inclusion.member(1, ExplicitSet(Set[Member](1, 2, 3))))
+      Inclusion.Member(1, ExplicitSet(Set[SetMember](1, 2, 3))))
     parse("1 in 1 .. 3") should be(
-      Inclusion.member(1, SetComprehension(1, 3)))
+      Inclusion.Member(1, SetComprehension(1, 3)))
   }
 
   it should "parse simple member exclusion" in {
     parse("1 not in {1, 2, 3}") should be {
-      Exclusion.member(1, ExplicitSet(Set[Member](1, 2, 3)))
+      Exclusion.Member(1, ExplicitSet(Set[SetMember](1, 2, 3)))
     }
   }
 
   it should "parse simple subset inclusion" in {
     parse("1 .. 5 within {1, 2, 3}") should be {
-      Inclusion.subset(SetComprehension(1, 5), ExplicitSet(Set[Member](1, 2, 3)))
+      Inclusion.Subset(SetComprehension(1, 5), ExplicitSet(Set[SetMember](1, 2, 3)))
     }
   }
 
   it should "parse simple subset exclusion" in {
     parse("1 .. 5 not within {1, 2, 3}") should be {
-      Exclusion.subset(SetComprehension(1, 5), ExplicitSet(Set[Member](1, 2, 3)))
+      Exclusion.Subset(SetComprehension(1, 5), ExplicitSet(Set[SetMember](1, 2, 3)))
     }
   }
 
@@ -149,25 +149,25 @@ class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplici
 
   it should "parse compound logical expression 1" in {
     parse("x and y and not z or a and 16 != 0") should be(
-      Logical.or(
-        Logical.and(Logical.and("x", "y"), Logical.not("z")),
-        Logical.and("a", Comparision.!=(16, 0))
+      Logical.Or(
+        Logical.And(Logical.And("x", "y"), Logical.Not("z")),
+        Logical.And("a", Comparision.!=(16, 0))
       )
     )
   }
 
   it should "parse compound logical expression 2" in {
     parse("1 in 1 .. 5 and not {1, 2, 3} within 1 .. 4 or {1, 2} not within 1 .. 2 and x > 10 + 5") should be(
-      Logical.or(
-        Logical.and(
-          Inclusion.member(1, SetComprehension(1, 5)),
-          Logical.not(
-            Inclusion.subset(
-              ExplicitSet(Set[Member](1, 2, 3)),
+      Logical.Or(
+        Logical.And(
+          Inclusion.Member(1, SetComprehension(1, 5)),
+          Logical.Not(
+            Inclusion.Subset(
+              ExplicitSet(Set[SetMember](1, 2, 3)),
               SetComprehension(1, 4)))),
-        Logical.and(
-          Exclusion.subset(
-            ExplicitSet(Set[Member](1, 2)),
+        Logical.And(
+          Exclusion.Subset(
+            ExplicitSet(Set[SetMember](1, 2)),
             SetComprehension(1, 2)),
           Comparision.>("x", Bin.+(10, 5))
         )
@@ -191,11 +191,11 @@ class LogicalExpressionTest extends FlatSpec with Matchers with IntercodeImplici
   ///////////////////
 
   "conjunction" should "precede alternative" in {
-    parse("x and y or z") should be(Logical.or(Logical.and("x", "y"), "z"))
+    parse("x and y or z") should be(Logical.Or(Logical.And("x", "y"), "z"))
   }
 
   "negation" should "precede conjunction" in {
-    parse("x and not y") should be(Logical.and("x", Logical.not("y")))
+    parse("x and not y") should be(Logical.And("x", Logical.Not("y")))
   }
 
 

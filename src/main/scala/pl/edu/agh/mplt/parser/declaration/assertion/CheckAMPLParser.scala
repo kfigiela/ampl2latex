@@ -1,8 +1,8 @@
 package pl.edu.agh.mplt.parser.declaration.assertion
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.formula.set.Indexing
-import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
+import pl.edu.agh.mplt.parser.phrase.set.Indexing
+import pl.edu.agh.mplt.parser.phrase.logical.LogicalExpression
 
 trait CheckAMPLParser extends JavaTokenParsers {
   def indexing: Parser[Indexing]

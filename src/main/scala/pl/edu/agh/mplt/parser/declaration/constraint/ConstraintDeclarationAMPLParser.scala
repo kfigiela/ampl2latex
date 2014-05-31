@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.declaration.constraint
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.formula.set.Indexing
+import pl.edu.agh.mplt.parser.phrase.set.Indexing
 
 
 trait ConstraintDeclarationAMPLParser extends JavaTokenParsers {

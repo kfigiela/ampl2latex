@@ -1,14 +1,14 @@
 package pl.edu.agh.mplt.parser.AMPL.statements.sexpr
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.formula.expression.{Bin, ExpressionAMPLParser}
-import pl.edu.agh.mplt.parser.formula.logical.{Logical, Comparision, LogicalExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.phrase.set._
+import pl.edu.agh.mplt.parser.phrase.expression.{Bin, ExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.phrase.logical.{Logical, Comparision, LogicalExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
-import pl.edu.agh.mplt.parser.formula.set.Indexing
-import pl.edu.agh.mplt.parser.formula.set.SetComprehension
-import pl.edu.agh.mplt.parser.formula.set.ExplicitSet
+import pl.edu.agh.mplt.parser.phrase.set.Indexing
+import pl.edu.agh.mplt.parser.phrase.set.SetComprehension
+import pl.edu.agh.mplt.parser.phrase.set.ExplicitSet
 import pl.edu.agh.mplt.parser.reference.{ReferenceParser, SimpleReference}
 
 class indexingExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
@@ -61,7 +61,7 @@ class indexingExpressionTest extends FlatSpec with Matchers with IntercodeImplic
         List(
           IndexedSet(List("i"), SimpleReference("A")),
           IndexedSet(List("j", "k"), SimpleReference("B"))),
-        Some(Logical.and(
+        Some(Logical.And(
           Comparision.==("i", "j"),
           Comparision.>(Bin.+("i", "j"), "k")))))
   }

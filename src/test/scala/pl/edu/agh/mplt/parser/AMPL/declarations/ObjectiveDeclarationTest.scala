@@ -2,7 +2,7 @@ package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.formula.set.{IndexedSet, Indexing}
+import pl.edu.agh.mplt.parser.phrase.set.{IndexedSet, Indexing}
 import pl.edu.agh.mplt.parser.reference.SimpleReference
 import pl.edu.agh.mplt.parser.declaration.objective.{Maximize, Minimize}
 

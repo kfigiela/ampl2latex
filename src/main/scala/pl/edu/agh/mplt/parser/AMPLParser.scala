@@ -4,9 +4,9 @@ import pl.edu.agh.mplt.parser.declaration.Declaration
 import pl.edu.agh.mplt.parser.declaration.constraint.{ConstraintExpressionAMPLParser,
 ConstraintDeclarationAMPLParser, ConstraintDeclaration}
 import pl.edu.agh.mplt.parser.declaration.objective.{ObjectiveDeclarationAMPLParser, ObjectiveDeclaration}
-import pl.edu.agh.mplt.parser.formula.expression.{Expression, ExpressionAMPLParser}
-import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
-import pl.edu.agh.mplt.parser.formula.set.{Indexing, IndexingAMPLParser, SetExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.phrase.expression.{Expression, ExpressionAMPLParser}
+import pl.edu.agh.mplt.parser.phrase.logical.LogicalExpressionAMPLParser
+import pl.edu.agh.mplt.parser.phrase.set.{Indexing, IndexingAMPLParser, SetExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
 import scala.util.parsing.combinator.JavaTokenParsers

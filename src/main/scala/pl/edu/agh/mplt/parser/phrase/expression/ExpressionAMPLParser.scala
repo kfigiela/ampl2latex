@@ -1,9 +1,9 @@
-package pl.edu.agh.mplt.parser.formula.expression
+package pl.edu.agh.mplt.parser.phrase.expression
 
 import scala.util.parsing.combinator.JavaTokenParsers
 import pl.edu.agh.mplt.parser.reference.Reference
-import pl.edu.agh.mplt.parser.formula.set.Indexing
-import pl.edu.agh.mplt.parser.formula.logical.LogicalExpression
+import pl.edu.agh.mplt.parser.phrase.set.Indexing
+import pl.edu.agh.mplt.parser.phrase.logical.LogicalExpression
 import language.postfixOps
 
 trait ExpressionAMPLParser extends JavaTokenParsers {
@@ -28,9 +28,9 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
   }
 
   private def arithmeticExpression: Parser[Expression] =
-    chainl1(production1, "+" ^^^ Bin.+ | "-" ^^^ Bin.- | "less" ^^^ Bin.less)
+    chainl1(production1, "+" ^^^ Bin.+ | "-" ^^^ Bin.- | "less" ^^^ Bin.Less)
 
-  private def production1 = chainl1(production2, "*" ^^^ Bin.* | "/" ^^^ Bin./ | "div" ^^^ Bin.div | "mod" ^^^ Bin.mod)
+  private def production1 = chainl1(production2, "*" ^^^ Bin.* | "/" ^^^ Bin./ | "div" ^^^ Bin.Div | "mod" ^^^ Bin.Mod)
 
   private def production2 = "+" ~> production3 | rep1("-" ~ "-") ~> production3 | "-" ~> production3 ^^ Unary.- |
     production3

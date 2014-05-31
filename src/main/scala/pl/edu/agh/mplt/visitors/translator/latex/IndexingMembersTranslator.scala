@@ -1,6 +1,6 @@
 package pl.edu.agh.mplt.visitors.translator.latex
 
-import pl.edu.agh.mplt.parser.formula.set.Indexing
+import pl.edu.agh.mplt.parser.phrase.set.Indexing
 import pl.edu.agh.mplt.visitors.translator.Translator
 
 

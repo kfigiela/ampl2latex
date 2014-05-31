@@ -1,15 +1,15 @@
-package pl.edu.agh.mplt.parser.formula.logical
+package pl.edu.agh.mplt.parser.phrase.logical
 
 import scala.util.parsing.combinator.JavaTokenParsers
-import pl.edu.agh.mplt.parser.formula.expression.{Expression, Number}
-import pl.edu.agh.mplt.parser.member.Member
-import pl.edu.agh.mplt.parser.formula.set.{Indexing, SetExpression}
+import pl.edu.agh.mplt.parser.phrase.expression.{Expression, Number}
+import pl.edu.agh.mplt.parser.member.SetMember
+import pl.edu.agh.mplt.parser.phrase.set.{Indexing, SetExpression}
 import pl.edu.agh.mplt.parser.reference.Reference
 
 trait LogicalExpressionAMPLParser extends JavaTokenParsers {
   def expr: Parser[Expression]
 
-  def member: Parser[Member]
+  def member: Parser[SetMember]
 
   def sexpr: Parser[SetExpression]
 
@@ -21,9 +21,9 @@ trait LogicalExpressionAMPLParser extends JavaTokenParsers {
 
   def indexing: Parser[Indexing]
 
-  private def or = chainl1(and, ("or" | "||") ^^^ Logical.or)
+  private def or = chainl1(and, ("or" | "||") ^^^ Logical.Or)
 
-  private def and = chainl1(nonRecursiveLogicalProductionsParser, ("and" | "&&") ^^^ Logical.and)
+  private def and = chainl1(nonRecursiveLogicalProductionsParser, ("and" | "&&") ^^^ Logical.And)
 
   private def compareExpressions: Parser[LogicalExpression] =
     expr ~ "<" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.<(e1, e2) } |
@@ -36,20 +36,20 @@ trait LogicalExpressionAMPLParser extends JavaTokenParsers {
     expr ~ "<>" ~ expr ^^ { case e1 ~ _ ~ e2 => Comparision.!=(e1, e2) }
 
   private def not: Parser[LogicalExpression] =
-    ("!" | "not") ~> nonRecursiveLogicalProductionsParser ^^ { case l: LogicalExpression => Logical.not(l) }
+    ("!" | "not") ~> nonRecursiveLogicalProductionsParser ^^ { case l: LogicalExpression => Logical.Not(l) }
 
   private def memberInclusion: Parser[LogicalExpression] =
-    member ~ "in" ~ sexpr ^^ { case m ~ _ ~ (s: SetExpression) => Inclusion.member(m, s) }
+    member ~ "in" ~ sexpr ^^ { case m ~ _ ~ (s: SetExpression) => Inclusion.Member(m, s) }
 
   private def subsetInclusion: Parser[LogicalExpression] =
-    sexpr ~ "within" ~ sexpr ^^ { case (s1: SetExpression) ~ _ ~ (s2: SetExpression) => Inclusion.subset(s1, s2) }
+    sexpr ~ "within" ~ sexpr ^^ { case (s1: SetExpression) ~ _ ~ (s2: SetExpression) => Inclusion.Subset(s1, s2) }
 
   private def memberExclusion: Parser[LogicalExpression] =
-    member ~ "not" ~ "in" ~ sexpr ^^ { case m ~ _ ~ _ ~ (s: SetExpression) => Exclusion.member(m, s) }
+    member ~ "not" ~ "in" ~ sexpr ^^ { case m ~ _ ~ _ ~ (s: SetExpression) => Exclusion.Member(m, s) }
 
   private def subsetExclusion: Parser[LogicalExpression] =
     sexpr ~ "not" ~ "within" ~ sexpr ^^ { case (s1: SetExpression) ~ _ ~ _ ~ (s2: SetExpression) =>
-      Exclusion.subset(s1, s2)
+      Exclusion.Subset(s1, s2)
     }
 
   private def reduction: Parser[LogicalExpression] = keyword ~ indexing ~ lexpr ^? {

@@ -9,14 +9,14 @@ import pl.edu.agh.mplt.parser.declaration.constraint._
 import pl.edu.agh.mplt.parser.declaration.data._
 import pl.edu.agh.mplt.parser.declaration.data.Attribute._
 import pl.edu.agh.mplt.parser.declaration.objective._
-import pl.edu.agh.mplt.parser.formula.logical
-import pl.edu.agh.mplt.parser.formula.expression._
-import pl.edu.agh.mplt.parser.formula.expression.Bin._
-import pl.edu.agh.mplt.parser.formula.expression.ExpressionReduction._
-import pl.edu.agh.mplt.parser.formula.logical._
-import pl.edu.agh.mplt.parser.formula.logical.LogicalReduction._
-import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.formula.set.Sets._
+import pl.edu.agh.mplt.parser.phrase.logical
+import pl.edu.agh.mplt.parser.phrase.expression._
+import pl.edu.agh.mplt.parser.phrase.expression.Bin._
+import pl.edu.agh.mplt.parser.phrase.expression.ExpressionReduction._
+import pl.edu.agh.mplt.parser.phrase.logical._
+import pl.edu.agh.mplt.parser.phrase.logical.LogicalReduction._
+import pl.edu.agh.mplt.parser.phrase.set._
+import pl.edu.agh.mplt.parser.phrase.set.Sets._
 import pl.edu.agh.mplt.parser.member._
 import pl.edu.agh.mplt.parser.reference._
 
@@ -105,11 +105,11 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
    def mapBinary(bin: BinaryOperation): BinaryOperation = bin match {
       case +(left, right)    => Bin.+(mapExpr(left), mapExpr(right))
       case -(left, right)    => Bin.-(mapExpr(left), mapExpr(right))
-      case less(left, right) => less(mapExpr(left), mapExpr(right))
+      case Less(left, right) => Less(mapExpr(left), mapExpr(right))
       case *(left, right)    => *(mapExpr(left), mapExpr(right))
       case /(left, right)    => /(mapExpr(left), mapExpr(right))
-      case div(left, right)  => div(mapExpr(left), mapExpr(right))
-      case mod(left, right)  => mod(mapExpr(left), mapExpr(right))
+      case Div(left, right)  => Div(mapExpr(left), mapExpr(right))
+      case Mod(left, right)  => Mod(mapExpr(left), mapExpr(right))
       case ^(left, right)    => ^(mapExpr(left), mapExpr(right))
 
       case node => throw new Error(s"Usupported: $node")
@@ -161,7 +161,7 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
       case node => throw new Error(s"Usupported: $node")
    }
 
-   def mapMember(member: Member): Member = member match {
+   def mapMember(member: SetMember): SetMember = member match {
       case ExpressionMember(expr) => ExpressionMember(mapExpr(expr))
       case MultiMember(members)   => MultiMember(members.map(mapMember))
 
@@ -174,19 +174,19 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
    def mapLexpr(lexpr: LogicalExpression): LogicalExpression = lexpr match {
       case ParenthesizedLogical(l) => l
 
-      case logical.Inclusion.member(m, s) =>
-         logical.Inclusion.member(mapMember(m), mapSexpr(s))
-      case logical.Exclusion.member(m, s) =>
-         logical.Inclusion.member(mapMember(m), mapSexpr(s))
+      case logical.Inclusion.Member(m, s) =>
+         logical.Inclusion.Member(mapMember(m), mapSexpr(s))
+      case logical.Exclusion.Member(m, s) =>
+         logical.Inclusion.Member(mapMember(m), mapSexpr(s))
 
-      case logical.Inclusion.subset(m, s) =>
-         logical.Inclusion.subset(mapSexpr(m), mapSexpr(s))
-      case logical.Exclusion.subset(m, s) =>
-         logical.Inclusion.subset(mapSexpr(m), mapSexpr(s))
+      case logical.Inclusion.Subset(m, s) =>
+         logical.Inclusion.Subset(mapSexpr(m), mapSexpr(s))
+      case logical.Exclusion.Subset(m, s) =>
+         logical.Inclusion.Subset(mapSexpr(m), mapSexpr(s))
 
-      case Logical.and(l1, l2) => Logical.and(mapLexpr(l1), mapLexpr(l2))
-      case Logical.or(l1, l2)  => Logical.or(mapLexpr(l1), mapLexpr(l2))
-      case Logical.not(l)      => Logical.not(mapLexpr(l))
+      case Logical.And(l1, l2) => Logical.And(mapLexpr(l1), mapLexpr(l2))
+      case Logical.Or(l1, l2)  => Logical.Or(mapLexpr(l1), mapLexpr(l2))
+      case Logical.Not(l)      => Logical.Not(mapLexpr(l))
 
       case Comparision.!=(e1, e2) => Comparision.!=(mapExpr(e1), mapExpr(e2))
       case Comparision.==(e1, e2) => Comparision.==(mapExpr(e1), mapExpr(e2))
@@ -226,7 +226,7 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
 
    def mapConstraintComparision(cc: ConstraintComparison): ConstraintComparison = cc match {
       case Constraint.<=(expr)  => Constraint.<=(mapExpr(expr))
-      case Constraint.===(expr) => Constraint.===(mapExpr(expr))
+      case Constraint.==(expr) => Constraint.==(mapExpr(expr))
       case Constraint.>=(expr)  => Constraint.>=(mapExpr(expr))
 
       case node => throw new Error(s"Usupported: $node")
@@ -239,10 +239,10 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
       case d@Dimension(_)             => d
       case Relation(name, expr)       => Relation(name, expr)
       case DefaultValue(expr)         => DefaultValue(mapExpr(expr))
-      case Defined(expr)              => Defined(mapExpr(expr))
+      case Definition(expr)              => Definition(mapExpr(expr))
       case FinalValue(expr)           => FinalValue(mapExpr(expr))
       case Attribute.Inclusion(sexpr) => Attribute.Inclusion(mapSexpr(sexpr))
-      case Within(sexpr)              => Within(mapSexpr(sexpr))
+      case Membership(sexpr)              => Membership(mapSexpr(sexpr))
       case FinalSet(sexpr)            => FinalSet(mapSexpr(sexpr))
       case DefaultSet(sexpr)          => DefaultSet(mapSexpr(sexpr))
 

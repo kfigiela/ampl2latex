@@ -1,12 +1,12 @@
 package pl.edu.agh.mplt.parser.AMPL.statements.expr
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.parser.formula.expression._
+import pl.edu.agh.mplt.parser.phrase.expression._
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.reference.{IndexedReference, SimpleReference, ReferenceParser}
-import pl.edu.agh.mplt.parser.formula.expression.Number
-import pl.edu.agh.mplt.parser.formula.set.{SetExpressionAMPLParser, IndexingAMPLParser, IndexedSet, Indexing}
-import pl.edu.agh.mplt.parser.formula.logical.LogicalExpressionAMPLParser
+import pl.edu.agh.mplt.parser.phrase.expression.Number
+import pl.edu.agh.mplt.parser.phrase.set.{SetExpressionAMPLParser, IndexingAMPLParser, IndexedSet, Indexing}
+import pl.edu.agh.mplt.parser.phrase.logical.LogicalExpressionAMPLParser
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
 
 class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
@@ -26,7 +26,7 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
   }
 
   it should "parse less operator" in {
-    parse("1 less 2") should be(Bin.less(1, 2))
+    parse("1 less 2") should be(Bin.Less(1, 2))
   }
 
   it should "parser reduction" in {
@@ -45,11 +45,11 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
   }
 
   it should "parse modulo operator" in {
-    parse("1 mod 2") should be(Bin.mod(1, 2))
+    parse("1 mod 2") should be(Bin.Mod(1, 2))
   }
 
   it should "parse integer division" in {
-    parse("1 div 2") should be(Bin.div(1, 2))
+    parse("1 div 2") should be(Bin.Div(1, 2))
   }
 
   it should "parse power operator" in {
@@ -83,7 +83,7 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
   }
 
   it should "maintain left associativity of less operator" in {
-    parse("1 less 2 less 3") should be(Bin.less(Bin.less(1, 2), 3))
+    parse("1 less 2 less 3") should be(Bin.Less(Bin.Less(1, 2), 3))
   }
 
   it should "maintain left associativity of multiplication" in {
@@ -95,11 +95,11 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
   }
 
   it should "maintain left associativity of modulo" in {
-    parse("1 mod 2 mod 3") should be(Bin.mod(Bin.mod(1, 2), 3))
+    parse("1 mod 2 mod 3") should be(Bin.Mod(Bin.Mod(1, 2), 3))
   }
 
   it should "maintain left associativity of integer division" in {
-    parse("1 div 2 div 3") should be(Bin.div(Bin.div(1, 2), 3))
+    parse("1 div 2 div 3") should be(Bin.Div(Bin.Div(1, 2), 3))
   }
 
   it should "maintain right associativity of exponentiation" in {
@@ -126,7 +126,7 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
   }
 
   it should "precede less" in {
-    parse("1 less 2 * 3") should be(Bin.less(1, Bin.*(2, 3)))
+    parse("1 less 2 * 3") should be(Bin.Less(1, Bin.*(2, 3)))
   }
 
   ////////////////////////////////////////////
@@ -141,37 +141,37 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
   }
 
   it should "precede less" in {
-    parse("5 less 3 / 2") should be(Bin.less(5, Bin./(3, 2)))
+    parse("5 less 3 / 2") should be(Bin.Less(5, Bin./(3, 2)))
   }
 
   ////////////////////////////////////////////
   ////////////////////////////////////////////
 
   "integer division" should "precede addition" in {
-    parse("5 + 3 div 2") should be(Bin.+(5, Bin.div(3, 2)))
+    parse("5 + 3 div 2") should be(Bin.+(5, Bin.Div(3, 2)))
   }
 
   it should "precede subtraction" in {
-    parse("5 - 3 div 2") should be(Bin.-(5, Bin.div(3, 2)))
+    parse("5 - 3 div 2") should be(Bin.-(5, Bin.Div(3, 2)))
   }
 
   it should "precede less" in {
-    parse("5 less 3 div 2") should be(Bin.less(5, Bin.div(3, 2)))
+    parse("5 less 3 div 2") should be(Bin.Less(5, Bin.Div(3, 2)))
   }
 
   ////////////////////////////////////////////
   ////////////////////////////////////////////
 
   "modulo" should "precede addition" in {
-    parse("5 + 3 mod 2") should be(Bin.+(5, Bin.mod(3, 2)))
+    parse("5 + 3 mod 2") should be(Bin.+(5, Bin.Mod(3, 2)))
   }
 
   it should "precede subtraction" in {
-    parse("5 - 3 mod 2") should be(Bin.-(5, Bin.mod(3, 2)))
+    parse("5 - 3 mod 2") should be(Bin.-(5, Bin.Mod(3, 2)))
   }
 
   it should "precede less" in {
-    parse("5 less 3 mod 2") should be(Bin.less(5, Bin.mod(3, 2)))
+    parse("5 less 3 mod 2") should be(Bin.Less(5, Bin.Mod(3, 2)))
   }
   ////////////////////////////////////////////
   ////////////////////////////////////////////
@@ -181,11 +181,11 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
   }
 
   it should "precede integer division" in {
-    parse("-1 div 3") should be(Bin.div(Unary.-(1), 3))
+    parse("-1 div 3") should be(Bin.Div(Unary.-(1), 3))
   }
 
   it should "precede modulo" in {
-    parse("-1 mod 3") should be(Bin.mod(Unary.-(1), 3))
+    parse("-1 mod 3") should be(Bin.Mod(Unary.-(1), 3))
   }
 
   it should "precede multiplication" in {

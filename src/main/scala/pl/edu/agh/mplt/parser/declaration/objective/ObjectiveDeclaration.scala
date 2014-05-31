@@ -1,8 +1,8 @@
 package pl.edu.agh.mplt.parser.declaration.objective
 
 import pl.edu.agh.mplt.parser.declaration.Declaration
-import pl.edu.agh.mplt.parser.formula.set.Indexing
-import pl.edu.agh.mplt.parser.formula.expression.Expression
+import pl.edu.agh.mplt.parser.phrase.set.Indexing
+import pl.edu.agh.mplt.parser.phrase.expression.Expression
 
 trait ObjectiveDeclaration extends Declaration {
    def name:String

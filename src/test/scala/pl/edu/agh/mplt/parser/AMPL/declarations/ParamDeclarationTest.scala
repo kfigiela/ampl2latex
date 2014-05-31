@@ -2,12 +2,12 @@ package pl.edu.agh.mplt.parser.AMPL.declarations
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.formula.set._
-import pl.edu.agh.mplt.parser.member.Member
+import pl.edu.agh.mplt.parser.phrase.set._
+import pl.edu.agh.mplt.parser.member.SetMember
 import pl.edu.agh.mplt.parser.reference.SimpleReference
-import pl.edu.agh.mplt.parser.formula.set.Indexing
+import pl.edu.agh.mplt.parser.phrase.set.Indexing
 import scala.Some
-import pl.edu.agh.mplt.parser.formula.set.IndexedSet
+import pl.edu.agh.mplt.parser.phrase.set.IndexedSet
 import pl.edu.agh.mplt.parser.declaration.data.{ParameterDeclaration, Attribute}
 
 
@@ -57,12 +57,12 @@ class ParamDeclarationTest extends FlatSpec with Matchers with IntercodeImplicit
 
   it should "parse parameter declaration with  attribute" in {
     parse("param x in {1, 2, 3};") should be(
-      ParameterDeclaration("x", attributes = List(Attribute.Inclusion(ExplicitSet(Set[Member](1, 2, 3))))))
+      ParameterDeclaration("x", attributes = List(Attribute.Inclusion(ExplicitSet(Set[SetMember](1, 2, 3))))))
   }
 
   it should "parse multiple attributes" in {
     parse("param x integer, in {1, 2, 3};") should be(
-      ParameterDeclaration("x", attributes = List(Attribute.Integer, Attribute.Inclusion(ExplicitSet(Set[Member](1, 2,
+      ParameterDeclaration("x", attributes = List(Attribute.Integer, Attribute.Inclusion(ExplicitSet(Set[SetMember](1, 2,
         3))))))
   }
 

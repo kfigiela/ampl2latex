@@ -17,4 +17,7 @@ trait Mappers {
   protected def fixNames = new NameFixer
 
   protected def translateToLatex :Translator[Declaration] = new LatexTranslator
+
+
+   protected def latexTranslator = fixParenthesis andThen fixNames andThen translateToLatex
 }

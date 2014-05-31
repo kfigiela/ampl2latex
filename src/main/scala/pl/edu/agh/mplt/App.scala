@@ -19,7 +19,7 @@ object App {
                persist(stream.tail)
             }
 
-            persist(parsedFile.translate)
+            persist(parsedFile.translateVerbose)
 
          } catch {
             case e: Throwable =>

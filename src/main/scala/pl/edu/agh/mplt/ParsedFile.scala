@@ -19,7 +19,10 @@ class ParsedFile(val file: File, val parser: AMPLParser) extends Mappers {
       }
    )
 
-   def translate: Stream[String] = ast.map((fixParenthesis andThen fixNames andThen translateToLatex)(_))
+   def translateSilent: Stream[String] = ast.filter { case InvalidDeclaration(_) => false; case _ => true }
+                                         .map(latexTranslator(_))
+
+   def translateVerbose: Stream[String] = ast.map(latexTranslator(_))
 }
 
 object ParsedFile {

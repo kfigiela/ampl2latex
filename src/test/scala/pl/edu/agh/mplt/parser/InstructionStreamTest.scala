@@ -44,7 +44,7 @@ class InstructionStreamTest extends FlatSpec with Matchers {
       val file = new ParsedFile(null, null) {
          override lazy val ast = declarations
       }
-      val res = file.translate.reduce(_ + " \\\\ \n" + _)
+      val res = file.translateVerbose.reduce(_ + " \\\\ \n" + _)
 
       println(res)
 

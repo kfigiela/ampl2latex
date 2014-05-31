@@ -5,11 +5,11 @@ import pl.edu.agh.mplt.parser.phrase.set.Indexing
 import pl.edu.agh.mplt.parser.phrase.expression.Expression
 
 trait ObjectiveDeclaration extends Declaration {
-   def name:String
+   def name: String
 
-  def indexing: Option[Indexing]
+   def indexing: Option[Indexing]
 
-  def expression: Option[Expression]
+   def expression: Option[Expression]
 }
 
 case class Minimize(name: String,

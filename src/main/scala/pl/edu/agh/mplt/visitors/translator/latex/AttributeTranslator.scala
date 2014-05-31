@@ -16,12 +16,12 @@ class AttributeTranslator extends Translator[Attribute] {
 
       case DefaultValue(expr) => s"= {${(new ExprTranslator)(expr) }}"
       case FinalValue(expr)   => s"= {${(new ExprTranslator)(expr) }}"
-      case Definition(expr)      => s":= {${(new ExprTranslator)(expr) }}"
+      case Definition(expr)   => s":= {${(new ExprTranslator)(expr) }}"
 
       case Inclusion(sexpr)  => s"\\in {${(new SexprTranslator)(sexpr) }}"
       case DefaultSet(sexpr) => s"= {${(new SexprTranslator)(sexpr) }}"
       case FinalSet(sexpr)   => s"= {${(new SexprTranslator)(sexpr) }}"
-      case Membership(sexpr)     => s"\\subseteq  {${(new SexprTranslator)(sexpr) }}"
+      case Membership(sexpr) => s"\\subseteq  {${(new SexprTranslator)(sexpr) }}"
 
       case Dimension(n) => s"\\in \\mathbb{R}^{$n}"
 

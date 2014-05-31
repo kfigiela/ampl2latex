@@ -1,7 +1,7 @@
 package pl.edu.agh.mplt.parser.reference
 
 import pl.edu.agh.mplt.parser.ASTNode
-import pl.edu.agh.mplt.parser.phrase.logical.{LogicalExpression, Bool}
+import pl.edu.agh.mplt.parser.phrase.logical.LogicalExpression
 import pl.edu.agh.mplt.parser.phrase.expression.Expression
 import pl.edu.agh.mplt.parser.phrase.set.SetLiteral
 

@@ -1,8 +1,6 @@
 package pl.edu.agh.mplt.parser.phrase.expression
 
 import pl.edu.agh.mplt.parser.phrase.Phrase
-import pl.edu.agh.mplt.parser.phrase.logical.LogicalExpression
-import pl.edu.agh.mplt.parser.phrase.set.Indexing
 
 trait Expression extends Phrase
 

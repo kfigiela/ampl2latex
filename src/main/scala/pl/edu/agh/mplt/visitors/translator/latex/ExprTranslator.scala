@@ -10,10 +10,10 @@ import pl.edu.agh.mplt.visitors.translator.Translator
 class ExprTranslator extends Translator[Expression] {
 
    override def apply(node: Expression): String = node match {
-      case Number(nr)                     => nr
-      case ParenthesizedExpression(expr)  => s"(${(new ExprTranslator)(expr) })"
-      case i@ExpressionIf(_, _, _)        => translateIf(i)
-      case f@FunctionCall(name, args)     => translateFunction(f)
+      case Number(nr)                    => nr
+      case ParenthesizedExpression(expr) => s"(${(new ExprTranslator)(expr) })"
+      case i@ExpressionIf(_, _, _)       => translateIf(i)
+      case f@FunctionCall(name, args)    => translateFunction(f)
 
       case a: ArithmeticOperation => (new ArithmeticTranslator(this))(a)
       case ref: Reference         => (new ReferenceTranslator)(ref)

@@ -31,7 +31,7 @@ class SexprTranslator extends Translator[SetExpression] {
       case ExplicitSet(members) =>
          if (members.isEmpty) "\\{\\}"
          else new StringBuilder("\\{").append(joinWith(",")(members.map((new MemberTranslator)(_)))).append("\\}")
-               .toString()
+              .toString()
 
       case SetComprehension(start, end, Number("1")) =>
          s"\\{ x | \\ x \\in [{${(new MemberTranslator)(start) }},\\ {${(new MemberTranslator)(end) }} \\}"

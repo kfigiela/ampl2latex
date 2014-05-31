@@ -27,7 +27,7 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
    }
 
    def andThen[B](v: Visitor[Declaration, B]): NodeAggregator[B] = new
-               NodeAggregator[B](operations :+ this, v)
+   NodeAggregator[B](operations :+ this, v)
 
    def map(node: Declaration): Declaration = node match {
       case Assertion(index, lexpr) => Assertion(index.map(mapIndexing), mapLexpr(lexpr))
@@ -218,9 +218,9 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
    }
 
    def mapConstraintComparision(cc: ConstraintComparison): ConstraintComparison = cc match {
-      case Constraint.<=(expr)  => Constraint.<=(mapExpr(expr))
+      case Constraint.<=(expr) => Constraint.<=(mapExpr(expr))
       case Constraint.==(expr) => Constraint.==(mapExpr(expr))
-      case Constraint.>=(expr)  => Constraint.>=(mapExpr(expr))
+      case Constraint.>=(expr) => Constraint.>=(mapExpr(expr))
 
       case node => throw new Error(s"Usupported: $node")
    }
@@ -232,10 +232,10 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
       case d@Dimension(_)             => d
       case Relation(name, expr)       => Relation(name, expr)
       case DefaultValue(expr)         => DefaultValue(mapExpr(expr))
-      case Definition(expr)              => Definition(mapExpr(expr))
+      case Definition(expr)           => Definition(mapExpr(expr))
       case FinalValue(expr)           => FinalValue(mapExpr(expr))
       case Attribute.Inclusion(sexpr) => Attribute.Inclusion(mapSexpr(sexpr))
-      case Membership(sexpr)              => Membership(mapSexpr(sexpr))
+      case Membership(sexpr)          => Membership(mapSexpr(sexpr))
       case FinalSet(sexpr)            => FinalSet(mapSexpr(sexpr))
       case DefaultSet(sexpr)          => DefaultSet(mapSexpr(sexpr))
 

@@ -20,10 +20,10 @@ trait ConstraintComparison extends ASTNode
 
 object Constraint {
 
-  case class <=(expr: Expression) extends ConstraintComparison
+   case class <=(expr: Expression) extends ConstraintComparison
 
-  case class ==(expr: Expression) extends ConstraintComparison
+   case class ==(expr: Expression) extends ConstraintComparison
 
-  case class >=(expr: Expression) extends ConstraintComparison
+   case class >=(expr: Expression) extends ConstraintComparison
 
 }

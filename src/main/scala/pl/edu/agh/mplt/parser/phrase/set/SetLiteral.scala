@@ -2,7 +2,6 @@ package pl.edu.agh.mplt.parser.phrase.set
 
 import pl.edu.agh.mplt.parser.phrase.expression.{Expression, Number}
 import pl.edu.agh.mplt.parser.member.SetMember
-import pl.edu.agh.mplt.parser.phrase.logical.LogicalExpression
 
 trait SetLiteral extends SetExpression
 

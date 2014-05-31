@@ -5,13 +5,13 @@ import pl.edu.agh.mplt.parser.phrase.set.Indexing
 
 
 trait DataDeclaration extends Declaration {
-  def name: String
+   def name: String
 
-  def alias: Option[String]
+   def alias: Option[String]
 
-  def indexing: Option[Indexing]
+   def indexing: Option[Indexing]
 
-  def attributes: List[Attribute]
+   def attributes: List[Attribute]
 }
 
 case class ParameterDeclaration(name: String,

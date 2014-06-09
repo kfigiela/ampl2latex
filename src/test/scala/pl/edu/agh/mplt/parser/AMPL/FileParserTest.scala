@@ -17,12 +17,12 @@ class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
    files.map(file =>
       it should ("parse file " + file.getName) in {
 
-         ParsedFile.fromAMPL(file).ast.filter {
+         ParsedFile.fromAMPL(file).declarations.filter {
             case InvalidDeclaration(msg) => true
             case _                       => false
          }.foreach(println)
 
-         ParsedFile.fromAMPL(file).ast.forall {
+         ParsedFile.fromAMPL(file).declarations.forall {
             case InvalidDeclaration(msg) => false
             case _                       => true
          } should not be false

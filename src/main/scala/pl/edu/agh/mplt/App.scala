@@ -19,7 +19,11 @@ object App {
                persist(stream.tail)
             }
 
-            persist(parsedFile.translateVerbose)
+            parsedFile.translateVerbose.map {
+               case (str, ds) =>
+                  out.println(s"$str:")
+                  persist(ds)
+            }
 
          } catch {
             case e: Throwable =>

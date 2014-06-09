@@ -2,7 +2,6 @@ package pl.edu.agh.mplt
 
 import scala.io.Source
 import java.io.File
-import scala.collection.mutable
 
 
 class InstructionStream(filename: File) {
@@ -29,12 +28,12 @@ class InstructionStream(filename: File) {
          appendToStream(instructions.toStream)
    }
 
-        def appendToStream(stream: Stream[String]): Stream[String] = stream match {
-         case s if s.isEmpty => getStream
-         case hd #:: tl      => Stream.cons(hd, appendToStream(tl))
-      }
-
-      lazy val instructions: Stream[String] = getStream
-
-
+   def appendToStream(stream: Stream[String]): Stream[String] = stream match {
+      case s if s.isEmpty => getStream
+      case hd #:: tl      => Stream.cons(hd, appendToStream(tl))
    }
+
+   lazy val instructions: Stream[String] = getStream
+
+
+}

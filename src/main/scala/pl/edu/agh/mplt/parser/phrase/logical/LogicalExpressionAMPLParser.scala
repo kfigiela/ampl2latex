@@ -39,16 +39,16 @@ trait LogicalExpressionAMPLParser extends JavaTokenParsers {
       ("!" | "not") ~> nonRecursiveLogicalProductionsParser ^^ Logical.Not
 
    private def memberInclusion: Parser[LogicalExpression] =
-      member ~ ("in" ~> sexpr) ^^ { case m ~s => Inclusion.Member(m, s) }
+      member ~ ("in" ~> sexpr) ^^ { case m ~ s => Inclusion.Member(m, s) }
 
    private def subsetInclusion: Parser[LogicalExpression] =
-      sexpr ~ ("within" ~> sexpr )^^ { case s1 ~  s2 => Inclusion.Subset(s1, s2) }
+      sexpr ~ ("within" ~> sexpr) ^^ { case s1 ~ s2 => Inclusion.Subset(s1, s2) }
 
    private def memberExclusion: Parser[LogicalExpression] =
-      member ~ ("not" ~ "in" ~> sexpr) ^^ { case m ~  s => Exclusion.Member(m, s) }
+      member ~ ("not" ~ "in" ~> sexpr) ^^ { case m ~ s => Exclusion.Member(m, s) }
 
    private def subsetExclusion: Parser[LogicalExpression] =
-      sexpr ~ ("not" ~ "within" ~> sexpr) ^^ { case s1 ~  s2 => Exclusion.Subset(s1, s2) }
+      sexpr ~ ("not" ~ "within" ~> sexpr) ^^ { case s1 ~ s2 => Exclusion.Subset(s1, s2) }
 
    private def reduction: Parser[LogicalExpression] = keyword ~ indexing ~ lexpr ^? {
       case "forall" ~ ind ~ lexpr => LogicalReduction.Forall(ind, lexpr)

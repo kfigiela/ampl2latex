@@ -22,10 +22,11 @@ trait Translator[A <: ASTNode] extends Visitor[A, String] {
       case _    => op
    }
 
-   protected def bracketedConditional(cond: String, t: String, f: String) = new StringBuilder()
-                                                                            .append("\n\\begin{cases}\n")
-                                                                            .append(s"$t, & \\ if \\ $cond \\\\ \n")
-                                                                            .append(s"$f, & \\ otherwise \n")
-                                                                            .append("\\end{cases}")
-                                                                            .toString()
+   protected def bracketedConditional(cond: String, t: String, f: String) =
+      new StringBuilder()
+      .append("\n\\begin{cases}\n")
+      .append(s"$t, & \\ if \\ $cond \\\\ \n")
+      .append(s"$f, & \\ otherwise \n")
+      .append("\\end{cases}")
+      .toString()
 }

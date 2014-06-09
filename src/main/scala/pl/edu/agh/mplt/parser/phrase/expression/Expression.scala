@@ -29,11 +29,9 @@ object Expression {
    }
 }
 
-
 case class ParenthesizedExpression(expr: Expression) extends Expression
 
 case class Number(v: String) extends Expression
-
 
 case class FunctionCall(name: String, args: List[Expression]) extends Expression
 

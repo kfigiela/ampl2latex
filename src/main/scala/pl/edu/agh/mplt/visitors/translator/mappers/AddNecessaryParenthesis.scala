@@ -48,12 +48,12 @@ extends NodeMapper(operations) {
       val lPriority = Expression.priority(binLeft)
       val rPriority = Expression.priority(binRight)
 
-      def parenthesizeWith(f: (Int, Int) => Boolean): Expression = {
-         val left = if (lPriority < priority) ParenthesizedExpression(binLeft)
-         else binLeft
 
-         val right = if (f(rPriority, priority)) ParenthesizedExpression(binRight)
-         else binRight
+
+      def parenthesizeWith(f: (Int, Int) => Boolean): Expression = {
+         val left = if (lPriority < priority) ParenthesizedExpression(binLeft) else binLeft
+
+         val right = if (f(rPriority, priority)) ParenthesizedExpression(binRight) else binRight
 
          copyBinary(bin)(left, right)
       }
@@ -66,8 +66,7 @@ extends NodeMapper(operations) {
       }
    }
 
-   private def copyBinary(bin: BinaryOperation)(left: Expression,
-                                                right: Expression): BinaryOperation =
+   private def copyBinary(bin: BinaryOperation)(left: Expression, right: Expression): BinaryOperation =
       bin match {
          case +(_, _)    => Bin.+(left, right)
          case -(_, _)    => Bin.-(left, right)

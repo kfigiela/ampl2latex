@@ -21,6 +21,10 @@ import pl.edu.agh.mplt.parser.member._
 import pl.edu.agh.mplt.parser.reference._
 
 class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
+   def apply(node: Declaration): Declaration = {
+      (operations :\ map(node))((f, n) => f(n))
+   }
+
    def andThen(mapping: NodeMapper): NodeMapper = {
       mapping +=: operations
       this
@@ -230,7 +234,7 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
 
    def mapAttribute(attr: Attribute): Attribute = attr match {
       case d@Dimension(_)             => d
-      case Relation(name, expr)       => Relation(name, expr)
+      case Relation(name, expr)       => Relation(mapName(name), mapExpr(expr))
       case DefaultValue(expr)         => DefaultValue(mapExpr(expr))
       case Definition(expr)           => Definition(mapExpr(expr))
       case FinalValue(expr)           => FinalValue(mapExpr(expr))
@@ -253,7 +257,7 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
    /// Reference
 
    def mapReference(ref: Reference): Reference = ref match {
-      case IndexedReference(r, exprs) => IndexedReference(r, exprs.map(mapExpr))
+      case IndexedReference(r, exprs) => IndexedReference(mapReference(r), exprs.map(mapExpr))
       case SimpleReference(name)      => SimpleReference(mapName(name))
 
       case node => throw new Error(s"Usupported: $node")

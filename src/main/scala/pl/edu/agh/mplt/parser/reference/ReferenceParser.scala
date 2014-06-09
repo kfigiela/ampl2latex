@@ -14,7 +14,7 @@ trait ReferenceParser extends JavaTokenParsers {
    private def simpleReference = refName ^^ SimpleReference
 
    private def indexedReference = simpleReference ~ ("[" ~> rep1sep(expr, ",") <~ "]") ^^ {
-      case ref ~  expr => IndexedReference(ref, expr)
+      case ref ~ expr => IndexedReference(ref, expr)
    }
 
 }

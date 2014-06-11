@@ -37,3 +37,24 @@ class InstructionStream(filename: File) {
 
 
 }
+
+object Test {
+   val r1 = """<<.*;.*>>""".r
+   val r2 = """.*>>.*;""".r
+
+   val input =
+      "minimize something<<limit1[i,j], limit2[i,j];rate1[i,j], rate2[i,j], rate3[i,j]>> Trans[i,j];"
+
+   def main(args: Array[String]) {
+      val s = r1 findFirstIn input
+      val i = s.get.length
+
+      println("index: " , input.indexOf("<<"))
+
+      println(s, i, input.drop(i))
+
+      val e = r2 findFirstIn input.drop(i)
+
+      println(s"|${input.take(input.indexOf("<<"))} ${s.get} + ${e.get}|")
+   }
+}

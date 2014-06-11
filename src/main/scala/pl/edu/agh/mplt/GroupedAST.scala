@@ -3,7 +3,6 @@ package pl.edu.agh.mplt
 import pl.edu.agh.mplt.parser.declaration.Declaration
 import pl.edu.agh.mplt.visitors.{NodeAggregator, NodeMapper}
 
-
 class GroupedAST(val declarations: Map[String, Stream[Declaration]]) {
    implicit private[this] def map2GroupedAst(map: Map[String, Stream[Declaration]]): GroupedAST =
       new GroupedAST(map)

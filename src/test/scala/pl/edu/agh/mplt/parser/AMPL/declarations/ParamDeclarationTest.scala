@@ -89,7 +89,7 @@ class ParamDeclarationTest extends FlatSpec with Matchers with IntercodeImplicit
    }
 
    it should "parse parameter declaration with '=' attribute" in {
-      parse("param x = 3;") should be(ParameterDeclaration("x", attributes = List(Attribute.FinalValue(3))))
+      parse("param x = 3;") should be(ParameterDeclaration("x", attributes = List(Attribute.Relation("==", 3))))
    }
 
    it should "parse parameter declaration with '!=' attribute" in {
@@ -98,7 +98,7 @@ class ParamDeclarationTest extends FlatSpec with Matchers with IntercodeImplicit
 
    it should "parse parameter declaration with '<>' attribute" in {
       parse("param x_y_z <> 3;") should be(ParameterDeclaration("x_y_z", attributes = List(Attribute.Relation("!=", 3))))
-   }
+}
 
    it should "parse parameter declaration with FunctionCall as FinalValue" in {
       parse("param tasks_per_time_quantum {i in INSTANCE, s in STORAGE} := floor(time_quantum[i,s]/unit_time[i,s]);") should be(

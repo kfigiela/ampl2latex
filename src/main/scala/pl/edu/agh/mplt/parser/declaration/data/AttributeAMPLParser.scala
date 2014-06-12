@@ -22,8 +22,7 @@ trait AttributeAMPLParser extends JavaTokenParsers {
       "default" ~> sexpr ^^ Attribute.DefaultSet
 
    def paramAttribute: Parser[Attribute] =
-      common |
-      relationOperators ~ expr ^^ { case op ~ expr => Attribute.Relation(op, expr) }
+      relationOperators ~ expr ^^ { case op ~ expr => Attribute.Relation(op, expr) } | common
 
 
    def varAttribute: Parser[Attribute] =
@@ -48,6 +47,6 @@ trait AttributeAMPLParser extends JavaTokenParsers {
       "in" ~> sexpr ^^ Attribute.Inclusion
 
 
-   private def relationOperators = List[Parser[String]]("<=", "<", "==", "!=", ">=", ">")
-   .reduce(_ | _)
+   private def relationOperators =
+      List[Parser[String]]("<>" ^^^ "!=", "<=", "<", "==", "=" ^^^ "==", "!=", ">=", ">").reduce(_ | _)
 }

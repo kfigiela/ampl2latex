@@ -21,10 +21,10 @@ class NameFixerTest extends FlatSpec with Matchers with VisitorImplicits with In
   }
 
   it should "fix '_' in simple reference" in {
-    map("var a  == a_b;").toExpr.toName should be("a\\_b")
+    map("var a  = a_b;").toExpr.toName should be("a\\_b")
 }
 
   it should "fix '_' in indexed reference " in {
-    map("var a_b == a_b[i];").toExpr.toName should be("a\\_b")
+    map("var a_b = a_b[i];").toExpr.toName should be("a\\_b")
   }
 }

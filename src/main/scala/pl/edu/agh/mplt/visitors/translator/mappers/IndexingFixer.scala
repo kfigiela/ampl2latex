@@ -19,7 +19,7 @@ class IndexingFixer(operations: mutable.Buffer[NodeMapper] = mutable.Buffer()) e
          case s@IndexedSet(_, _) => s
          case s =>
             i += 1
-            IndexedSet(List(s"x$i"), s)
+            IndexedSet(List(s"i_$i"), s)
       }
    }
 

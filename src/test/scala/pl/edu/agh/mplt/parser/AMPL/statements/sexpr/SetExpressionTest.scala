@@ -2,13 +2,12 @@ package pl.edu.agh.mplt.parser.AMPL.statements.sexpr
 
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.phrase.set._
-import pl.edu.agh.mplt.parser.phrase.expression.ExpressionAMPLParser
+import pl.edu.agh.mplt.parser.phrase.expression.{Bin, ExpressionAMPLParser, Number}
 import pl.edu.agh.mplt.parser.member._
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.reference.ReferenceParser
 import pl.edu.agh.mplt.parser.phrase.logical.{Comparision, LogicalExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.phrase.set.SetComprehension
-import pl.edu.agh.mplt.parser.phrase.expression.Number
 import pl.edu.agh.mplt.parser.reference.SimpleReference
 import pl.edu.agh.mplt.parser.member.StringMember
 import pl.edu.agh.mplt.parser.phrase.set.ExplicitSet
@@ -66,6 +65,14 @@ class SetExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
   it should "parse  set of doubles comprehension with glued dots" in {
     parse("1.3..100.3") should be(SetComprehension(1.3, 100.3))
   }
+
+   it should "parse set comprehension with complex left boundary" in {
+      parse("i+1..N") should be(SetComprehension(Bin.+(SimpleReference("i"), 1), SimpleReference("N")))
+   }
+
+   it should "parse set comprehension with complex right boundary" in {
+      parse("1..N-1") should be(SetComprehension(1, Bin.-(SimpleReference("N"), 1)))
+   }
 
   it should "parse pars set of doubles comprehension with glued dots with first member in form '.x'" in {
     parser.parseAll(expr, ".3..100.3") match {

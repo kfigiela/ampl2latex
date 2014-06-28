@@ -48,7 +48,7 @@ trait SetExpressionAMPLParser extends JavaTokenParsers {
 
    private def parenthesized = "(" ~> sexpr <~ ")" ^^ ParenthesizedSetExpression
 
-   private[this] def freeTokens: Parser[SetExpression] = Seq(setof, ifSetExpr, reference, explicitSet, comprehensionSet,
+   private[this] def freeTokens: Parser[SetExpression] = Seq(setof, ifSetExpr, comprehensionSet, explicitSet, reference,
       indexing, parenthesized).reduce(_ | _)
 
 }

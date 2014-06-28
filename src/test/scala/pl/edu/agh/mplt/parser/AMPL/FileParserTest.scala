@@ -14,7 +14,7 @@ class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
 
    val resources = new File("src" + / + "test" + / + "resources" + / + "AMPL")
 
-   files.map(file =>
+   def testFile(file: File): Unit = {
       it should ("parse file " + file.getName) in {
 
          ParsedFile.fromAMPL(file).declarations.filter {
@@ -27,13 +27,28 @@ class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
             case _                       => true
          } should not be false
       }
-   )
+   }
 
    private def files: List[File] = resources.listFiles.filter(!_.isDirectory).toList
 
    private def buggedFiles: List[File] = new File("src" + / + "test"
+   + / + "resources" + / + "AMPL" +
+   / + "bugged").listFiles.filter(!_.isDirectory).toList
+
+   private def localTests() = {
+      try {
+         val localFiles = new File("src" + / + "test"
          + / + "resources" + / + "AMPL" +
-         / + "bugged").listFiles.filter(!_.isDirectory).toList
+         / + "local_tests").listFiles.filter(!_.isDirectory).toList
+
+         localFiles.foreach(testFile)
+      } catch {
+         case e: Throwable =>
+      }
+   }
+
+   localTests()
+   files.foreach(testFile)
 
    private def / = File.separator
 

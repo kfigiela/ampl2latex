@@ -3,7 +3,7 @@
 out/*
 src/main/scala/META-INF/*
 forFutureTests/*
-
+/src/test/resources/AMPL/local_tests/*
 MPLT.iml
 classes/
 

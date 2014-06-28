@@ -32,7 +32,7 @@ class ArithmeticTranslator(translate: ExprTranslator) extends Translator[Arithme
       val op = getOperator(reduction)
       val expr = translate(reduction.expr)
 
-      s"${op }_{$members}($expr)"
+      s"${op }_{$members}$expr"
    }
 
    private def getOperator(operation: ArithmeticOperation) = operation match {

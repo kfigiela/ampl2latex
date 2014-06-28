@@ -18,8 +18,8 @@ class ConstraintExpressionTranslator extends Translator[ConstraintExpression] {
    }
 
    private def translate(cc: ConstraintComparison): (String, String) = cc match {
-      case Constraint.<=(expr) => ("<=", (new ExprTranslator)(expr))
+      case Constraint.<=(expr) => ("\\le", (new ExprTranslator)(expr))
       case Constraint.==(expr) => ("=", (new ExprTranslator)(expr))
-      case Constraint.>=(expr) => (">=", (new ExprTranslator)(expr))
+      case Constraint.>=(expr) => ("\\ge", (new ExprTranslator)(expr))
    }
 }

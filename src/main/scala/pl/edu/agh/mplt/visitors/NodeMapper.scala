@@ -87,6 +87,13 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
       case FunctionCall(name, args) =>
          FunctionCall(mapName(name), args.map(mapExpr))
 
+      case PiecewiseLinearTerm(optExpres, optIndexes, (expr, cexpr)) =>
+         PiecewiseLinearTerm(optExpres.map(b =>
+            (b._1.map(mapIndexing), mapExpr(b._2))),
+            optIndexes.map(s =>
+               (s._1.map(mapIndexing), mapExpr(s._2))),
+            (mapExpr(expr), cexpr.map(mapExpr)))
+
       case Unary.-(expr) => Unary.-(mapExpr(expr))
 
       case n@Number(_) => mapNumber(n)

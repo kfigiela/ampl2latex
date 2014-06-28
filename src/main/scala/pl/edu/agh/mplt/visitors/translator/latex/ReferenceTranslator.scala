@@ -9,6 +9,6 @@ class ReferenceTranslator extends Translator[Reference] {
       case SimpleReference(name)          => name
       case IndexedReference(ref, Nil)     => apply(ref)
       case IndexedReference(ref, indexes) =>
-         s"${apply(ref) }[${joinWith("][")(indexes.map((new ExprTranslator)(_))) }]"
+         s"${apply(ref) }_{${joinWith(",")(indexes.map((new ExprTranslator)(_))) }}"
    }
 }

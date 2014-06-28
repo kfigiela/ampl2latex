@@ -1,6 +1,7 @@
 package pl.edu.agh.mplt.parser.phrase.expression
 
 import pl.edu.agh.mplt.parser.phrase.Phrase
+import pl.edu.agh.mplt.parser.phrase.set.Indexing
 
 trait Expression extends Phrase
 
@@ -34,5 +35,9 @@ case class ParenthesizedExpression(expr: Expression) extends Expression
 case class Number(v: String) extends Expression
 
 case class FunctionCall(name: String, args: List[Expression]) extends Expression
+
+case class PiecewiseLinearTerm(breakpoints: List[(Option[Indexing], Expression)],
+                               slopes: List[(Option[Indexing], Expression)],
+                               arguments: (Expression, Option[Expression])) extends Expression
 
 

@@ -1,15 +1,15 @@
 package pl.edu.agh.mplt
 
-import pl.edu.agh.mplt.visitors.translator.mappers.{IndexingFixer, NameFixer, AddNecessaryParenthesis, StripAllParenthesis}
+import pl.edu.agh.mplt.visitors.translator.mappers.{IndexingFixer, NameFixer, ParenthesisFixer, ParenthesisStripper}
 import pl.edu.agh.mplt.visitors.translator.latex.LatexTranslator
 import pl.edu.agh.mplt.parser.declaration.Declaration
 import pl.edu.agh.mplt.visitors.translator.Translator
 
 
 trait Mappers {
-   private def removeEveryParenthesis = new StripAllParenthesis
+   private def removeEveryParenthesis = new ParenthesisStripper
 
-   private def addNecessaryParenthesis = new AddNecessaryParenthesis
+   private def addNecessaryParenthesis = new ParenthesisFixer
 
    private def fixParenthesis = removeEveryParenthesis andThen addNecessaryParenthesis
 

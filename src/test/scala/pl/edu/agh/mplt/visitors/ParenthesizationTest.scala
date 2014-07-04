@@ -1,13 +1,13 @@
 package pl.edu.agh.mplt.visitors
 
 import org.scalatest.{Matchers, FlatSpec}
-import pl.edu.agh.mplt.visitors.translator.mappers.{AddNecessaryParenthesis, StripAllParenthesis}
+import pl.edu.agh.mplt.visitors.translator.mappers.{ParenthesisFixer, ParenthesisStripper}
 import pl.edu.agh.mplt.parser.IntercodeImplicits
 import pl.edu.agh.mplt.parser.phrase.expression.{Number, ParenthesizedExpression, Bin}
 
 
 class ParenthesizationTest extends FlatSpec with Matchers with VisitorImplicits with IntercodeImplicits {
-   def mapper = new StripAllParenthesis andThen new AddNecessaryParenthesis
+   def mapper = new ParenthesisStripper andThen new ParenthesisFixer
 
    "fixing parenthesis" should "remove remove redundant parenthesis in expression of same priority" in {
       map(template ("1 + (2 +3) ")).toExpr should be(Bin.+(1, Bin.+(2, 3)))

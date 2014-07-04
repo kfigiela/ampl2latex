@@ -7,7 +7,7 @@ import pl.edu.agh.mplt.visitors.NodeMapper
 import pl.edu.agh.mplt.parser.phrase.logical.{ParenthesizedLogical, LogicalExpression}
 import scala.collection.mutable
 
-class StripAllParenthesis(operations: mutable.Buffer[NodeMapper] = mutable.Buffer()) extends NodeMapper(operations) {
+class ParenthesisStripper(operations: mutable.Buffer[NodeMapper] = mutable.Buffer()) extends NodeMapper(operations) {
    override def mapExpr(expr: Expression): Expression = expr match {
       case ParenthesizedExpression(e) => mapExpr(e)
       case e                          => super.mapExpr(e)

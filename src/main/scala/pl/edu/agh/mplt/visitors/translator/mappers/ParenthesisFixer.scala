@@ -8,7 +8,7 @@ import pl.edu.agh.mplt.parser.phrase.logical.{LogicalExpression, ParenthesizedLo
 import pl.edu.agh.mplt.parser.phrase.logical.Logical._
 import pl.edu.agh.mplt.visitors.NodeMapper
 
-class AddNecessaryParenthesis(operations: mutable.Buffer[NodeMapper] = mutable.Buffer())
+class ParenthesisFixer(operations: mutable.Buffer[NodeMapper] = mutable.Buffer())
 extends NodeMapper(operations) {
 
    override def mapExpr(expr: Expression): Expression = expr match {

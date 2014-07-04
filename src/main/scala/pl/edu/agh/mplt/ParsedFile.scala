@@ -17,8 +17,8 @@ class ParsedFile(val file: File, val parser: AMPLParser) extends Mappers {
   lazy val declarations: Stream[Declaration] = instructions.map(instruction =>
     parser.parse(instruction) match {
       case parser.Success(result: Declaration, _) => result
-      case msg@parser.Failure(_, _) => InvalidDeclaration(msg.toString())
-      case msg@parser.Error(_, _) => InvalidDeclaration(msg.toString())
+      case msg@parser.Failure(_, _) => InvalidDeclaration(msg.toString().replace("\n", " "))
+      case msg@parser.Error(_, _) => InvalidDeclaration(msg.toString().replace("\n", " "))
     }
   )
 

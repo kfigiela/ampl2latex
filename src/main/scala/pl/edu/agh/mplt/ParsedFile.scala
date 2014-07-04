@@ -47,11 +47,8 @@ class ParsedFile(val file: File, val parser: AMPLParser) extends Mappers {
       stream = map.getOrElseUpdate(key, Stream.empty)
     } map.put(key, dec #:: stream)
 
-    println("grouped", map.size)
     new GroupedAST(map) //changing mutable map to immutable
   }
-
-
 }
 
 object ParsedFile {

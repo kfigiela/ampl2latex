@@ -25,6 +25,7 @@ object App {
           out.println("\\begin{itemize}")
           persist(ds.map(str => s"\\item $str"))
           out.println("\\end{itemize}")
+          out.println()
       }
 
     } catch {

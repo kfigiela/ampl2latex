@@ -14,7 +14,6 @@ trait Translator[A <: ASTNode] extends Visitor[A, String] {
       ).toString()
    }
 
-
    protected def translateOp(op: String): String = op match {
       case "!=" => "\\neq"
       case "<=" => "\\le"

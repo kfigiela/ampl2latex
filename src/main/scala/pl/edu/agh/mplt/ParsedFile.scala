@@ -1,12 +1,14 @@
 package pl.edu.agh.mplt
 
-import pl.edu.agh.mplt.parser.{ASTNode, AMPLParser}
-import pl.edu.agh.mplt.parser.declaration.{InvalidDeclaration, Declaration}
 import java.io.File
-import pl.edu.agh.mplt.parser.declaration.data.{VariableDeclaration, ParameterDeclaration, SetDeclaration}
-import pl.edu.agh.mplt.parser.declaration.constraint.ConstraintDeclaration
-import pl.edu.agh.mplt.parser.declaration.objective.ObjectiveDeclaration
+
+import pl.edu.agh.mplt.parser.AMPLParser
 import pl.edu.agh.mplt.parser.declaration.assertion.Assertion
+import pl.edu.agh.mplt.parser.declaration.constraint.ConstraintDeclaration
+import pl.edu.agh.mplt.parser.declaration.data.{ParameterDeclaration, SetDeclaration, VariableDeclaration}
+import pl.edu.agh.mplt.parser.declaration.objective.ObjectiveDeclaration
+import pl.edu.agh.mplt.parser.declaration.{Declaration, InvalidDeclaration}
+
 import scala.collection.mutable
 
 class ParsedFile(val file: File, val parser: AMPLParser) extends Mappers {
@@ -14,15 +16,36 @@ class ParsedFile(val file: File, val parser: AMPLParser) extends Mappers {
 
   lazy val instructions: Stream[String] = instructionStream.instructions
 
-  lazy val declarations: Stream[Declaration] = instructions.map(instruction =>
-    parser.parse(instruction) match {
-      case parser.Success(result: Declaration, _) => result
-      case msg@parser.Failure(_, _) => InvalidDeclaration(msg.toString().replace("\n", " "))
-      case msg@parser.Error(_, _) => InvalidDeclaration(msg.toString().replace("\n", " "))
-    }
+  def buildErrorMessage(msg: String, next: AMPLParser#Input): String =
+    s"Error at column ${next.pos.column}: $msg. \n\t${next.pos.longString.replaceFirst("\n", "\n\t")}"
+
+  lazy val declarations: Stream[Declaration] = instructions.map(
+    instruction =>
+      parser.parse(instruction) match {
+        case parser.Success(result: Declaration, _) => result
+        case parser.Failure(msg, next) => InvalidDeclaration(buildErrorMessage(msg, next))
+        case parser.Error(msg, next) => InvalidDeclaration(buildErrorMessage(msg, next))
+      }
   )
 
-  lazy val ast: GroupedAST = group(declarations) {
+  lazy val ast: GroupedAST = group(declarations)
+
+  def itemize(map: mutable.LinkedHashMap[String, Stream[String]]) = map map {
+    case (str, ds) =>
+      val sb = new mutable.StringBuilder()
+      sb.append(s"$str: \\\\\n")
+      sb.append("\\begin{itemize}\n")
+      ds.foreach(str => sb.append(s"\t \\item $str \\\\\n"))
+      sb.append("\\end{itemize}\n\n")
+      sb.toString()
+  }
+
+  def filterErrors(map: mutable.LinkedHashMap[String, Stream[String]]): mutable.LinkedHashMap[String, Stream[String]] =
+    mutable.LinkedHashMap[String, Stream[String]]() ++= map.filterKeys(_ != "errors")
+
+  def translateVerbose: Iterable[String] = itemize(filterErrors(ast.aggregate { case _ => latexTranslator}))
+
+  def decToStr(dec: Declaration): String = dec match {
     case SetDeclaration(_, _, _, _) => "set"
     case ParameterDeclaration(_, _, _, _) => "param"
     case VariableDeclaration(_, _, _, _) => "var"
@@ -34,16 +57,11 @@ class ParsedFile(val file: File, val parser: AMPLParser) extends Mappers {
     case _ => throw new Error("Unsupported Declaration")
   }
 
-  def translateVerbose: mutable.LinkedHashMap[String, Stream[String]] = ast.aggregate {
-    case _ => latexTranslator
-  }
-
-  private[this] def group(declarations: Stream[Declaration])(f: ASTNode => String): GroupedAST = {
-    val map = mutable.LinkedHashMap[String, Stream[Declaration]]("set" -> Stream.empty, "param" -> Stream.empty,
-      "var" -> Stream.empty, "objectives" -> Stream.empty, "constraints" -> Stream.empty)
+  private[this] def group(declarations: Stream[Declaration]): GroupedAST = {
+    val map = mutable.LinkedHashMap[String, Stream[Declaration]]()
     for {
       dec <- declarations
-      key = f(dec)
+      key = decToStr(dec)
       stream = map.getOrElseUpdate(key, Stream.empty)
     } map.put(key, dec #:: stream)
 

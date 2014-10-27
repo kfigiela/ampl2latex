@@ -13,21 +13,9 @@ object App {
     val out = new PrintWriter(new File(args(1)))
 
     try {
-      @tailrec
-      def persist(stream: Stream[String]): Unit = if (!stream.isEmpty) {
-        out.println(s"\t ${stream.head} \\\\")
-        persist(stream.tail)
-      }
+      parsedFile.translateVerbose.foreach(out.print)
 
-      parsedFile.translateVerbose.map {
-        case (str, ds) =>
-          out.println(s"$str: \\\\")
-          out.println("\\begin{itemize}")
-          persist(ds.map(str => s"\\item $str"))
-          out.println("\\end{itemize}")
-          out.println()
-      }
-
+      parsedFile.ast.printErrors()
     } catch {
       case e: Throwable =>
         out.write("\n error: " + e.getMessage)

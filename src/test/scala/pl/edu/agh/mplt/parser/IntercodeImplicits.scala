@@ -1,5 +1,5 @@
 package pl.edu.agh.mplt.parser
-
+import scala.language.implicitConversions
 import pl.edu.agh.mplt.parser.member.{ExpressionMember, StringMember, SetMember}
 import pl.edu.agh.mplt.parser.phrase.expression.{Number, Expression}
 import pl.edu.agh.mplt.parser.phrase.set.SetExpression

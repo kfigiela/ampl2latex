@@ -13,12 +13,13 @@ object App {
     val out = new PrintWriter(new File(args(1)))
 
     try {
-      parsedFile.translateVerbose.foreach(out.print)
+      parsedFile.translateVerbose.map{s => println("i " + s);s}.foreach(out.print)
 
       parsedFile.ast.printErrors()
     } catch {
       case e: Throwable =>
         out.write("\n error: " + e.getMessage)
+          e.getStackTrace.foreach(e =>out.write(e +" \n"))
         throw e
     } finally {
       out.close()

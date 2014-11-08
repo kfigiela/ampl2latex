@@ -2,6 +2,7 @@ package pl.edu.agh.mplt
 
 import java.io.{FileWriter, FileOutputStream, File}
 
+import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.io.Source
 
@@ -10,9 +11,9 @@ class InstructionStream(file: File) {
 
   private[this] def nextInstruction(in: Seq[Char]): Stream[String] = {
     implicit val buffer = mutable.Buffer[Char]()
-    val tail = preprocess(in)
+    val tail = process(in)
 
-    val res = buffer.reverse.mkString.replaceAll("""[ \t]+""", " ").replaceAll( """(?m)\s+$""", "")
+    val res = buffer.mkString.reverse.replaceAll("""[ \t]+""", " ").replaceAll( """(?m)\s+$""", "")
 
     if (buffer.isEmpty) Stream.empty
     else Stream.cons(res, nextInstruction(tail).filter(!_.isEmpty))
@@ -20,24 +21,27 @@ class InstructionStream(file: File) {
 
   lazy val instructions: Stream[String] = nextInstruction(source.toStream)
 
-  private[this] def preprocess(input: Seq[Char])(implicit acc: mutable.Buffer[Char]): Seq[Char] =    input match {
+  @tailrec
+  private[this] def process(input: Seq[Char])(implicit acc: mutable.Buffer[Char]): Seq[Char] =    input match {
     case Nil => Nil
-    case '<' +: '<' +: tail => append('<', 2); jumpOverPiecewise(tail)
-    case '#' +: tail => jumpOverComment(tail)
+    case '<' +: '<' +: tail => append('<', 2); processPiecewise(tail)
+    case '#' +: tail => process(jumpOverComment(tail))
     case ';' +: tail => append(';'); tail
-    case 13 +: 10 +: tail => append(' '); preprocess(tail)
-    case 10 +: tail => append(' '); preprocess(tail)
-    case c +: tail => append(c);preprocess(tail)
+    case 13 +: 10 +: tail => append(' '); process(tail)
+    case 10 +: tail => append(' '); process(tail)
+    case c +: tail => append(c);process(tail)
   }
 
-  private[this] def jumpOverPiecewise(input: Seq[Char])(implicit acc: mutable.Buffer[Char]): Seq[Char] = input match {
-    case '#' +: tail => jumpOverComment(tail)
-    case '>' +: '>' +: tail => append(">>"); preprocess(tail)
-    case 13 +: 10 +: tail => append(' '); jumpOverPiecewise(tail)
-    case 10 +: tail => append(' '); jumpOverPiecewise(tail)
-    case c +: tail => append(c);jumpOverPiecewise(tail);
+  @tailrec
+  private[this] def processPiecewise(input: Seq[Char])(implicit acc: mutable.Buffer[Char]): Seq[Char] = input match {
+    case '#' +: tail => processPiecewise(jumpOverComment(tail))
+    case '>' +: '>' +: tail => append(">>"); process(tail)
+    case 13 +: 10 +: tail => append(' '); processPiecewise(tail)
+    case 10 +: tail => append(' '); processPiecewise(tail)
+    case c +: tail => append(c);processPiecewise(tail);
     case Nil => input
   }
+
 
   private[this] def jumpOverComment(input: Seq[Char])(implicit acc: mutable.Buffer[Char]): Seq[Char] = {
     var t = input

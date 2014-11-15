@@ -6,8 +6,7 @@ import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.io.Source
 
-class InstructionStream(file: File) {
-  private[this] val source: Iterator[Char] = Source.fromFile(file).iter
+class InstructionStream(val source: Iterator[Char]) {
 
   private[this] def nextInstruction(in: Seq[Char]): Stream[String] = {
     implicit val buffer = mutable.Buffer[Char]()

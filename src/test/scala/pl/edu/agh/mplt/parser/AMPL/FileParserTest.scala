@@ -3,7 +3,7 @@ package pl.edu.agh.mplt.parser.AMPL
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
 import java.io.File
-import pl.edu.agh.mplt.ParsedFile
+import pl.edu.agh.mplt.Translator
 import pl.edu.agh.mplt.parser.declaration.InvalidDeclaration
 
 
@@ -17,12 +17,12 @@ class FileParserTest extends FlatSpec with Matchers with IntercodeImplicits {
    def testFile(file: File): Unit = {
       it should ("parse file " + file.getName) in {
 
-         ParsedFile.fromAMPL(file).declarations.filter {
+         Translator.fromAMPL(file).declarations.filter {
             case InvalidDeclaration(msg) => true
             case _                       => false
          }.foreach(println)
 
-         ParsedFile.fromAMPL(file).declarations.forall {
+         Translator.fromAMPL(file).declarations.forall {
             case InvalidDeclaration(msg) => false
             case _                       => true
          } should not be false

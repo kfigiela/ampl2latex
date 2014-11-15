@@ -90,21 +90,14 @@
             });
 
             $('#send').click(function(){
-                $.ajax({
-                    type: 'POST',
-                    url: "/",
-                    data: {text: inputEditor.getValue()},
-                    success: function(result){
-                        outputEditor.setValue(result.text);
-                        setErrors(result.errors);
-                        resetPreview()
-                    },
-                    error: function(result){
-                        //TODO
-                    },
-                    dataType: "json"
-                });
-            })
+                $.post("/", {text: inputEditor.getValue()} ,function(result){
+                    outputEditor.setValue(result.text);
+                    setErrors(result.errors);
+                    resetPreview()
+                }, "json");
+                return false;
+            });
+
         </script>
         <script src="js/bootstrap.min.js"></script>
 

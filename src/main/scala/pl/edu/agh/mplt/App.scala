@@ -10,11 +10,11 @@ object App {
       System.exit(1)
     }
 
-    val parsedFile = ParsedFile.fromAMPL(new File(args(0)))
+    val parsedFile = Translator.fromAMPL(new File(args(0)))
     val out = new PrintWriter(new File(args(1)))
 
     try {
-      parsedFile.translateVerbose.map { s => println("i " + s); s}.foreach(out.print)
+      parsedFile.translate.foreach(out.print)
 
       if (parsedFile.ast.errors.nonEmpty) {
         parsedFile.ast.printErrors()

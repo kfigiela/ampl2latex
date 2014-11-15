@@ -9,21 +9,25 @@ object App {
       println("Please specify input and output files")
       System.exit(1)
     }
+
     val parsedFile = ParsedFile.fromAMPL(new File(args(0)))
     val out = new PrintWriter(new File(args(1)))
 
     try {
-      parsedFile.translateVerbose.map{s => println("i " + s);s}.foreach(out.print)
+      parsedFile.translateVerbose.map { s => println("i " + s); s}.foreach(out.print)
 
-      parsedFile.ast.printErrors()
+      if (parsedFile.ast.errors.nonEmpty) {
+        parsedFile.ast.printErrors()
+        out.close()
+        System.exit(1)
+      }
     } catch {
       case e: Throwable =>
         out.write("\n error: " + e.getMessage)
-          e.getStackTrace.foreach(e =>out.write(e +" \n"))
-        throw e
-    } finally {
-      out.close()
-    }
+        out.close()
+        System.exit(1)
+    } finally out.close()
 
+    System.exit(0)
   }
 }

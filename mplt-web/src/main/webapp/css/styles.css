@@ -1,0 +1,40 @@
+.editor {
+    position: relative;
+    height: 100%;
+}
+
+.editor-container {
+    position: fixed;
+    width: 42%;
+    height: 90%;
+    top: 2em;
+    margin-bottom: 1em;
+}
+
+#input-container {
+    left: 4em;
+}
+
+#output-container {
+    right: 4em;
+}
+
+.input-navi {
+    height: 3em;
+    left: 1em;
+    bottom: 0.0em;
+    text-align: end;
+}
+
+.input-navi #refresh {
+    margin-right: 1em;
+}
+
+.output-navi {
+    height: 3em;
+    right: 1em;
+}
+
+.hidden {
+    display: none;
+}

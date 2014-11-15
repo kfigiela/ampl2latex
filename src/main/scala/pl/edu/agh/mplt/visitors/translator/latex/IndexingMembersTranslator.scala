@@ -5,14 +5,24 @@ import pl.edu.agh.mplt.visitors.translator.Translator
 
 
 class IndexingMembersTranslator extends Translator[Indexing] {
-   override def apply(node: Indexing): String = {
-      val translatedMembers = node.sexprs.map(s => (new SexprTranslator)(s)).reverse
+  override def apply(node: Indexing): String = {
+    val translatedMembers = node.sexprs.map(s => (new SexprTranslator)(s)).reverse
 
-      translatedMembers match {
-         case Nil      => " "
-         case hd :: tl => (hd /: tl)(atop)
-      }
-   }
+    var ss = translatedMembers.reverse
+    val sb = new StringBuilder(" ")
+    while (ss.nonEmpty) {
+      val hd = ss.head
+      val tl = ss.tail
 
-   def atop(above: String, below: String): String = s"$above \\atop {$below}"
+      sb.append(hd)
+      if (tl.nonEmpty)
+        sb.append("\\atop {")
+
+      ss = tl
+    }
+    sb.append("}" * (translatedMembers.size - 1))
+
+    sb.toString()
+  }
+
 }

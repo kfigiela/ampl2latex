@@ -3,7 +3,6 @@ package pl.edu.agh.mplt.visitors.translator.latex
 import pl.edu.agh.mplt.parser.phrase.set.Indexing
 import pl.edu.agh.mplt.visitors.translator.Translator
 
-
 class IndexingMembersTranslator extends Translator[Indexing] {
   override def apply(node: Indexing): String = {
     val translatedMembers = node.sexprs.map(s => (new SexprTranslator)(s)).reverse

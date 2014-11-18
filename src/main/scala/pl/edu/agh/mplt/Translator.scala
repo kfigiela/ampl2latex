@@ -36,7 +36,7 @@ class Translator(val source: Iterator[Char], val parser: AMPLParser) extends Tra
       val sb = new mutable.StringBuilder()
       sb.append(s"$str: \\\\\n")
       sb.append("\\begin{itemize}\n")
-      ds.foreach(str => sb.append(s"\t \\item $str \\\\\n"))
+      ds.reverse.foreach(str => sb.append(s"\t \\item $str \\\\\n"))
       sb.append("\\end{itemize}\n\n")
       sb.toString()
   }

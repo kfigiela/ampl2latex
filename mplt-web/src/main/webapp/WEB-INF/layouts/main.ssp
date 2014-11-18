@@ -9,26 +9,28 @@
 
     </head>
     <body>
-        <div id="input-container" class="editor-container">
-            <div class="input-navi">
-                <label>Auto refresh <input type="checkbox" id="refresh" value="false"></label>
-                <button id="send" class="btn btn-primary">Send</button>
+        <div class="editors-container">
+            <div id="input-container" class="editor-container left">
+                <div class="container-header">
+                    <h3>AMPL input</h3>
+                    <div class="input-navi">
+                        <label>Auto refresh <input type="checkbox" id="refresh" value="false"></label>
+                        <button id="send" class="btn btn-primary">Send</button>
+                    </div>
+                </div>
+                <div id="editor-input" class="editor"></div>
             </div>
-            <div id="editor-input" class="editor"></div>
+            <div id="output-container" class="editor-container right">
+                <div class="container-header"><h3>LaTeX output</h3></div>
+                <div id="editor-output" class="editor"></div>
+            </div>
         </div>
-        <div id="output-container" class="editor-container">
-            <div class="output-navi">
-                <ul class="nav nav-tabs">
-                    <li role="presentation" class="active" id="editor"><a href="#">Editor</a></li>
-                    <li role="presentation" class="inactive" id="preview"><a href="#">Preview</a></li>
-                </ul>
-            </div>
-            <div id="editor-output" class="editor"></div>
-            <div id="tex-preview" class="hidden"></div>
+        <div class="errors-container">
+            <ul >
+            </ul>
         </div>
 
         <script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="js/output-navi.js" type="text/javascript" charset="utf-8"></script>
         <script src="js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript">
             var inputEditor = ace.edit("editor-input");
@@ -39,66 +41,44 @@
             outputEditor.setTheme("ace/theme/monokai");
             outputEditor.getSession().setMode("ace/mode/tex");
 
-            var resetPreview = function(){
-                $('#tex-preview').text('\\[' + outputEditor.getValue() + '\\]');
-                MathJax.Hub.Queue(["Typeset",MathJax.Hub, "tex-preview"]);
-            };
-
             var setErrors = function(errors){
-                //TODO
+                var list = $(".errors-container ul" );
+                list.empty();
+                errors.forEach(function(error){
+                    list.append('<li>' + error.split("<").join("&lt;").split(">").join("&gt;") + '</li>');
+                });
             };
 
-            $(function(){
-                var otherClass = {active:'inactive', inactive:'active'};
-                var otherTab = {preview:'editor', editor:'preview'};
-                var currentClass = {editor:'active', preview:'inactive'};
-
-                var f = function(name){
-                    return function(){
-                        if(currentClass[name] === 'active')
-                            return;
-                        var other =  otherTab[name];
-
-                        $('.nav #' + name).attr('class', otherClass[currentClass[name]]);
-                        $('.nav #' + other).attr('class', otherClass[currentClass[other]]);
-
-                        $('#editor-output').toggleClass('hidden');
-                        $('#tex-preview').toggleClass('hidden');
-
-                        currentClass[name] = otherClass[currentClass[name]];
-                        currentClass[other] = otherClass[currentClass[other]];
-
-                        if(name === 'preview'){
-                            resetPreview();
-                        }
-                    }
-                };
-
-            $('.nav #editor' ).click(f('editor'));
-            $('.nav #preview' ).click(f('preview'));
-            });
-
-            $('#send').click(function(){
+            var sendCode = function(){
                 $.post("/", {text: inputEditor.getValue()} ,function(result){
                     outputEditor.setValue(result.text);
                     setErrors(result.errors);
-                    resetPreview()
                 }, "json");
                 return false;
+            };
+
+            $('#send').click(sendCode);
+
+            var refresh = false;
+
+            var refreshAction = function(){
+                if(refresh){
+                    sendCode();
+                    setTimeout(refreshAction, 5000);
+                }
+            };
+
+            $(":checkbox").change(function(){
+                if(refresh === false){
+                    refresh = true;
+                    sendCode();
+                    setTimeout(refreshAction, 5000);
+                }else{
+                    refresh = false;
+                }
             });
-
-
 
         </script>
         <script src="js/bootstrap.min.js"></script>
-
-        <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-        extensions: [],
-        "HTML-CSS": { scale: 110, matchFontHeight: false }
-        });
-        </script>
-        <script type="text/javascript" src="//cdn.mathjax.org/mathjax/2.3-latest/MathJax.js?config=TeX-AMS_HTML,Safe"></script>
-
     </body>
 </html>

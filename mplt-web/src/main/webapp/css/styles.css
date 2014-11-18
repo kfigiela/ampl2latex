@@ -3,38 +3,66 @@
     height: 100%;
 }
 
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
 .editor-container {
-    position: fixed;
+    position: relative;
     width: 42%;
-    height: 90%;
-    top: 2em;
+    height: 100%;
     margin-bottom: 1em;
 }
 
 #input-container {
-    left: 4em;
+    margin-left: 4em;
+    top: 2em;
 }
 
 #output-container {
-    right: 4em;
+    margin-right: 4em;
+    top: 2em;
+}
+
+.editors-container {
+    height: 70%;
+    margin-bottom: 7em;
 }
 
 .input-navi {
-    height: 3em;
-    left: 1em;
+    position: relative;
+    top: 1.3em;
     bottom: 0.0em;
-    text-align: end;
+    float: right;
 }
 
 .input-navi #refresh {
     margin-right: 1em;
 }
 
-.output-navi {
-    height: 3em;
-    right: 1em;
-}
-
 .hidden {
     display: none;
+}
+
+.container-header {
+    text-align: center;
+}
+
+.container-header h3 {
+    position: relative;
+    text-align: center;
+    display: inline-block;
+}
+
+.errors-container {
+    position: relative;
+    float: left;
+    color: red;
+    font-weight: bold;
+    text-align: left;
+    width: 50%;
 }

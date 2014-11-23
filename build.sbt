@@ -9,7 +9,7 @@ scalaVersion := "2.10.4"
 resolvers += Classpaths.typesafeReleases
 
 libraryDependencies ++= Seq(
-  "org.slf4j" % "slf4j-log4j12" % "1.2",
+  "org.slf4j" % "slf4j-log4j12" % "1.7.7",
   "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
   "org.scalatra" %% "scalatra" % ScalatraVersion,
   "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,

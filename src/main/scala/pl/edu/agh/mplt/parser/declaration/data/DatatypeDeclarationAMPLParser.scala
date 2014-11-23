@@ -18,7 +18,7 @@ trait DatatypeDeclarationAMPLParser extends JavaTokenParsers {
    def nonAttributeKeyword: Parser[String]
 
 
-   private[this] def common = whiteSpace ~ nonKeyword ~ (nonAttributeKeyword ?) ~ (indexing ?)
+   private[this] def common = nonKeyword ~ (nonAttributeKeyword ?) ~ (indexing ?)
 
    def datatypeDeclaration: Parser[DataDeclaration] =
       "param" ~> common ~ repsep(paramAttribute, "," ?) <~ ";" ^^ {

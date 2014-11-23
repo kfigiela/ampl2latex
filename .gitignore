@@ -25,3 +25,6 @@ project/META-INF/
 *.iml
 *.iws
 .*
+
+projectFilesBackup/
+projectFilesBackup1/

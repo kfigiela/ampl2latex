@@ -8,7 +8,7 @@ MPLT.iml
 classes/
 
 *out
-*.jar
+
 
 # sbt specific
 dist/*

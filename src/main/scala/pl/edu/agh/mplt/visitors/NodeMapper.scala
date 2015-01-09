@@ -240,6 +240,9 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
    /// DataAttribute
 
    def mapAttribute(attr: Attribute): Attribute = attr match {
+      case Binary                     => Binary  
+      case Integer                    => Integer 
+      case Symbolic                   => Symbolic
       case d@Dimension(_)             => d
       case Relation(name, expr)       => Relation(mapName(name), mapExpr(expr))
       case DefaultValue(expr)         => DefaultValue(mapExpr(expr))

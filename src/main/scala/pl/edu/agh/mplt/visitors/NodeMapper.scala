@@ -268,7 +268,9 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
 
    def mapReference(ref: Reference): Reference = ref match {
       case IndexedReference(r, exprs) => IndexedReference(mapReference(r), exprs.map(mapExpr))
+      case SubIndexedReference(r, exprs) => SubIndexedReference(mapReference(r), exprs)
       case SimpleReference(name)      => SimpleReference(mapName(name))
+      case SymbolicReference(name)    => SymbolicReference((name))
 
       case node => throw new Error(s"Usupported: $node")
    }

@@ -9,7 +9,7 @@ class DataTranslator extends Translator[DataDeclaration] {
 
    override def apply(node: DataDeclaration): String = {
       val name = node.name
-      val indexedName = node.indexing.map(zipWithIndexes(name, _)) getOrElse name
+      val indexedName = node.indexing.map(zipWithIndexes(s"\\gls{$name}", _)) getOrElse s"\\gls{$name}"
       val indexing: String = node.indexing.map((new IndexingTranslator)(_)) getOrElse ""
 
       val attrs = joinWith(",")(node.attributes.map((new AttributeTranslator(indexedName))(_)))

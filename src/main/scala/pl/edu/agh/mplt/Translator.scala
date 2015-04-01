@@ -41,10 +41,17 @@ class Translator(val source: Iterator[Char], val parser: AMPLParser) extends Tra
       sb.toString()
   }
 
+  def concat(map: mutable.LinkedHashMap[String, Stream[String]]) = map mapValues (_.reverse.mkString("\n"))
+
   def filterErrors(map: mutable.LinkedHashMap[String, Stream[String]]): mutable.LinkedHashMap[String, Stream[String]] =
     mutable.LinkedHashMap[String, Stream[String]]() ++= map.filterKeys(_ != "errors")
 
-  def translate: Iterable[String] = itemize(filterErrors(ast.aggregate { case _ => latexTranslator}))
+  def onlyFormulas(map: mutable.LinkedHashMap[String, Stream[String]]): mutable.LinkedHashMap[String, Stream[String]] =
+    mutable.LinkedHashMap[String, Stream[String]]() ++= map.filterKeys(v => v != "set" && v != "param" && v != "var")
+
+
+  def translate: Iterable[String] = itemize(onlyFormulas(filterErrors(ast.aggregate { case _ => latexTranslator})))
+  def index: scala.collection.Map[String, String] = concat(filterErrors(ast.aggregate { case _ => referenceIndexer }))
 
   def decToStr(dec: Declaration): String = dec match {
     case SetDeclaration(_, _, _, _) => "set"

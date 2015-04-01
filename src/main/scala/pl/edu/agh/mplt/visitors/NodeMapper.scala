@@ -37,28 +37,28 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
       case Assertion(index, lexpr) => Assertion(index.map(mapIndexing), mapLexpr(lexpr))
 
       case ConstraintDeclaration(n, a, index, constr) =>
-         ConstraintDeclaration(mapName(n), mapAlias(a),
+         ConstraintDeclaration((n), mapAlias(a),
             index.map(mapIndexing), mapConstraint(constr))
 
       case Minimize(n, a, index, expr) =>
-         Minimize(mapName(n), mapAlias(a),
+         Minimize((n), mapAlias(a),
             index.map(mapIndexing), expr.map(mapExpr))
 
       case Maximize(n, a, index, expr) =>
-         Maximize(mapName(n), mapAlias(a),
+         Maximize((n), mapAlias(a),
             index.map(mapIndexing), expr.map(mapExpr))
 
       case ParameterDeclaration(n, a, index, attrs) =>
-         ParameterDeclaration(mapName(n), mapAlias(a),
+         ParameterDeclaration((n), mapAlias(a),
             index.map(mapIndexing), attrs.map(mapAttribute))
 
 
       case VariableDeclaration(n, a, index, attrs) =>
-         VariableDeclaration(mapName(n), mapAlias(a),
+         VariableDeclaration((n), mapAlias(a),
             index.map(mapIndexing), attrs.map(mapAttribute))
 
       case SetDeclaration(n, a, index, attrs) =>
-         SetDeclaration(mapName(n), mapAlias(a),
+         SetDeclaration((n), mapAlias(a),
             index.map(mapIndexing), attrs.map(mapAttribute))
 
       case error@InvalidDeclaration(_) => error
@@ -244,7 +244,7 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
       case Integer                    => Integer 
       case Symbolic                   => Symbolic
       case d@Dimension(_)             => d
-      case Relation(name, expr)       => Relation(mapName(name), mapExpr(expr))
+      case Relation(name, expr)       => Relation((name), mapExpr(expr))
       case DefaultValue(expr)         => DefaultValue(mapExpr(expr))
       case Definition(expr)           => Definition(mapExpr(expr))
       case FinalValue(expr)           => FinalValue(mapExpr(expr))

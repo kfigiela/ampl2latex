@@ -11,8 +11,8 @@ class ObjectiveTranslator extends Translator[ObjectiveDeclaration] {
       val expression: String = node.expression.map(e => (new ExprTranslator)(e)).map(e => s"{$e}") getOrElse ""
 
       val obj = node match {
-         case Maximize(_, _, _, _) => "max"
-         case Minimize(_, _, _, _) => "min"
+         case Maximize(_, _, _, _) => s"& \\underset{${name}}{\\text{maximize}}"
+         case Minimize(_, _, _, _) => s"& \\underset{${name}}{\\text{minimize}}"
       }
 
       s"${obj }$members $expression"

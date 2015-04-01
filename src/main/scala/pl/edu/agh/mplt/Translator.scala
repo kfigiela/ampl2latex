@@ -32,12 +32,12 @@ class Translator(val source: Iterator[Char], val parser: AMPLParser) extends Tra
   lazy val ast: GroupedAST = group(declarations)
 
   def itemize(map: mutable.LinkedHashMap[String, Stream[String]]) = map map {
-    case (str, ds) =>
+    case (group, ds) =>
       val sb = new mutable.StringBuilder()
-      sb.append(s"$str: \\\\\n")
-      sb.append("\\begin{itemize}\n")
-      ds.reverse.foreach(str => sb.append(s"\t \\item $str \\\\\n"))
-      sb.append("\\end{itemize}\n\n")
+      sb.append(s"\\paragraph{$group}\n\n\n")
+      sb.append("\\begin{eqnarray}\n")
+      sb.append(ds.reverse.filter( _ != "" ).map(str => { s"\t${str}" }).mkString(" \\\\\n"))
+      sb.append("\n\\end{eqnarray}\n\n")
       sb.toString()
   }
 

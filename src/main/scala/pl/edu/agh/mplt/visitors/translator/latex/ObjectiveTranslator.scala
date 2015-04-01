@@ -15,6 +15,6 @@ class ObjectiveTranslator extends Translator[ObjectiveDeclaration] {
          case Minimize(_, _, _, _) => s"& \\underset{${name}}{\\text{minimize}}"
       }
 
-      s"${obj }$members $expression"
+      s"\\label{objective:$name} ${obj} $members $expression"
    }
 }

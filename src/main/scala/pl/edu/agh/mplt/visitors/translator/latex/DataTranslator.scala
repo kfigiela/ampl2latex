@@ -14,7 +14,7 @@ class DataTranslator extends Translator[DataDeclaration] {
 
       val attrs = joinWith(",")(node.attributes.map((new AttributeTranslator(indexedName))(_)))
 
-      s"$name: $indexing $attrs"
+      s"\\label{param:$name} $indexing $attrs"
    }
 
    private def zipWithIndexes(name: String, indexing: Indexing): String = {

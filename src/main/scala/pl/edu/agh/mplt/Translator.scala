@@ -35,9 +35,9 @@ class Translator(val source: Iterator[Char], val parser: AMPLParser) extends Tra
     case (group, ds) =>
       val sb = new mutable.StringBuilder()
       sb.append(s"\\paragraph{$group}\n\n\n")
-      sb.append("\\begin{eqnarray}\n")
+      sb.append("\\begin{align}\n")
       sb.append(ds.reverse.filter( _ != "" ).map(str => { s"\t${str}" }).mkString(" \\\\\n"))
-      sb.append("\n\\end{eqnarray}\n\n")
+      sb.append("\n\\end{align}\n\n")
       sb.toString()
   }
 

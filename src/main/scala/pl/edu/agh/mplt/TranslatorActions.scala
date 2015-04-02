@@ -25,5 +25,5 @@ trait TranslatorActions {
 
    protected def latexTranslator =  preprocessTree andThen fixNamesGls andThen translateToLatex
 
-   protected def referenceIndexer =  preprocessTree andThen indexRefs
+   protected def referenceIndexer =  preprocessTree andThen fixNamesGls andThen indexRefs
 }

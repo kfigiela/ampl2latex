@@ -150,6 +150,8 @@ class NodeMapper(val operations: mutable.Buffer[NodeMapper]) {
       case ExplicitSet(members)               => ExplicitSet(members.map(mapMember))
       case SetComprehension(start, end, step) => SetComprehension(mapMember(start), mapMember(end), mapExpr(step))
 
+      case Indexing(s, l) => Indexing(s.map(mapSexpr), l.map(mapLexpr))
+
       case ref: Reference => mapReference(ref)
 
       case node => throw new Error(s"Usupported: $node")

@@ -21,8 +21,6 @@ class AMPLParser extends JavaTokenParsers with AssertionAMPLParser with KeywordA
                          with SetExpressionAMPLParser with IndexingAMPLParser with MemberAMPLParser
                          with ReferenceParser {
 
-   def dequotedLiteral: Parser[String] = stringLiteral ^^ {str => str.substring(1, str.length - 1)}
-
    def parse(input: String): ParseResult[Declaration] = parseAll(declaration, input)
 
    private def declaration: Parser[Declaration] =

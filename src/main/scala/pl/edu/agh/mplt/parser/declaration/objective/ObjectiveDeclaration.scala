@@ -7,6 +7,8 @@ import pl.edu.agh.mplt.parser.phrase.expression.Expression
 trait ObjectiveDeclaration extends Declaration {
    def name: String
 
+   def alias: Option[String]
+
    def indexing: Option[Indexing]
 
    def expression: Option[Expression]

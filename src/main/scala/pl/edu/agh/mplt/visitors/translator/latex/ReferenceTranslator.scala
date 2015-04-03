@@ -10,9 +10,9 @@ class ReferenceTranslator extends Translator[Reference] {
       case SymbolicReference(name)        => name
       case IndexedReference(ref, Nil)     => apply(ref)
       case IndexedReference(ref, indexes) =>
-         s"${apply(ref) }_{${joinWith(",")(indexes.map((new ExprTranslator)(_))) }}"
+         s"${apply(ref) }[_{${joinWith(",")(indexes.map((new ExprTranslator)(_))) }}]"
       case SubIndexedReference(ref, Nil)     => apply(ref)
       case SubIndexedReference(ref, indexes) =>
-         s"${apply(ref) }_{${joinWith(",")(indexes.map((new ExprTranslator)(_))) }}"
+         s"${apply(ref) }[_{${joinWith(",")(indexes.map((new ExprTranslator)(_))) }}]"
    }
 }

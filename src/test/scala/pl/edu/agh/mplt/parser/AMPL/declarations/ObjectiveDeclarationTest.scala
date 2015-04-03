@@ -28,7 +28,7 @@ class ObjectiveDeclarationTest extends FlatSpec with Matchers with IntercodeImpl
   }
 
   it should "parse maximize objective with an alias" in {
-    parse("maximize x y: 1 ;") should be(Maximize("x", Some("y"), expression = Some(1)))
+    parse("maximize x \"y\": 1 ;") should be(Maximize("x", Some("y"), expression = Some(1)))
   }
 
   it should "parse maximize objective with indexing" in {

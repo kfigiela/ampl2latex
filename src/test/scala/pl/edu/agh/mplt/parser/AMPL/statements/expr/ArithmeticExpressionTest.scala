@@ -3,7 +3,7 @@ package pl.edu.agh.mplt.parser.AMPL.statements.expr
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.phrase.expression._
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.reference.{IndexedReference, SimpleReference, ReferenceParser}
+import pl.edu.agh.mplt.parser.reference.{SubIndexedReference, IndexedReference, SimpleReference, ReferenceParser}
 import pl.edu.agh.mplt.parser.phrase.expression.Number
 import pl.edu.agh.mplt.parser.phrase.set.{SetExpressionAMPLParser, IndexingAMPLParser, IndexedSet, Indexing}
 import pl.edu.agh.mplt.parser.phrase.logical.LogicalExpressionAMPLParser
@@ -211,8 +211,8 @@ class ArithmeticExpressionTest extends FlatSpec with Matchers with IntercodeImpl
       ExpressionReduction.Sum(
         Indexing(List(IndexedSet(List("i"), SimpleReference("A")))),
         Bin.*(
-          IndexedReference(SimpleReference("cost"), List(SimpleReference("i"))),
-          IndexedReference(SimpleReference("make"), List(SimpleReference("i"))))))
+          SubIndexedReference(SimpleReference("cost"), List(SimpleReference("i"))),
+          SubIndexedReference(SimpleReference("make"), List(SimpleReference("i"))))))
   }
 
   it should "parse more complex sum" in {

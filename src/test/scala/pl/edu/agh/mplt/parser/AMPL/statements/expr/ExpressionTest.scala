@@ -3,7 +3,7 @@ package pl.edu.agh.mplt.parser.AMPL.statements.expr
 import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.phrase.expression._
 import pl.edu.agh.mplt.parser.{KeywordAMPLParser, IntercodeImplicits}
-import pl.edu.agh.mplt.parser.reference.{IndexedReference, ReferenceParser, SimpleReference}
+import pl.edu.agh.mplt.parser.reference.{SubIndexedReference, IndexedReference, ReferenceParser, SimpleReference}
 import pl.edu.agh.mplt.parser.phrase.set.{SetExpressionAMPLParser, IndexingAMPLParser}
 import pl.edu.agh.mplt.parser.phrase.logical.{Comparision, LogicalExpressionAMPLParser}
 import pl.edu.agh.mplt.parser.member.MemberAMPLParser
@@ -63,8 +63,8 @@ class ExpressionTest extends FlatSpec with Matchers with IntercodeImplicits {
    it should "parse more function calls" in {
       parse("floor(time_quantum[i,s]/unit_time[i,s])") should be(
          FunctionCall("floor", List[Expression](
-            Bin./(IndexedReference("time_quantum", List[Expression]("i", "s")),
-               IndexedReference("unit_time", List[Expression]("i", "s"))))))
+            Bin./(SubIndexedReference("time_quantum", List[Expression]("i", "s")),
+               SubIndexedReference("unit_time", List[Expression]("i", "s"))))))
    }
 
 }

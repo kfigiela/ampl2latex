@@ -8,13 +8,12 @@ import pl.edu.agh.mplt.parser.declaration.data.{SetDeclaration, VariableDeclarat
 import pl.edu.agh.mplt.parser.declaration.objective.ObjectiveDeclaration
 import pl.edu.agh.mplt.parser.phrase.set.{IndexedSet, Indexing}
 import pl.edu.agh.mplt.visitors.translator.Translator
-import pl.edu.agh.mplt.visitors.Visitor
 import pl.edu.agh.mplt.visitors.translator.latex._
 
 
-class ReferenceIndexer extends Translator[Declaration] {
-  def defineEntry(group: String, node: DataDeclaration) = {
-    val (escapedName, description) = {
+class GlossaryIndexer extends Translator[DataDeclaration] {
+  def apply(node: DataDeclaration):String = {
+    val (symbol, description) = {
       val s = (node.alias getOrElse "|").split("\\|").map(_.trim)
       if(s.length > 1)
         (s.head, s.tail.mkString("|"))
@@ -29,8 +28,7 @@ class ReferenceIndexer extends Translator[Declaration] {
     val attrs = joinWith(",")(node.attributes.map((new AttributeTranslator(""))(_)))
 
     s"\\newglossaryentry{${node.name}} {\n" +
-      s"    symbol={\\ensuremath{${escapedName}}},\n" +
-      s"    type=$group,\n" +
+      s"    symbol={\\ensuremath{${symbol}}},\n" +
       s"    name={\\ensuremath{${indexedName} $attrs}},\n" +
       s"    description={$description}\n" +
       s"}"
@@ -39,21 +37,33 @@ class ReferenceIndexer extends Translator[Declaration] {
   private def zipWithIndexes(name: String, indexing: Indexing): String = {
     val indices = joinWith(",")(indexing.sexprs.flatMap{case IndexedSet(is, _) => is })
 
-    if(indices != "" && indices != " ") s"${name}_{$indices}"
+    if(indices != "" && indices != " ") s"${name}[_{$indices}]"
     else name
   }
+}
 
+class ConstraintIndexer extends Translator[ConstraintDeclaration] {
+  def apply(node: ConstraintDeclaration): String = {
+    node.alias.map(alias => s"\\item \\ref{constraint:${node.name}} $alias") getOrElse ""
+  }
+}
+
+class ObjectiveIndexer extends Translator[ObjectiveDeclaration] {
+  def apply(node: ObjectiveDeclaration): String = {
+    node.alias.map(alias => s"\\item \\ref{objective:${node.name}} $alias") getOrElse ""
+  }
+}
+
+
+class ReferenceIndexer extends Translator[Declaration] {
   override def apply(node: Declaration): String = node match {
     case a: Assertion             => ""
-    case d: ParameterDeclaration  => defineEntry("param", d)
-    case v: VariableDeclaration   => defineEntry("var", v)
-    case s: SetDeclaration        => defineEntry("set", s)
-    case o: ObjectiveDeclaration  => ""
-    case c: ConstraintDeclaration => ""
+    case d: DataDeclaration       => (new GlossaryIndexer())(d)
+    case o: ObjectiveDeclaration  => (new ObjectiveIndexer())(o)
+    case c: ConstraintDeclaration => (new ConstraintIndexer())(c)
 
     case InvalidDeclaration(msg) => ""
 
     case dec => throw new Error(s"Unexpected token: $dec")
   }
-
 }

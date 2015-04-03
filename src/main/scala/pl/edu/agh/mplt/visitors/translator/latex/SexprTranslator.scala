@@ -26,7 +26,11 @@ class SexprTranslator extends Translator[SetExpression] {
 
       case IndexedSet(indexes, sexpr) =>
          s"{${(indexes.head /: indexes.tail)(_ + ", " + _) } \\in ${apply(sexpr) }}"
-      case l@Indexing(_, _)           => (new IndexingTranslator)(l)
+      case l@Indexing(_, _)           => {
+         val members = (new IndexingMembersTranslator)(l)
+         val lexpr = l.lexpr.map(l => (new LexprTranslator)(l)) getOrElse ""
+         s"\\{$members | $lexpr\\}"
+      }
 
       case ExplicitSet(members) =>
          if (members.isEmpty) "\\{\\}"

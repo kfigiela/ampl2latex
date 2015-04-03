@@ -14,16 +14,25 @@ import pl.edu.agh.mplt.visitors.translator.latex._
 
 class ReferenceIndexer extends Translator[Declaration] {
   def defineEntry(group: String, node: DataDeclaration) = {
-    val escapedName = node.name.replace("_", "\\_")
+    val (escapedName, description) = {
+      val s = (node.alias getOrElse "|").split("\\|").map(_.trim)
+      if(s.length > 1)
+        (s.head, s.tail.mkString("|"))
+      else if(s.length == 1 && s.head != "")
+        (s.head, "TODO")
+      else
+        (node.name.replace("_", "\\_"), "TODO")
+    }
+
     val glsName = s"\\glssymbol{${node.name}}"
     val indexedName = node.indexing.map(zipWithIndexes(glsName, _)) getOrElse glsName
-    val attrs = joinWith(",")(node.attributes.map((new AttributeTranslator(glsName))(_)))
+    val attrs = joinWith(",")(node.attributes.map((new AttributeTranslator(""))(_)))
 
     s"\\newglossaryentry{${node.name}} {\n" +
       s"    symbol={\\ensuremath{${escapedName}}},\n" +
       s"    type=$group,\n" +
-      s"    name={\\ensuremath{${indexedName}}},\n" +
-      s"    description={\\ensuremath{$attrs} DESCRIBE ME}\n" +
+      s"    name={\\ensuremath{${indexedName} $attrs}},\n" +
+      s"    description={$description}\n" +
       s"}"
   }
 
@@ -36,10 +45,7 @@ class ReferenceIndexer extends Translator[Declaration] {
 
   override def apply(node: Declaration): String = node match {
     case a: Assertion             => ""
-    case d: ParameterDeclaration  => {
-      val definition: String = d.indexing.map(node => node.sexprs.map(s => (new SexprTranslator)(s)).reverse.mkString(", ")).mkString(", ")
-      defineEntry("param", d)
-    }
+    case d: ParameterDeclaration  => defineEntry("param", d)
     case v: VariableDeclaration   => defineEntry("var", v)
     case s: SetDeclaration        => defineEntry("set", s)
     case o: ObjectiveDeclaration  => ""

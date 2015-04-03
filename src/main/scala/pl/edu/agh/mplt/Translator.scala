@@ -44,7 +44,7 @@ class Translator(val source: Iterator[Char], val parser: AMPLParser) extends Tra
   def concat(map: mutable.LinkedHashMap[String, Stream[String]]) = map mapValues (_.reverse.mkString("\n"))
 
   def filterErrors(map: mutable.LinkedHashMap[String, Stream[String]]): mutable.LinkedHashMap[String, Stream[String]] =
-    mutable.LinkedHashMap[String, Stream[String]]() ++= map.filterKeys(_ != "errors")
+    mutable.LinkedHashMap[String, Stream[String]]() ++= map.filterKeys(_ != "error")
 
   def onlyFormulas(map: mutable.LinkedHashMap[String, Stream[String]]): mutable.LinkedHashMap[String, Stream[String]] =
     mutable.LinkedHashMap[String, Stream[String]]() ++= map.filterKeys(v => v != "set" && v != "param" && v != "var")
@@ -57,10 +57,10 @@ class Translator(val source: Iterator[Char], val parser: AMPLParser) extends Tra
     case SetDeclaration(_, _, _, _) => "set"
     case ParameterDeclaration(_, _, _, _) => "param"
     case VariableDeclaration(_, _, _, _) => "var"
-    case ConstraintDeclaration(_, _, _, _) => "constraints"
-    case _: ObjectiveDeclaration => "objectives"
-    case InvalidDeclaration(_) => "errors"
-    case Assertion(_, _) => "assertions"
+    case ConstraintDeclaration(_, _, _, _) => "constraint"
+    case _: ObjectiveDeclaration => "objective"
+    case InvalidDeclaration(_) => "error"
+    case Assertion(_, _) => "assertion"
 
     case _ => throw new Error("Unsupported Declaration")
   }

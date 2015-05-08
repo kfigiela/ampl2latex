@@ -40,7 +40,7 @@ class SexprTranslator extends Translator[SetExpression] {
               .toString()
 
       case SetComprehension(start, end, Number("1")) =>
-         s"\\{ x | \\ x \\in [{${(new MemberTranslator)(start) }},\\ {${(new MemberTranslator)(end) }} \\}"
+         s"\\{ x | \\ x \\in [{${(new MemberTranslator)(start) }},\\ {${(new MemberTranslator)(end) }}] \\}"
 
       case SetComprehension(start, end, step) =>
          s"\\{{${(new MemberTranslator)(start) }} \\ .. \\ {${(new MemberTranslator)(end) }} \\ by \\ {${

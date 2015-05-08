@@ -40,8 +40,8 @@ class Translator(val source: Iterator[Char], val parser: AMPLParser) extends Tra
     mutable.LinkedHashMap[String, Stream[String]]() ++= map.filterKeys(only(_))
 
 
-  def translate: scala.collection.Map[String, String] = concat(only(Set("objective", "constraint"), filterErrors(ast.aggregate { case _ => latexTranslator})), " \\\\\n")
-  def index: scala.collection.Map[String, String] = concat(only(Set("set", "param", "var", "constraint", "objective"), filterErrors(ast.aggregate { case _ => referenceIndexer })))
+  def translate: scala.collection.Map[String, String] = concat(only(Set("objective", "constraint", "error"), filterErrors(ast.aggregate { case _ => latexTranslator})), " \\\\\n")
+  def index: scala.collection.Map[String, String] = concat(only(Set("set", "param", "var", "constraint", "objective", "error"), ast.aggregate { case _ => referenceIndexer }))
 
   def decToStr(dec: Declaration): String = dec match {
     case SetDeclaration(_, _, _, _) => "set"

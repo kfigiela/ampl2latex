@@ -55,8 +55,12 @@ object App {
       }
     })
 
+
+//    println(parsedFile.only(Set("error"), parsedFile.ast))
+    parsedFile.ast.printErrors()
     if (parsedFile.ast.errors.nonEmpty) {
       parsedFile.ast.printErrors()
+
       System.exit(1)
     } else {
       println("OK")

@@ -4,7 +4,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import pl.edu.agh.mplt.parser.{AMPLParser, IntercodeImplicits}
 import pl.edu.agh.mplt.parser.phrase.set._
 import pl.edu.agh.mplt.parser.member.SetMember
-import pl.edu.agh.mplt.parser.reference.{IndexedReference, SimpleReference}
+import pl.edu.agh.mplt.parser.reference.{SubIndexedReference, IndexedReference, SimpleReference}
 import pl.edu.agh.mplt.parser.phrase.set.Indexing
 import scala.Some
 import pl.edu.agh.mplt.parser.phrase.set.IndexedSet
@@ -24,7 +24,7 @@ class ParamDeclarationTest extends FlatSpec with Matchers with IntercodeImplicit
    }
 
    it should "parse parameter declaration with an alias" in {
-      parse("param x y;") should be(ParameterDeclaration("x", Some("y")))
+      parse("param x \"y\";") should be(ParameterDeclaration("x", Some("y")))
    }
 
    ////////////////////////////////
@@ -107,8 +107,8 @@ class ParamDeclarationTest extends FlatSpec with Matchers with IntercodeImplicit
                IndexedSet(List("i"), "INSTANCE"),
                IndexedSet(List("s"), "STORAGE")))),
             attributes = List(Attribute.FinalValue(FunctionCall("floor", List[Expression](
-               Bin./(IndexedReference("time_quantum", List[Expression]("i", "s")),
-                  IndexedReference("unit_time", List[Expression]("i", "s")))))))
+               Bin./(SubIndexedReference("time_quantum", List[Expression]("i", "s")),
+                  SubIndexedReference("unit_time", List[Expression]("i", "s")))))))
          ))
    }
 }

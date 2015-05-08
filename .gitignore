@@ -28,3 +28,20 @@ project/META-INF/
 
 projectFilesBackup/
 projectFilesBackup1/
+test
+
+*.glg
+*.glo
+*.gls
+*.ist
+*.pdn
+*.pld
+*.plg
+*.sdn
+*.sld
+*.slg
+*.synctex.gz
+*.vdn
+*.vld
+*.vlg
+*.aux

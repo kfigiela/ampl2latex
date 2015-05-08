@@ -10,6 +10,7 @@ import pl.edu.agh.mplt.visitors.translator.Translator
 class ExprTranslator extends Translator[Expression] {
 
    override def apply(node: Expression): String = node match {
+      case Number("Infinity")             => "\\infty"
       case Number(nr)                     => nr
       case ParenthesizedExpression(expr)  => s"(${(new ExprTranslator)(expr) })"
       case i@ExpressionIf(_, _, _)        => translateIf(i)

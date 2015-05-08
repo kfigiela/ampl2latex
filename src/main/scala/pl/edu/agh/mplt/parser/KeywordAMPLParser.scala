@@ -37,4 +37,7 @@ trait KeywordAMPLParser extends JavaTokenParsers {
 
    def exprReductionOp: Parser[String] = exprReducuctionOps.map(Parser(_)).reduce(_ | _)
 
+   def amplStringLiteral: Parser[String] =("\""+"""([^"]|\\[\\"])*+"""+"\"").r
+   def dequotedLiteral: Parser[String] = amplStringLiteral ^^ {str => str.substring(1, str.length - 1)}
+
 }

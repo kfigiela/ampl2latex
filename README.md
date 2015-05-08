@@ -1,2 +1,2 @@
-MPLT
+AMPL2LaTeX
 ====

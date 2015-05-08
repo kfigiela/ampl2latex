@@ -27,7 +27,7 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse set declaration with alias" in {
-    parse("set oranges apples;") should be(SetDeclaration("oranges", Some("apples")))
+    parse("set oranges \"apples\";") should be(SetDeclaration("oranges", Some("apples")))
   }
 
   ////////////////////////////////
@@ -42,7 +42,7 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse set declaration with alias and indexing" in {
-    parse("set oranges apples { 1 + 3 .. 10 by 4 };") should be(
+    parse("set oranges \"apples\" { 1 + 3 .. 10 by 4 };") should be(
       SetDeclaration("oranges", Some("apples"), indexing = Some(Indexing(SetComprehension(Bin.+(1, 3), 10, 4)))))
   }
 
@@ -92,7 +92,7 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse set declaration with alias and attribute" in {
-    parse("set apples oranges dimen 1;") should be(SetDeclaration("apples", Some("oranges"),
+    parse("set apples \"oranges\" dimen 1;") should be(SetDeclaration("apples", Some("oranges"),
       attributes = List(Attribute.Dimension(1))))
   }
 
@@ -103,7 +103,7 @@ class SetDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse set declaration with alias and indexing and  attribute" in {
-    parse("set apples oranges {i in 1 .. 10} dimen 1;") should be(SetDeclaration("apples", Some("oranges"),
+    parse("set apples \"oranges\" {i in 1 .. 10} dimen 1;") should be(SetDeclaration("apples", Some("oranges"),
       indexing = Some(Indexing(IndexedSet(List("i"), SetComprehension(1, 10)))),
       attributes = List(Attribute.Dimension(1))))
   }

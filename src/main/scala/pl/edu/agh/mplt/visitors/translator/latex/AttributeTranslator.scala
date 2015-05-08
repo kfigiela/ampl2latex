@@ -8,8 +8,8 @@ import pl.edu.agh.mplt.visitors.translator.Translator
 class AttributeTranslator(name:String) extends Translator[Attribute] {
 
    override def apply(node: Attribute): String = node match {
-      case Binary   => s"binary"
-      case Integer  => s"int"
+      case Binary   => s"\\in \\math\\left{0, 1\\right}"
+      case Integer  => s"\\in \\mathbb{Z}"
       case Symbolic => s"symbol"
 
       case Relation(op, expr) => s"$name ${translateOp(op) } ${(new ExprTranslator)(expr) }"

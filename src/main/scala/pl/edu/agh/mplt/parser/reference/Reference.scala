@@ -9,4 +9,8 @@ sealed trait Reference extends ASTNode with LogicalExpression with Expression wi
 
 case class SimpleReference(id: String) extends Reference
 
+case class SymbolicReference(id: String) extends Reference
+
 case class IndexedReference(ref: Reference, index: List[Expression]) extends Reference
+
+case class SubIndexedReference(ref: Reference, index: List[Expression]) extends Reference

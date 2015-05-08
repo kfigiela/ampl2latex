@@ -31,29 +31,26 @@ class Translator(val source: Iterator[Char], val parser: AMPLParser) extends Tra
 
   lazy val ast: GroupedAST = group(declarations)
 
-  def itemize(map: mutable.LinkedHashMap[String, Stream[String]]) = map map {
-    case (str, ds) =>
-      val sb = new mutable.StringBuilder()
-      sb.append(s"$str: \\\\\n")
-      sb.append("\\begin{itemize}\n")
-      ds.reverse.foreach(str => sb.append(s"\t \\item $str \\\\\n"))
-      sb.append("\\end{itemize}\n\n")
-      sb.toString()
-  }
+  def concat(map: mutable.LinkedHashMap[String, Stream[String]], separator:String = "\n") = map mapValues (_.reverse.filter(_.nonEmpty).mkString(separator))
 
   def filterErrors(map: mutable.LinkedHashMap[String, Stream[String]]): mutable.LinkedHashMap[String, Stream[String]] =
-    mutable.LinkedHashMap[String, Stream[String]]() ++= map.filterKeys(_ != "errors")
+    mutable.LinkedHashMap[String, Stream[String]]() ++= map.filterKeys(_ != "error")
 
-  def translate: Iterable[String] = itemize(filterErrors(ast.aggregate { case _ => latexTranslator}))
+  def only(only: Set[String], map: mutable.LinkedHashMap[String, Stream[String]]): mutable.LinkedHashMap[String, Stream[String]] =
+    mutable.LinkedHashMap[String, Stream[String]]() ++= map.filterKeys(only(_))
+
+
+  def translate: scala.collection.Map[String, String] = concat(only(Set("objective", "constraint", "error"), filterErrors(ast.aggregate { case _ => latexTranslator})), " \\\\\n")
+  def index: scala.collection.Map[String, String] = concat(only(Set("set", "param", "var", "constraint", "objective", "error"), ast.aggregate { case _ => referenceIndexer }))
 
   def decToStr(dec: Declaration): String = dec match {
     case SetDeclaration(_, _, _, _) => "set"
     case ParameterDeclaration(_, _, _, _) => "param"
     case VariableDeclaration(_, _, _, _) => "var"
-    case ConstraintDeclaration(_, _, _, _) => "constraints"
-    case _: ObjectiveDeclaration => "objectives"
-    case InvalidDeclaration(_) => "errors"
-    case Assertion(_, _) => "assertions"
+    case ConstraintDeclaration(_, _, _, _) => "constraint"
+    case _: ObjectiveDeclaration => "objective"
+    case InvalidDeclaration(_) => "error"
+    case Assertion(_, _) => "assertion"
 
     case _ => throw new Error("Unsupported Declaration")
   }

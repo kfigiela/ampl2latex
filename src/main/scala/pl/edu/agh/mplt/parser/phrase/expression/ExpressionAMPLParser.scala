@@ -16,6 +16,8 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
 
    def number: Parser[Number] = """-?(\d+(\.\d+)?|\d*\.\d+)([eE][+-]?\d+)?[fFdD]?""".r ^^ Number
 
+   def infinity: Parser[Number] = """Infinity""".r ^^ Number
+
    def functionName: Parser[String]
 
    def exprReductionOp: Parser[String]
@@ -68,7 +70,7 @@ trait ExpressionAMPLParser extends JavaTokenParsers {
       }, ",")
 
    private def freeTokens: Parser[Expression] =
-      List(ifExpr, reduction, function,piecewiseLinearTerm, number, reference) reduce (_ | _)
+      List(ifExpr, reduction, function,piecewiseLinearTerm, number, infinity, reference) reduce (_ | _)
 
 
 }

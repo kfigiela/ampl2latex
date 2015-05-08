@@ -14,8 +14,10 @@ trait ObjectiveDeclarationAMPLParser extends JavaTokenParsers {
 
    def expr: Parser[Expression]
 
+   def dequotedLiteral: Parser[String]
+
    def objectiveDeclaration: Parser[ObjectiveDeclaration] =
-      objective ~ nonKeyword ~ (nonKeyword ?) ~ (indexing ?) ~ (":" ~> expr ?) <~ ";" ^^ {
+      objective ~ nonKeyword ~ (dequotedLiteral ?) ~ (indexing ?) ~ (":" ~> expr ?) <~ ";" ^^ {
          case "maximize" ~ name ~ optAlias ~ optIndexing ~ (exprOpt) => Maximize(name, optAlias, optIndexing,
             exprOpt)
          case "minimize" ~ name ~ optAlias ~ optIndexing ~ (exprOpt) => Minimize(name, optAlias, optIndexing,

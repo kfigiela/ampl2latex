@@ -10,6 +10,6 @@ class ConstraintTranslator extends Translator[ConstraintDeclaration] {
       val indexing = node.indexing.map(i => (new IndexingTranslator)(i)) getOrElse ""
       val constraint = (new ConstraintExpressionTranslator)(node.constraint)
 
-      s"$indexing $constraint"
+      s"\\label{constraint:$name} $indexing $constraint"
    }
 }

@@ -20,6 +20,7 @@ class AMPLParser extends JavaTokenParsers with AssertionAMPLParser with KeywordA
                          with ObjectiveDeclarationAMPLParser with ExpressionAMPLParser with LogicalExpressionAMPLParser
                          with SetExpressionAMPLParser with IndexingAMPLParser with MemberAMPLParser
                          with ReferenceParser {
+
    def parse(input: String): ParseResult[Declaration] = parseAll(declaration, input)
 
    private def declaration: Parser[Declaration] =

@@ -26,7 +26,7 @@ class ConstraintDeclarationTest extends FlatSpec with Matchers with IntercodeImp
   }
 
   it should "parse constraint declaration with an alias" in {
-    parse(" apples oranges : 1 <= 3;") should be(ConstraintDeclaration("apples",
+    parse(" apples \"oranges\" : 1 <= 3;") should be(ConstraintDeclaration("apples",
       alias = Some("oranges"),
       constraint = BoundedConstraint(expr = 1, rightExpression = Some(Constraint.<=(3)))))
   }

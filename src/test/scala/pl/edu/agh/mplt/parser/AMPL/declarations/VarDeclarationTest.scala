@@ -22,7 +22,7 @@ class VarDeclarationTest extends FlatSpec with Matchers with IntercodeImplicits 
   }
 
   it should "parse var declaration with an alias" in {
-    parse("var x y;") should be(VariableDeclaration("x", Some("y")))
+    parse("var x \"y\";") should be(VariableDeclaration("x", Some("y")))
   }
 
   ////////////////////////////////
